@@ -1,0 +1,95 @@
+<layerGroup>
+  <id>LayerGroupInfoImpl--1df5162f:165a98b553c:-7fc9</id>
+  <name>Daraa</name>
+  <mode>SINGLE</mode>
+  <title>Daraa</title>
+  <publishables>
+    <published type="layer">
+      <id>LayerInfoImpl--1df5162f:165a98b553c:-7fe0</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--1df5162f:165a98b553c:-7fde</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--1df5162f:165a98b553c:-7fdc</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--1df5162f:165a98b553c:-7fda</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--1df5162f:165a98b553c:-7fd8</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--1df5162f:165a98b553c:-7fd4</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--1df5162f:165a98b553c:-7fd6</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--1df5162f:165a98b553c:-7fd2</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--1df5162f:165a98b553c:-7fd0</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--1df5162f:165a98b553c:-7fce</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--1df5162f:165a98b553c:-7fcc</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl--1df5162f:165a98b553c:-7fca</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl-233831ce:165ade3afd4:-7ffa</id>
+    </published>
+  </publishables>
+  <styles>
+    <style>
+      <id>StyleInfoImpl--1df5162f:165a98b553c:-7ffe</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--1df5162f:165a98b553c:-7ffe</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--1df5162f:165a98b553c:-7ffe</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--1df5162f:165a98b553c:-7ffe</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--1df5162f:165a98b553c:-7ffe</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--1df5162f:165a98b553c:-7fff</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--1df5162f:165a98b553c:-7ffe</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--1df5162f:165a98b553c:-7fff</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--1df5162f:165a98b553c:-7fff</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--1df5162f:165a98b553c:-8000</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--1df5162f:165a98b553c:-8000</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--1df5162f:165a98b553c:-8000</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--1df5162f:165a98b553c:-8000</id>
+    </style>
+  </styles>
+  <bounds>
+    <minx>35.9369839144263</minx>
+    <maxx>36.25096172505883</maxx>
+    <miny>32.51805809664908</miny>
+    <maxy>32.74366282858427</maxy>
+    <crs>EPSG:4326</crs>
+  </bounds>
+</layerGroup>

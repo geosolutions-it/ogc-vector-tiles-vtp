@@ -1,0 +1,9 @@
+shapefiles/*.cpg
+shapefiles/*.dbf
+shapefiles/*.prj
+shapefiles/*.shp
+shapefiles/*.shx
+shapefiles/*.qix
+gwc/
+www/
+.vscode
