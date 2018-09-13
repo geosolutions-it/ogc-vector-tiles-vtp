@@ -49,13 +49,14 @@ Follow the vector tiles [tutorial](http://docs.geoserver.org/latest/en/user/exte
 
 Step to compile `vectortiles.js` file and generate the `/www` folder contained the static page with the demo
 
-- change the `env.js` path for prod, they have to be absolute and directed to GeoServer and sprites folder
+- change the `env.js` path for prod, they have to be absolute and directed to GeoServer, sprites folder and the source name
     ```
     // eg:
     {
         prod: {
-            spritesPath: '"http://localhost:8080/geoserver/www/sprites/sprites"',
-            geoserverUrl: '"http://localhost:8080/geoserver"'
+            spritesPath: '"http://localhost:8080/geoserver/www/sprites"',
+            geoserverUrl: '"http://localhost:8080/geoserver"',
+            sourceName: '"Daraa"'
         },
         ...
     }
@@ -66,26 +67,24 @@ Step to compile `vectortiles.js` file and generate the `/www` folder contained t
 
 - move the `vectortiles/www` folder to `data_dir/www`
 
-- verify and update url for GeoServer and sprite folder in `www/mapstyles/tangramstyle.yaml` they have to be equal to `env.js` urls
-
 - start GeoServer and open browser at `http://localhost:8080/geoserver/www/index.html` to see the demo page
 
 ## Develop demo page
 
 - start GeoServer (default local setup `http://localhost:8080/geoserver`)
 
-- change the `env.js` path for dev, if not default, they have to be absolute and directed to GeoServer and sprites folder
+- change the `env.js` path for dev, if not default, they have to be absolute and directed to GeoServer, sprites folder and the source name
     ```
     // eg:
     {   
         ...,
         dev: {
-            spritesPath: '"http://localhost:3000/sprites/sprites"',
-            geoserverUrl: '"http://localhost:8080/geoserver"'
+            spritesPath: '"http://localhost:3000/sprites"',
+            geoserverUrl: '"http://localhost:8080/geoserver"',
+            sourceName: '"Daraa"'
         }
     }
     ```
-- verify and update url for GeoServer and sprite folder in  `vectortiles/mapstyles/tangramstyle.yaml` they have to be equal to `env.js` urls
 
 - open a terminal in `/vectortiles` folder and run:
     - `npm install`
@@ -93,3 +92,7 @@ Step to compile `vectortiles.js` file and generate the `/www` folder contained t
 
 - open browser at `http://localhost:3000/`
 
+---
+
+node v7.10.1
+npm v4.2.0
