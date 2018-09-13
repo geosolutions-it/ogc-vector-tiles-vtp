@@ -12,7 +12,7 @@ require('leaflet.vectorgrid');
 
 L.Path.include({ options: { stroke: true } });
 
-const vectorTileLayerStyles = {
+const vectorTileLayerStylesFunc = (spritesPath) => ({
     VegetationSrf: {
         fill: true,
         fillColor: '#C2E4B9'
@@ -89,40 +89,42 @@ const vectorTileLayerStyles = {
         } : null,
     UtilityInfrastructurePnt: (feature, zoom) => zoom > 12 ? {
         icon: L.icon({
-            iconUrl: 'sprites/circle.svg',
+            iconUrl: `${spritesPath}/circle.svg`,
             iconSize: zoom > 13 && [16, 16] || zoom > 8 && [10, 10] || [2, 2],
             iconAnchor: zoom > 13 && [8, 8] || zoom > 8 && [5, 5] || [1, 1]
         })
     } : null,
     FacilityPnt: {
         icon: L.icon({
-            iconUrl: 'sprites/square.svg',
+            iconUrl: `${spritesPath}/square.svg`,
             iconSize: [8, 8],
             iconAnchor: [4, 4]
         })
     },
     CulturePnt: {
         icon: L.icon({
-            iconUrl: 'sprites/square.svg',
+            iconUrl: `${spritesPath}/square.svg`,
             iconSize: [8, 8],
             iconAnchor: [4, 4]
         })
     },
     StructurePnt: {
         icon: L.icon({
-            iconUrl: 'sprites/square.svg',
+            iconUrl: `${spritesPath}/square.svg`,
             iconSize: [8, 8],
             iconAnchor: [4, 4]
         })
     }
-};
+});
 
 const projectionEPSG = '900913';
 
-const leafletMap = (target, center, startZoom, getView, setView, label, url) => {
+const leafletMap = (target, center, startZoom, getView, setView, label, url, spritesPath, sourceName) => {
+
+    const vectorTileLayerStyles = vectorTileLayerStylesFunc(spritesPath);
 
     const layers = [
-        'Daraa'
+        sourceName
     ].map(key =>
         L.vectorGrid.protobuf(
             `${url}/gwc/service/wmts?Layer=${key}&Style=&TilematrixSet=EPSG:${projectionEPSG}&Service=WMTS&Request=GetTile&Version=1.0.0&Format=application/x-protobuf;type=mapbox-vector&TileMatrix=EPSG:${projectionEPSG}:{z}&TileCol={x}&TileRow={y}`, {

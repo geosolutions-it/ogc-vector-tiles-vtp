@@ -23,11 +23,11 @@ const {transform} = require('ol/proj');
 
 require('ol/ol.css');
 
-const openlayersMap = (target, center, startZoom, getView, setView, label, url, spritesPath) =>
+const openlayersMap = (target, center, startZoom, getView, setView, label, url, spritesPath, sourceName) =>
     axios.get(`${url}/gwc/service/wmts?REQUEST=GetCapabilities`)
     .then(({data}) => {
 
-        const layerName = 'Daraa';
+        const layerName = sourceName;
         const caps = new WMTSCapabilities().read(data);
 
         const wmts = new WMTS(

@@ -129,7 +129,7 @@ const defaultStyle = () => new Style({
     })
 });
 
-const styles = {
+const stylesFunc = (spritesPath) => ({
     CultureSrf: [
         feature => feature.get('layer') === 'CultureSrf' && new Style({
             fill: new Fill({
@@ -295,7 +295,7 @@ const styles = {
             anchor: [4, 4],
             anchorXUnits: 'pixels',
             anchorYUnits: 'pixels',
-            src: 'sprites/square.svg'
+            src: `${spritesPath}/square.svg`
         })
     }) : null],
     CulturePnt: [feature => feature.get('layer') === 'CulturePnt' ? new Style({
@@ -304,7 +304,7 @@ const styles = {
             anchor: [4, 4],
             anchorXUnits: 'pixels',
             anchorYUnits: 'pixels',
-            src: 'sprites/square.svg'
+            src: `${spritesPath}/square.svg`
         })
     }) : null],
     StructurePnt: [feature => feature.get('layer') === 'StructurePnt' ? new Style({
@@ -313,18 +313,19 @@ const styles = {
             anchor: [4, 4],
             anchorXUnits: 'pixels',
             anchorYUnits: 'pixels',
-            src: 'sprites/square.svg'
+            src: `${spritesPath}/square.svg`
         })
     }) : null]
-};
+});
 
 const getUrl = ({ name, epsg, url }) => `${url}/gwc/service/tms/1.0.0/${name}@EPSG%3A${epsg}@pbf/{z}/{x}/{-y}.pbf`;
 
-const openlayersMap = (target, center, startZoom, getView, setView, label, url, spritesPath, tms) =>
+const openlayersMap = (target, center, startZoom, getView, setView, label, url, spritesPath, sourceName, tms) =>
     axios.get(`${url}/gwc/service/wmts?REQUEST=GetCapabilities`)
     .then(({ data }) => {
 
-        const layerName = 'Daraa';
+        const styles = stylesFunc(spritesPath);
+        const layerName = sourceName;
         const caps = new WMTSCapabilities().read(data);
 
         const wmts = new WMTS(

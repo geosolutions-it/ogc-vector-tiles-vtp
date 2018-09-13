@@ -8,11 +8,13 @@
 
 module.exports = {
     prod: {
-        spritesPath: '"http://localhost:8080/geoserver/www/sprites/sprites"',
-        geoserverUrl: '"http://localhost:8080/geoserver"'
+        spritesPath: '"http://localhost:8080/geoserver/www/sprites"',
+        geoserverUrl: '"http://localhost:8080/geoserver"',
+        sourceName: 'Daraa'
     },
     dev: {
-        spritesPath: '"http://localhost:3000/sprites/sprites"',
-        geoserverUrl: '"http://localhost:8080/geoserver"'
+        spritesPath: '"http://localhost:3000/sprites"',
+        geoserverUrl: '"http://localhost:8080/geoserver"',
+        sourceName: '"Daraa"'
     }
 };

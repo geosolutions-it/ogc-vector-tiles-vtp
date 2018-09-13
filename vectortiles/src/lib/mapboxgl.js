@@ -12,33 +12,32 @@ require('mapbox-gl/dist/mapbox-gl.css');
 const mapboxstyle = require('../../mapstyles/mapboxstyle');
 
 const projectionEPSG = '900913';
-const workspace = '';
 
 mapboxgl.accessToken = 'undefined';
 
-const mapboxglMap = (container, center, startZoom, getView, setView, label, url, spritesPath) => {
+const mapboxglMap = (container, center, startZoom, getView, setView, label, url, spritesPath, sourceName) => {
 
-    const sources = (tms) => ['Daraa'].reduce((sourcesObj, key) => (Object.assign({}, sourcesObj, {
+    const sources = (tms) => [sourceName].reduce((sourcesObj, key) => (Object.assign({}, sourcesObj, {
 
         [key]: tms ? {
             /* TMS */
             "type": "vector",
             "scheme": "tms",
             "tiles": [
-                `${url}/gwc/service/tms/1.0.0/${workspace}${key}@EPSG%3A${projectionEPSG}@pbf/{z}/{x}/{y}.pbf`
+                `${url}/gwc/service/tms/1.0.0/${key}@EPSG%3A${projectionEPSG}@pbf/{z}/{x}/{y}.pbf`
             ]
         } : {
             /* WMTS */
             "type": "vector",
             "tiles": [
-                `${url}/gwc/service/wmts?layer=${workspace}${key}&style=&tilematrixset=EPSG:${projectionEPSG}&Service=WMTS&Request=GetTile&Version=1.0.0&Format=application/x-protobuf;type=mapbox-vector&TileMatrix=EPSG:${projectionEPSG}:{z}&TileCol={x}&TileRow={y}`
+                `${url}/gwc/service/wmts?layer=${key}&style=&tilematrixset=EPSG:${projectionEPSG}&Service=WMTS&Request=GetTile&Version=1.0.0&Format=application/x-protobuf;type=mapbox-vector&TileMatrix=EPSG:${projectionEPSG}:{z}&TileCol={x}&TileRow={y}`
             ]
         }
     })), {});
     
     const map = new mapboxgl.Map({
         container: container,
-        style: mapboxstyle({ src: sources(), spritesPath }),
+        style: mapboxstyle({ src: sources(), spritesPath, sourceName }),
         center: [center.lat, center.lng],
         zoom: startZoom
     });

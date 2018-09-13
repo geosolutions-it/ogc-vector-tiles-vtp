@@ -8,12 +8,13 @@
 
 const L = require('leaflet');
 const Tangram = require('tangram');
+const tangramstyle = require('../../mapstyles/tangramstyle');
 
-const tangramMap = (target, center, startZoom, getView, setView, label) => {
+const tangramMap = (target, center, startZoom, getView, setView, label, url, spritesPath, sourceName) => {
     
     const map = L.map(target, {attributionControl: false});
     const layer = Tangram.leafletLayer({
-        scene: './mapstyles/tangramstyle.yaml'
+        scene: tangramstyle({url, spritesPath, sourceName})
     });
     
     layer.addTo(map);

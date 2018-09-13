@@ -23,13 +23,14 @@ const zoom = 14;
 
 const spritesPath = process.env.spritesPath;
 const url = process.env.geoserverUrl;
+const sourceName = process.env.sourceName;
 
-openlayersMap('vt-openlayers-map', center, zoom, getView, setView, 'openlayers', url, spritesPath);
-openlayersMBSMap('vt-openlayers-mbs-map', center, zoom, getView, setView, 'openlayers-mbs', url, spritesPath);
-mapboxglMap('vt-mapboxgl-map', center, zoom, getView, setView, 'mapboxgl', url, spritesPath);
-leafletMap('vt-leaflet-map', center, zoom, getView, setView, 'leaflet', url, spritesPath);
-leafletMBGLMap('vt-leaflet-mbgl-map', center, zoom, getView, setView, 'leaflet-mbgl', url, spritesPath);
-tangramMap('vt-tangram-map', center, zoom, getView, setView, 'tangram', url, spritesPath);
+openlayersMap('vt-openlayers-map', center, zoom, getView, setView, 'openlayers', url, spritesPath, sourceName);
+openlayersMBSMap('vt-openlayers-mbs-map', center, zoom, getView, setView, 'openlayers-mbs', url, spritesPath, sourceName);
+mapboxglMap('vt-mapboxgl-map', center, zoom, getView, setView, 'mapboxgl', url, spritesPath, sourceName);
+leafletMap('vt-leaflet-map', center, zoom, getView, setView, 'leaflet', url, spritesPath, sourceName);
+leafletMBGLMap('vt-leaflet-mbgl-map', center, zoom, getView, setView, 'leaflet-mbgl', url, spritesPath, sourceName);
+tangramMap('vt-tangram-map', center, zoom, getView, setView, 'tangram', url, spritesPath, sourceName);
 
 const requests = [
     {

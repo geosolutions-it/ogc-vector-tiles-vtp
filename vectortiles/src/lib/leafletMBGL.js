@@ -15,9 +15,9 @@ require('mapbox-gl-leaflet');
 
 const projectionEPSG = '900913';
 
-const leafletMBGLMap = (target, center, startZoom, getView, setView, label, url, spritesPath) => {
+const leafletMBGLMap = (target, center, startZoom, getView, setView, label, url, spritesPath, sourceName) => {
 
-    const sources = (tms) => ['Daraa'].reduce((sourcesObj, key) => (Object.assign({}, sourcesObj, {
+    const sources = (tms) => [sourceName].reduce((sourcesObj, key) => (Object.assign({}, sourcesObj, {
         [key]: tms ? {
             /* TMS */
             "type": "vector",
@@ -38,7 +38,7 @@ const leafletMBGLMap = (target, center, startZoom, getView, setView, label, url,
 
     const layer = L.mapboxGL({
         accessToken: 'undefined',
-        style: mapboxstyle({src: sources(), spritesPath})
+        style: mapboxstyle({src: sources(), spritesPath, sourceName})
     });
     
     layer.addTo(map);

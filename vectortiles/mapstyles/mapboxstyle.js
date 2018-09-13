@@ -6,9 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const source = "Daraa";
-
-const HydrographyCrv = [{
+const HydrographyCrv = (source) => [{
     "id": "HydrographyCrv",
     "type": "line",
     "source": source,
@@ -33,7 +31,7 @@ const HydrographyCrv = [{
     }
 }];
 
-const HydrographySrfLake = [{
+const HydrographySrfLake = (source) => [{
     "id": "HydrographySrfLake",
     "type": "fill",
     "source": source,
@@ -53,7 +51,7 @@ const HydrographySrfLake = [{
     }
 }];
 
-const AgricultureSrf = [{
+const AgricultureSrf = (source) => [{
     "id": "AgricultureSrf",
     "type": "fill",
     "source": source,
@@ -65,7 +63,7 @@ const AgricultureSrf = [{
     }
 }];
 
-const VegetationSrf = [{
+const VegetationSrf = (source) => [{
     "id": "VegetationSrf",
     "type": "fill",
     "source": source,
@@ -76,7 +74,7 @@ const VegetationSrf = [{
     }
 }];
 
-const SettlementSrf = [{
+const SettlementSrf = (source) => [{
     "id": "SettlementSrfStroke",
     "type": "line",
     "source": source,
@@ -98,7 +96,7 @@ const SettlementSrf = [{
     }
 }];
 
-const UtilityInfrastructurePnt = [{
+const UtilityInfrastructurePnt = (source) => [{
     "id": "UtilityInfrastructurePnt",
     "type": "circle",
     "source": source,
@@ -116,7 +114,7 @@ const UtilityInfrastructurePnt = [{
     }
 }];
 
-const UtilityInfrastructureCrv = [{
+const UtilityInfrastructureCrv = (source) => [{
     "id": "UtilityInfrastructureCrv",
     "type": "line",
     "source": source,
@@ -141,7 +139,7 @@ const UtilityInfrastructureCrv = [{
     }
 }];
 
-const FacilityPnt = [{
+const FacilityPnt = (source) => [{
     "id": "FacilityPnt",
     "type": "symbol",
     "source": source,
@@ -155,7 +153,7 @@ const FacilityPnt = [{
     }
 }];
 
-const CulturePnt = [{
+const CulturePnt = (source) => [{
     "id": "CulturePnt",
     "type": "symbol",
     "source": source,
@@ -169,7 +167,7 @@ const CulturePnt = [{
     }
 }];
 
-const StructurePnt = [{
+const StructurePnt = (source) => [{
     "id": "StructurePnt",
     "type": "symbol",
     "source": source,
@@ -183,7 +181,7 @@ const StructurePnt = [{
     }
 }];
 
-const MilitarySrf = [{
+const MilitarySrf = (source) => [{
     "id": "MilitarySrf",
     "type": "fill",
     "source": source,
@@ -195,7 +193,7 @@ const MilitarySrf = [{
     }
 }];
 
-const CultureSrf = [{
+const CultureSrf = (source) => [{
     "id": "CultureSrf",
     "type": "fill",
     "source": source,
@@ -207,7 +205,7 @@ const CultureSrf = [{
     }
 }];
 
-const TransportationGroundCrv = [{
+const TransportationGroundCrv = (source) => [{
     "id": "TransportationGroundCrvBridgeBack",
     "type": "line",
     "source": source,
@@ -456,10 +454,10 @@ const TransportationGroundCrv = [{
     }
 }];
 
-module.exports = ({ showRaster, src, spritesPath} = {}) => ({
+module.exports = ({ showRaster, src, spritesPath, sourceName} = {}) => ({
     "version": 8,
     "sources": src,
-    "sprite":  spritesPath,
+    "sprite":  `${spritesPath}/sprites`,
     "layers": [
         {
             "id": "background",
@@ -475,18 +473,18 @@ module.exports = ({ showRaster, src, spritesPath} = {}) => ({
             "source-layer": "landsat8",
             "paint": {}
         }] : []),
-        ...AgricultureSrf,
-        ...VegetationSrf,
-        ...SettlementSrf,
-        ...MilitarySrf,
-        ...CultureSrf,
-        ...HydrographyCrv,
-        ...HydrographySrfLake,
-        ...TransportationGroundCrv,
-        ...UtilityInfrastructureCrv,
-        ...UtilityInfrastructurePnt,
-        ...FacilityPnt,
-        ...CulturePnt,
-        ...StructurePnt
+        ...AgricultureSrf(sourceName),
+        ...VegetationSrf(sourceName),
+        ...SettlementSrf(sourceName),
+        ...MilitarySrf(sourceName),
+        ...CultureSrf(sourceName),
+        ...HydrographyCrv(sourceName),
+        ...HydrographySrfLake(sourceName),
+        ...TransportationGroundCrv(sourceName),
+        ...UtilityInfrastructureCrv(sourceName),
+        ...UtilityInfrastructurePnt(sourceName),
+        ...FacilityPnt(sourceName),
+        ...CulturePnt(sourceName),
+        ...StructurePnt(sourceName)
     ]
 });
