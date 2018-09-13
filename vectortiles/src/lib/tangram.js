@@ -10,6 +10,8 @@ const L = require('leaflet');
 const Tangram = require('tangram');
 const tangramstyle = require('../../mapstyles/tangramstyle');
 
+require('leaflet/dist/leaflet.css');
+
 const tangramMap = (target, center, startZoom, getView, setView, label, url, spritesPath, sourceName) => {
     
     const map = L.map(target, {attributionControl: false});

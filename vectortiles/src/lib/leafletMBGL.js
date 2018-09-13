@@ -11,6 +11,7 @@ const mapboxstyle = require('../../mapstyles/mapboxstyle');
 const mapboxgl = require('mapbox-gl');
 window.mapboxgl = mapboxgl;
 
+require('leaflet/dist/leaflet.css');
 require('mapbox-gl-leaflet');
 
 const projectionEPSG = '900913';

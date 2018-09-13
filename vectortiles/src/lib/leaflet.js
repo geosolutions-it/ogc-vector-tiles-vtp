@@ -9,6 +9,7 @@
 
 const L = require('leaflet');
 require('leaflet.vectorgrid');
+require('leaflet/dist/leaflet.css');
 
 L.Path.include({ options: { stroke: true } });
 
