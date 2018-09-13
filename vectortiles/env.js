@@ -10,7 +10,7 @@ module.exports = {
     prod: {
         spritesPath: '"http://localhost:8080/geoserver/www/sprites"',
         geoserverUrl: '"http://localhost:8080/geoserver"',
-        sourceName: 'Daraa'
+        sourceName: '"Daraa"'
     },
     dev: {
         spritesPath: '"http://localhost:3000/sprites"',

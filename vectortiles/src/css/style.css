@@ -109,5 +109,5 @@ body {
 }
 
 .leaflet-container {
-    background: #ffffff;
+    background: #ffffff !important;
 }
