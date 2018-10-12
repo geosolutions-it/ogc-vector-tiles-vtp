@@ -128,7 +128,7 @@ const leafletMap = (target, center, startZoom, getView, setView, label, url, spr
         sourceName
     ].map(key =>
         L.vectorGrid.protobuf(
-            `${url}/gwc/service/wmts?Layer=${key}&Style=&TilematrixSet=EPSG:${projectionEPSG}&Service=WMTS&Request=GetTile&Version=1.0.0&Format=application/x-protobuf;type=mapbox-vector&TileMatrix=EPSG:${projectionEPSG}:{z}&TileCol={x}&TileRow={y}`, {
+            `${url}/gwc/service/wmts?Layer=${key}&Style=&TilematrixSet=EPSG:${projectionEPSG}&Service=WMTS&Request=GetTile&Version=1.0.0&Format=application/vnd.mapbox-vector-tile&TileMatrix=EPSG:${projectionEPSG}:{z}&TileCol={x}&TileRow={y}`, {
                 vectorTileLayerStyles
             })
     );

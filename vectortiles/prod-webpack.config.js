@@ -4,13 +4,15 @@ const DefinePlugin = require("webpack/lib/DefinePlugin");
 const env = require('./env');
 let webpackConfig = require('./webpack.config.js');
 
-webpackConfig.entry = [
-    './client.js'
-];
+webpackConfig.entry = {
+    'wmtsDemo': './wmts/client.js',
+    'wfsDemo': './wfs/client.js',
+    'datasets': './datasets/client.js'
+};
 
 webpackConfig.output = {
     path: path.join(__dirname, 'dist'),
-    filename: 'vectortiles.js',
+    filename: '[name].js',
     publicPath: ''
 };
 

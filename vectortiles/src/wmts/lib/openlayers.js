@@ -332,14 +332,14 @@ const openlayersMap = (target, center, startZoom, getView, setView, label, url, 
             optionsFromCapabilities(caps, {
                 layer: layerName,
                 matrixSet: 'EPSG:900913',
-                format: 'application/x-protobuf;type=mapbox-vector'
+                format: 'application/vnd.mapbox-vector-tile'
             })
         );
-        
+        const epsg = '900913';
         const source = !tms ? new VectorTile({
             format: new MVT(),
-            tileUrlFunction: wmts.getTileUrlFunction(),
-            tileGrid: wmts.getTileGrid()
+            tileGrid: wmts.getTileGrid(),
+            url: `${url}/gwc/service/wmts?layer=${sourceName}&style=&tilematrixset=EPSG:${epsg}&Service=WMTS&Request=GetTile&Version=1.0.0&Format=application/vnd.mapbox-vector-tile&TileMatrix=EPSG:${epsg}:{z}&TileCol={x}&TileRow={y}`
         }) : new VectorTile({
             tilePixelRatio: 1,
             tileGrid: createXYZ({ maxZoom: 19 }),

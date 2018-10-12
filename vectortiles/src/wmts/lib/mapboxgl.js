@@ -30,7 +30,7 @@ const mapboxglMap = (container, center, startZoom, getView, setView, label, url,
             /* WMTS */
             "type": "vector",
             "tiles": [
-                `${url}/gwc/service/wmts?layer=${key}&style=&tilematrixset=EPSG:${projectionEPSG}&Service=WMTS&Request=GetTile&Version=1.0.0&Format=application/x-protobuf;type=mapbox-vector&TileMatrix=EPSG:${projectionEPSG}:{z}&TileCol={x}&TileRow={y}`
+                `${url}/gwc/service/wmts?layer=${key}&style=&tilematrixset=EPSG:${projectionEPSG}&Service=WMTS&Request=GetTile&Version=1.0.0&Format=application/vnd.mapbox-vector-tile&TileMatrix=EPSG:${projectionEPSG}:{z}&TileCol={x}&TileRow={y}`
             ]
         }
     })), {});

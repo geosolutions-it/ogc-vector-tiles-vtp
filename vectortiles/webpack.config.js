@@ -7,13 +7,15 @@ module.exports = {
     devtool: 'eval',
     context: path.join(__dirname, 'src'),
     target: 'web',
-    entry: [
-        'webpack-hot-middleware/client?path=http://localhost:3000/__webpack_hmr&timeout=20000',
-        './client.js'
-    ],
+    entry: {
+        'webpack-dev-server': 'webpack-hot-middleware/client?path=http://localhost:3000/__webpack_hmr&timeout=20000',
+        'wmtsDemo': './wmts/client.js',
+        'wfsDemo': './wfs/client.js',
+        'datasets': './datasets/client.js'
+    },
     output: {
         path: path.join(__dirname, 'www'),
-        filename: 'vectortiles.js',
+        filename: '[name].js',
         publicPath: 'http://localhost:3000/assets/'
     },
     plugins: [

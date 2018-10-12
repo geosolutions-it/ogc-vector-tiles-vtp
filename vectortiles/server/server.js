@@ -12,7 +12,6 @@ const compiler = webpack(config);
 
 app.use(webpackDevMiddleware(compiler, {
   hot: true,
-  filename: 'vectortiles.js',
   publicPath: 'http://localhost:3000/dist/',
   stats: {
     colors: true

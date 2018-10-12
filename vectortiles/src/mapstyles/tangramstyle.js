@@ -11,7 +11,7 @@ module.exports = ({ url, spritesPath, sourceName }) => ({
     "sources": {
         "Daraa": {
             "type": "MVT",
-            "url": `${url}/gwc/service/wmts?layer=${sourceName}&tilematrixset=EPSG:900913&Service=WMTS&Request=GetTile&Version=1.0.0&Format=application/x-protobuf;type=mapbox-vector&TileMatrix=EPSG:900913:{z}&TileCol={x}&TileRow={y}`
+            "url": `${url}/gwc/service/wmts?layer=${sourceName}&tilematrixset=EPSG:900913&Service=WMTS&Request=GetTile&Version=1.0.0&Format=application/vnd.mapbox-vector-tile&TileMatrix=EPSG:900913:{z}&TileCol={x}&TileRow={y}`
         }
     },
     "styles": {
