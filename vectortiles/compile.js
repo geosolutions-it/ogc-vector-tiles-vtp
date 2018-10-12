@@ -18,7 +18,7 @@ fs.emptyDir('./www').then(() => {
         console.log('dist moved!');
     });
 
-    fs.copy('./mapstyles', './www/mapstyles', err => {
+    fs.copy('./src/mapstyles', './www/mapstyles', err => {
         if (err) return console.error(err);
         console.log('mapstyles moved!');
 
@@ -33,10 +33,26 @@ fs.emptyDir('./www').then(() => {
         console.log('sprites moved!');
     });
 
-    fs.copy('./index.html', './www/index.html', err => {
-        if (err) return console.error(err);
-        console.log('index.html moved!');
-    });
+    [
+        './index.html',
+        './wfs.html',
+        './wmts.html',
+        './wfsConfig.json',
+        './wmts.png',
+        './wfs.png',
+        'geosolutions-logo.png',
+        'ogc-logo.png',
+        'datasets.html',
+        'datasets.png',
+        'datasetConfig.json'
+
+    ].forEach(file => {
+        fs.copy(`./${file}`, `./www/${file}`, err => {
+            if (err) return console.error(err);
+            console.log(`./${file} moved!`);
+        });
+    })
+
 
 }).catch(err => {
     console.error(err);

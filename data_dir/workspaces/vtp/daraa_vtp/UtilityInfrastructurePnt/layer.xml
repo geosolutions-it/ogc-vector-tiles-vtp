@@ -1,0 +1,15 @@
+<layer>
+  <name>UtilityInfrastructurePnt</name>
+  <id>LayerInfoImpl-74af1de8:16668687d38:-7fbb</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl-74af1de8:16668687d38:-8000</id>
+  </defaultStyle>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl-74af1de8:16668687d38:-7fbc</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+</layer>

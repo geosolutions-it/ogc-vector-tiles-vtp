@@ -1,0 +1,26 @@
+<layerGroup>
+  <id>LayerGroupInfoImpl-74af1de8:16668687d38:-7fd7</id>
+  <name>iraq_vtp</name>
+  <mode>SINGLE</mode>
+  <title>iraq_vtp</title>
+  <workspace>
+    <id>WorkspaceInfoImpl-74af1de8:16668687d38:-7fe0</id>
+  </workspace>
+  <publishables>
+    <published type="layer">
+      <id>LayerInfoImpl-74af1de8:16668687d38:-7fd8</id>
+    </published>
+  </publishables>
+  <styles>
+    <style>
+      <id>StyleInfoImpl-74af1de8:16668687d38:-7fff</id>
+    </style>
+  </styles>
+  <bounds>
+    <minx>-180.0</minx>
+    <maxx>180.0</maxx>
+    <miny>-90.0</miny>
+    <maxy>90.0</maxy>
+    <crs>EPSG:4326</crs>
+  </bounds>
+</layerGroup>

@@ -1,0 +1,46 @@
+{
+    "maps": [
+        {
+            "title": "GeoServer (GeoSolutions), schemeId = GlobalCRS84Geometric",
+            "id": "vt-wfs-geoserver-4326",
+            "schemeId": "GlobalCRS84Geometric",
+            "baseUrl": "http://localhost:8080/geoserver",
+            "urls": [
+                "/wfs3/collections/vtp:AgricultureSrf/tiles/${schemeId}/{z}/{y}/{x}",
+                "/wfs3/collections/vtp:VegetationSrf/tiles/${schemeId}/{z}/{y}/{x}",
+                "/wfs3/collections/vtp:SettlementSrf/tiles/${schemeId}/{z}/{y}/{x}",
+                "/wfs3/collections/vtp:MilitarySrf/tiles/${schemeId}/{z}/{y}/{x}",
+                "/wfs3/collections/vtp:CultureSrf/tiles/${schemeId}/{z}/{y}/{x}",
+                "/wfs3/collections/vtp:HydrographyCrv/tiles/${schemeId}/{z}/{y}/{x}",
+                "/wfs3/collections/vtp:HydrographySrf/tiles/${schemeId}/{z}/{y}/{x}",
+                "/wfs3/collections/vtp:TransportationGroundCrv/tiles/${schemeId}/{z}/{y}/{x}",
+                "/wfs3/collections/vtp:UtilityInfrastructureCrv/tiles/${schemeId}/{z}/{y}/{x}",
+                "/wfs3/collections/vtp:CulturePnt/tiles/${schemeId}/{z}/{y}/{x}",
+                "/wfs3/collections/vtp:FacilityPnt/tiles/${schemeId}/{z}/{y}/{x}",
+                "/wfs3/collections/vtp:StructurePnt/tiles/${schemeId}/{z}/{y}/{x}",
+                "/wfs3/collections/vtp:UtilityInfrastructurePnt/tiles/${schemeId}/{z}/{y}/{x}"
+            ]
+        },
+        {
+            "title": "GeoServer (GeoSolutions), schemeId = GoogleMapsCompatible",
+            "id": "vt-wfs-geoserver-3857",
+            "schemeId": "GoogleMapsCompatible",
+            "baseUrl": "http://localhost:8080/geoserver",
+            "urls": [
+                "/wfs3/collections/vtp:AgricultureSrf/tiles/${schemeId}/{z}/{y}/{x}",
+                "/wfs3/collections/vtp:VegetationSrf/tiles/${schemeId}/{z}/{y}/{x}",
+                "/wfs3/collections/vtp:SettlementSrf/tiles/${schemeId}/{z}/{y}/{x}",
+                "/wfs3/collections/vtp:MilitarySrf/tiles/${schemeId}/{z}/{y}/{x}",
+                "/wfs3/collections/vtp:CultureSrf/tiles/${schemeId}/{z}/{y}/{x}",
+                "/wfs3/collections/vtp:HydrographyCrv/tiles/${schemeId}/{z}/{y}/{x}",
+                "/wfs3/collections/vtp:HydrographySrf/tiles/${schemeId}/{z}/{y}/{x}",
+                "/wfs3/collections/vtp:TransportationGroundCrv/tiles/${schemeId}/{z}/{y}/{x}",
+                "/wfs3/collections/vtp:UtilityInfrastructureCrv/tiles/${schemeId}/{z}/{y}/{x}",
+                "/wfs3/collections/vtp:CulturePnt/tiles/${schemeId}/{z}/{y}/{x}",
+                "/wfs3/collections/vtp:FacilityPnt/tiles/${schemeId}/{z}/{y}/{x}",
+                "/wfs3/collections/vtp:StructurePnt/tiles/${schemeId}/{z}/{y}/{x}",
+                "/wfs3/collections/vtp:UtilityInfrastructurePnt/tiles/${schemeId}/{z}/{y}/{x}"
+            ]
+        }
+    ]
+}

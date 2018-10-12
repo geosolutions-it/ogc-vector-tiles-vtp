@@ -1,0 +1,23 @@
+<dataStore>
+  <id>DataStoreInfoImpl-74af1de8:16668687d38:-7fd6</id>
+  <name>syria_vtp</name>
+  <description>syria_vtp</description>
+  <type>Directory of spatial files (shapefiles)</type>
+  <enabled>true</enabled>
+  <workspace>
+    <id>WorkspaceInfoImpl-74af1de8:16668687d38:-7fe2</id>
+  </workspace>
+  <connectionParameters>
+    <entry key="charset">ISO-8859-1</entry>
+    <entry key="filetype">shapefile</entry>
+    <entry key="create spatial index">true</entry>
+    <entry key="memory mapped buffer">false</entry>
+    <entry key="timezone">Europe/Berlin</entry>
+    <entry key="enable spatial index">true</entry>
+    <entry key="namespace">syria_vtp</entry>
+    <entry key="cache and reuse memory maps">true</entry>
+    <entry key="url">file:shapefiles_syria</entry>
+    <entry key="fstype">shape</entry>
+  </connectionParameters>
+  <__default>false</__default>
+</dataStore>
