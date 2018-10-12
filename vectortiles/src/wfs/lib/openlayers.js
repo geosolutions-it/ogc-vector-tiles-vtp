@@ -6,8 +6,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// "/vtp/daraa/tiles/${schemeId}/{z}/{x}/{y}?f=mvt&collections=agriculturesrf,vegetationsrf,settlementsrf,militarysrf,culturesrf,hydrographycrv,hydrographysrf,transportationgroundcrv,utilityinfrastructurecrv,culturepnt,facilitypnt,structurepnt,utilityinfrastructurepnt"
-
 const Style = require('ol/style/Style').default;
 const Fill = require('ol/style/Fill').default;
 const Stroke = require('ol/style/Stroke').default;

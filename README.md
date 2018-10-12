@@ -4,25 +4,26 @@
 
 - Download GeoServer and Vector Tiles extension:
 
-    - geoserver-2.14-SNAPSHOT
-    - geoserver-2.14-SNAPSHOT-vectortiles-plugin.zip
+    - geoserver-2.15-SNAPSHOT
+    - geoserver-2.15-SNAPSHOT-vectortiles-plugin
+    - geoserver-2.15-SNAPSHOT-wfs3-plugin
 
     ```
     Tested on below version:
 
     GeoServer Version
-    2.14-SNAPSHOT
+    2.15-SNAPSHOT
     Git Revision
-    867da0dfc6267eb912ab86617eed554064e83016
+    ba3a9764076c2d325c31ba90223e8b52757af37e
     Build Date
-    28-Aug-2018 14:33
+    12-Oct-2018 08:00
     GeoTools Version
-    20-SNAPSHOT (rev 2baa50d31c9a21e3fe2295dc4604e37a5a394d44)
+    21-SNAPSHOT (rev 9d9146290efa1e3797d7515adb1140074551883d)
     GeoWebCache Version
-    1.14-SNAPSHOT (rev f63ec178cb3e7bbcfcf9008e95028f924ce67fbf/f63ec178cb3e7bbcfcf9008e95028f924ce67fbf)
+    1.15-SNAPSHOT (rev 6f98a7304983bcc6e89a61e58b6f5128c8046296/6f98a7304983bcc6e89a61e58b6f5128c8046296)
     ```
 
-- Install Vector Tiles extension by adding the content of `geoserver-2.14-SNAPSHOT-vectortiles-plugin.zip` in `\webapps\geoserver\WEB-INF\lib` folder.
+- Install Vector Tiles extension by adding the content of `geoserver-2.15-SNAPSHOT-vectortiles-plugin.zip` and `geoserver-2.15-SNAPSHOT-wfs3-plugin.zip` in `\webapps\geoserver\WEB-INF\lib` folder.
 
 - Copy shapefiles from `Daraa2_Sep_06` in the folder `\data_dir\shapefiles`
 

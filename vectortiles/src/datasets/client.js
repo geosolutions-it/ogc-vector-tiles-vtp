@@ -12,7 +12,7 @@ const { join } = require('lodash');
 
 const openlayersMap = require('./lib/openlayers');
 const tinycolor = require('tinycolor2');
-//{lat: 33.71520164474087, lng: 41.30859375} 7
+
 const axios = require('axios');
 axios.get('./datasetConfig.json')
     .then(({ data = {} }) => {

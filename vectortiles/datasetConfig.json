@@ -1,0 +1,44 @@
+{
+    "url": "http://localhost:8080/geoserver",
+    "minZoom": 7,
+    "center": {
+        "lat": 33.71520164474087,
+        "lng": 41.30859375
+    },
+    "zoom": 7,
+    "sources": [
+        {
+            "layer": "daraa_vtp",
+            "label": "Daraa Dataset",
+            "workspace": "vtp",
+            "color": "#aaff33",
+            "zoom": 13,
+            "center": {
+                "lat": 32.61751911206343,
+                "lng": 36.09650048440878
+            }
+        },
+        {
+            "layer": "syria_vtp",
+            "label": "Syria Dataset",
+            "workspace": "syria_vtp",
+            "color": "#33aaff",
+            "zoom": 8,
+            "center": {
+                "lat": 35.04545707850892,
+                "lng": 38.61419677734376
+            }
+        },
+        {
+            "layer": "iraq_vtp",
+            "label": "Iraq Dataset",
+            "workspace": "iraq_vtp",
+            "color": "#ff3333",
+            "zoom": 7,
+            "center": {
+                "lng": 43.63603205512943,
+                "lat": 33.50979511167367
+            }
+        }
+    ]
+}
