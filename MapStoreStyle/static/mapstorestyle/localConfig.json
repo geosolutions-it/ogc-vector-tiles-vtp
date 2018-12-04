@@ -1,0 +1,82 @@
+{
+    "proxyUrl": "proxy/?url=",
+    "geoStoreUrl": "",
+    "printUrl": "",
+    "themePrefix": "mapstorestyles",
+    "translationsPath": "/static/mapstorestyle/translations",
+    "initialState": {
+        "defaultState": {
+            "maptype": {
+                "mapType": "openlayers"
+            }
+        }
+    },
+    "plugins": {
+        "viewer": [
+            "MapLoading",
+            {
+                "name": "BrandNavbar",
+                "cfg": {
+                    "containerPosition": "header"
+                }
+            },
+            {
+                "name": "Map",
+                "cfg": {
+                    "mapType": "openlayers",
+                    "mapOptions": {
+                        "openlayers": {
+                            "interactions": {
+                                "pinchRotate": false,
+                                "altShiftDragRotate": false
+                            }
+                        }
+                    }
+                }
+            },
+            "BackgroundSelector",
+            {
+                "name": "Toolbar",
+                "id": "NavigationBar",
+                "cfg": {
+                    "id": "navigationBar"
+                }
+            },
+            {
+                "name": "ZoomIn",
+                "override": {
+                    "Toolbar": {
+                        "alwaysVisible": true
+                    }
+                }
+            },
+            {
+                "name": "ZoomOut",
+                "override": {
+                    "Toolbar": {
+                        "alwaysVisible": true
+                    }
+                }
+            },
+            {
+                "name": "LeftMenu",
+                "cfg": {
+                    "containerPosition": "columns"
+                }
+            },
+            {
+                "name": "TOC",
+                "cfg": {
+                    "activateMapTitle": false,
+                    "activateTitleTooltip": false,
+                    "activateLegendTool": false,
+                    "activateFilterLayer": false,
+                    "activateRemoveLayer": false,
+                    "activateSettingsTool": false,
+                    "activateZoomTool": false
+                }
+            },
+            "Identify"
+        ]
+    }
+}

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="32"
+   height="32"
+   viewBox="0 0 8.4666665 8.4666669"
+   version="1.1"
+   id="svg4557"
+   inkscape:version="0.92.1 r15371"
+   sodipodi:docname="mosque_b_sm.svg">
+  <defs
+     id="defs4551" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.979899"
+     inkscape:cx="-17.209763"
+     inkscape:cy="-11.676845"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     units="px"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata4554">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Livello 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-288.53332)">
+    <path
+       inkscape:connector-curvature="0"
+       style="stroke-width:1.99408066"
+       d="M 1.6469278,288.53332 C 1.6608858,289.16345 1.8426208,289.72582 2.2195028,290.18645 2.6003718,290.64708 3.0905978,290.94397 3.6648918,291.0696 V 294.17432 H 2.8199828 V 296.99999 H 5.6451338 V 294.17432 H 4.8136598 V 291.0696 C 5.3899498,290.94397 5.8667388,290.64708 6.2456138,290.18645 6.6244898,289.72582 6.8197388,289.16345 6.8197388,288.53332 H 5.6709718 C 5.6709718,288.85437 5.5573838,289.1776 5.3200888,289.49864 5.0967518,289.82169 4.7316288,289.97716 4.2410848,289.97716 3.8342928,289.97716 3.4815608,289.83768 3.2023888,289.55651 2.9371768,289.27535 2.7956948,288.94011 2.7956948,288.53332 Z"
+       id="rect4754" />
+  </g>
+</svg>

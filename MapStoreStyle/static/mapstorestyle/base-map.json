@@ -1,0 +1,815 @@
+{
+    "map": {
+        "projection": "EPSG:3857",
+        "units": "m",
+        "center": {
+            "x": 36.102816975000046,
+            "y": 32.62031887899901,
+            "crs": "EPSG:4326"
+        },
+        "zoom": 14,
+        "maxExtent": [
+            35.9028738,
+            32.4168138,
+            36.5747694,
+            33.1424348
+        ],
+        "layers": [
+            {
+                "source": "ol",
+                "group": "background",
+                "id": "none",
+                "title": "Empty Background",
+                "fixed": true,
+                "type": "empty",
+                "visibility": true,
+                "args": [
+                    "Empty Background",
+                    {
+                        "visibility": true
+                    }
+                ]
+            },
+            {
+                "type": "wms",
+                "title": "Cloudless",
+                "format": "image/png8",
+                "id": "s2cloudless",
+                "name": "s2cloudless:s2cloudless",
+                "url": "https://maps.geo-solutions.it/geoserver/wms",
+                "group": "background",
+                "thumbURL": "/static/mapstorestyle/img/s2cloudless-s2cloudless.png",
+                "visibility": false,
+                "attribution": "<a  href=\"https://s2maps.eu\">Sentinel-2 cloudless - https://s2maps.eu</a> by <a class=\"a-light\" xmlns:cc=\"http://creativecommons.org/ns#\" href=\"https://eox.at\" property=\"cc:attributionName\" rel=\"cc:attributionURL\">EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data 2016 &amp; 2017)"
+            },
+            {
+                "format": "application/vnd.mapbox-vector-tile",
+                "group": "Vetor Tiles",
+                "id": "syria_vtp:syria_vtp",
+                "name": "syria_vtp:syria_vtp",
+                "title": "Syria",
+                "opacity": 1,
+                "type": "vectortile",
+                "service": "tms",
+                "url": "http://maps.geo-solutions.it/geoserver/gwc/service/wmts",
+                "visibility": false,
+                "bbox": {
+                    "crs": "EPSG:4326",
+                    "bounds": {
+                        "minx": 35.9028738,
+                        "miny": 32.4168138,
+                        "maxx": 36.5747694,
+                        "maxy": 33.1424348
+                    }
+                },
+                "availableStyles": [
+                    {
+                        "name": "base",
+                        "format": "sld",
+                        "title": "Base",
+                        "_abstract": "",
+                        "filename": "base.sld",
+                        "href": "/static/mapstorestyle/base.sld"
+                    }
+                ],
+                "style": "base"
+            },
+            {
+                "format": "application/vnd.mapbox-vector-tile",
+                "group": "Vetor Tiles",
+                "id": "vtp:daraa_vtp",
+                "name": "vtp:daraa_vtp",
+                "title": "Daraa",
+                "opacity": 1,
+                "type": "vectortile",
+                "service": "tms",
+                "url": "http://maps.geo-solutions.it/geoserver/gwc/service/wmts",
+                "visibility": true,
+                "availableStyles": [
+                    {
+                        "name": "daraa:topographic_sld",
+                        "format": "sld",
+                        "title": "Topographic",
+                        "_abstract": "",
+                        "filename": "topographic.sld",
+                        "href": "/static/mapstorestyle/topographic.sld"
+                    },
+                    {
+                        "name": "daraa:overlay_sld",
+                        "format": "sld",
+                        "title": "Overlay",
+                        "backgroundLayer": "s2cloudless",
+                        "_abstract": "",
+                        "filename": "overlay.sld",
+                        "href": "/static/mapstorestyle/overlay.sld"
+                    },
+                    {
+                        "name": "daraa:night_sld",
+                        "format": "sld",
+                        "title": "Night",
+                        "_abstract": "",
+                        "filename": "night.sld",
+                        "backgroundColor": "#201747",
+                        "href": "/static/mapstorestyle/night.sld"
+                    },
+                    {
+                        "name": "daraa:topographic_mbs",
+                        "format": "mbs",
+                        "title": "Topographic",
+                        "_abstract": "",
+                        "filename": "topographic.json",
+                        "href": "/static/mapstorestyle/topographic.json",
+                        "spriteData": {
+                            "square_b": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 0,
+                                "y": 0,
+                                "pixelRatio": 1
+                            },
+                            "circle_b": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 64,
+                                "y": 0,
+                                "pixelRatio": 1
+                            },
+                            "mosque_b_sm": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 128,
+                                "y": 0,
+                                "pixelRatio": 1
+                            },
+                            "school_b_sm": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 192,
+                                "y": 0,
+                                "pixelRatio": 1
+                            },
+                            "mosque_b": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 256,
+                                "y": 0,
+                                "pixelRatio": 1
+                            },
+                            "school_b": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 320,
+                                "y": 0,
+                                "pixelRatio": 1
+                            },
+                            "pylon_b": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 384,
+                                "y": 0,
+                                "pixelRatio": 1
+                            },
+                            "pylon_wilson_b": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 448,
+                                "y": 0,
+                                "pixelRatio": 1
+                            },
+                            
+                            
+                            "square_w": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 0,
+                                "y": 64,
+                                "pixelRatio": 1
+                            },
+                            "circle_w": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 64,
+                                "y": 64,
+                                "pixelRatio": 1
+                            },
+                            "mosque_w_sm": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 128,
+                                "y": 64,
+                                "pixelRatio": 1
+                            },
+                            "school_w_sm": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 192,
+                                "y": 64,
+                                "pixelRatio": 1
+                            },
+                            "mosque_w": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 256,
+                                "y": 64,
+                                "pixelRatio": 1
+                            },
+                            "school_w": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 320,
+                                "y": 64,
+                                "pixelRatio": 1
+                            },
+                            "pylon_w": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 384,
+                                "y": 64,
+                                "pixelRatio": 1
+                            },
+                            "pylon_wilson_w": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 448,
+                                "y": 64,
+                                "pixelRatio": 1
+                            },
+                            
+                        
+                            "friend_b": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 0,
+                                "y": 128,
+                                "pixelRatio": 1
+                            },
+                            "neutral_b": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 64,
+                                "y": 128,
+                                "pixelRatio": 1
+                            },
+                            "suspect_joker_b": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 128,
+                                "y": 128,
+                                "pixelRatio": 1
+                            },
+                            "hostile_faker_b": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 192,
+                                "y": 128,
+                                "pixelRatio": 1
+                            },
+                            "mine_b": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 256,
+                                "y": 128,
+                                "pixelRatio": 1
+                            },
+                            "group_b": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 320,
+                                "y": 128,
+                                "pixelRatio": 1
+                            },
+                            "emergency_b": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 384,
+                                "y": 128,
+                                "pixelRatio": 1
+                            },
+                            
+                        
+                            "friend_w": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 0,
+                                "y": 192,
+                                "pixelRatio": 1
+                            },
+                            "neutral_w": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 64,
+                                "y": 192,
+                                "pixelRatio": 1
+                            },
+                            "suspect_joker_w": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 128,
+                                "y": 192,
+                                "pixelRatio": 1
+                            },
+                            "hostile_faker_w": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 192,
+                                "y": 192,
+                                "pixelRatio": 1
+                            },
+                            "mine_w": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 256,
+                                "y": 192,
+                                "pixelRatio": 1
+                            },
+                            "group_w": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 320,
+                                "y": 192,
+                                "pixelRatio": 1
+                            },
+                            "emergency_w": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 384,
+                                "y": 192,
+                                "pixelRatio": 1
+                            }
+                            
+                        },
+                        "sprite": "/static/mapstorestyle/sprites/sprites.png"
+                    },
+                    {
+                        "name": "daraa:overlay_mbs",
+                        "format": "mbs",
+                        "title": "Overlay",
+                        "_abstract": "",
+                        "backgroundLayer": "s2cloudless",
+                        "filename": "overlay.json",
+                        "href": "/static/mapstorestyle/overlay.json",
+                        "spriteData": {
+                            "square_b": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 0,
+                                "y": 0,
+                                "pixelRatio": 1
+                            },
+                            "circle_b": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 64,
+                                "y": 0,
+                                "pixelRatio": 1
+                            },
+                            "mosque_b_sm": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 128,
+                                "y": 0,
+                                "pixelRatio": 1
+                            },
+                            "school_b_sm": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 192,
+                                "y": 0,
+                                "pixelRatio": 1
+                            },
+                            "mosque_b": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 256,
+                                "y": 0,
+                                "pixelRatio": 1
+                            },
+                            "school_b": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 320,
+                                "y": 0,
+                                "pixelRatio": 1
+                            },
+                            "pylon_b": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 384,
+                                "y": 0,
+                                "pixelRatio": 1
+                            },
+                            "pylon_wilson_b": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 448,
+                                "y": 0,
+                                "pixelRatio": 1
+                            },
+                            
+                            
+                            "square_w": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 0,
+                                "y": 64,
+                                "pixelRatio": 1
+                            },
+                            "circle_w": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 64,
+                                "y": 64,
+                                "pixelRatio": 1
+                            },
+                            "mosque_w_sm": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 128,
+                                "y": 64,
+                                "pixelRatio": 1
+                            },
+                            "school_w_sm": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 192,
+                                "y": 64,
+                                "pixelRatio": 1
+                            },
+                            "mosque_w": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 256,
+                                "y": 64,
+                                "pixelRatio": 1
+                            },
+                            "school_w": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 320,
+                                "y": 64,
+                                "pixelRatio": 1
+                            },
+                            "pylon_w": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 384,
+                                "y": 64,
+                                "pixelRatio": 1
+                            },
+                            "pylon_wilson_w": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 448,
+                                "y": 64,
+                                "pixelRatio": 1
+                            },
+                            
+                        
+                            "friend_b": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 0,
+                                "y": 128,
+                                "pixelRatio": 1
+                            },
+                            "neutral_b": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 64,
+                                "y": 128,
+                                "pixelRatio": 1
+                            },
+                            "suspect_joker_b": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 128,
+                                "y": 128,
+                                "pixelRatio": 1
+                            },
+                            "hostile_faker_b": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 192,
+                                "y": 128,
+                                "pixelRatio": 1
+                            },
+                            "mine_b": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 256,
+                                "y": 128,
+                                "pixelRatio": 1
+                            },
+                            "group_b": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 320,
+                                "y": 128,
+                                "pixelRatio": 1
+                            },
+                            "emergency_b": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 384,
+                                "y": 128,
+                                "pixelRatio": 1
+                            },
+                            
+                        
+                            "friend_w": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 0,
+                                "y": 192,
+                                "pixelRatio": 1
+                            },
+                            "neutral_w": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 64,
+                                "y": 192,
+                                "pixelRatio": 1
+                            },
+                            "suspect_joker_w": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 128,
+                                "y": 192,
+                                "pixelRatio": 1
+                            },
+                            "hostile_faker_w": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 192,
+                                "y": 192,
+                                "pixelRatio": 1
+                            },
+                            "mine_w": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 256,
+                                "y": 192,
+                                "pixelRatio": 1
+                            },
+                            "group_w": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 320,
+                                "y": 192,
+                                "pixelRatio": 1
+                            },
+                            "emergency_w": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 384,
+                                "y": 192,
+                                "pixelRatio": 1
+                            }
+                            
+                        },
+                        "sprite": "/static/mapstorestyle/sprites/sprites.png"
+                    },
+                    {
+                        "name": "daraa:nigth_mbs",
+                        "format": "mbs",
+                        "title": "Night",
+                        "backgroundColor": "#201747",
+                        "_abstract": "",
+                        "filename": "night.json",
+                        "href": "/static/mapstorestyle/night.json",
+                        "spriteData": {
+                            "square_b": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 0,
+                                "y": 0,
+                                "pixelRatio": 1
+                            },
+                            "circle_b": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 64,
+                                "y": 0,
+                                "pixelRatio": 1
+                            },
+                            "mosque_b_sm": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 128,
+                                "y": 0,
+                                "pixelRatio": 1
+                            },
+                            "school_b_sm": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 192,
+                                "y": 0,
+                                "pixelRatio": 1
+                            },
+                            "mosque_b": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 256,
+                                "y": 0,
+                                "pixelRatio": 1
+                            },
+                            "school_b": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 320,
+                                "y": 0,
+                                "pixelRatio": 1
+                            },
+                            "pylon_b": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 384,
+                                "y": 0,
+                                "pixelRatio": 1
+                            },
+                            "pylon_wilson_b": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 448,
+                                "y": 0,
+                                "pixelRatio": 1
+                            },
+                            
+                            
+                            "square_w": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 0,
+                                "y": 64,
+                                "pixelRatio": 1
+                            },
+                            "circle_w": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 64,
+                                "y": 64,
+                                "pixelRatio": 1
+                            },
+                            "mosque_w_sm": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 128,
+                                "y": 64,
+                                "pixelRatio": 1
+                            },
+                            "school_w_sm": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 192,
+                                "y": 64,
+                                "pixelRatio": 1
+                            },
+                            "mosque_w": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 256,
+                                "y": 64,
+                                "pixelRatio": 1
+                            },
+                            "school_w": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 320,
+                                "y": 64,
+                                "pixelRatio": 1
+                            },
+                            "pylon_w": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 384,
+                                "y": 64,
+                                "pixelRatio": 1
+                            },
+                            "pylon_wilson_w": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 448,
+                                "y": 64,
+                                "pixelRatio": 1
+                            },
+                            
+                        
+                            "friend_b": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 0,
+                                "y": 128,
+                                "pixelRatio": 1
+                            },
+                            "neutral_b": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 64,
+                                "y": 128,
+                                "pixelRatio": 1
+                            },
+                            "suspect_joker_b": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 128,
+                                "y": 128,
+                                "pixelRatio": 1
+                            },
+                            "hostile_faker_b": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 192,
+                                "y": 128,
+                                "pixelRatio": 1
+                            },
+                            "mine_b": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 256,
+                                "y": 128,
+                                "pixelRatio": 1
+                            },
+                            "group_b": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 320,
+                                "y": 128,
+                                "pixelRatio": 1
+                            },
+                            "emergency_b": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 384,
+                                "y": 128,
+                                "pixelRatio": 1
+                            },
+                            
+                        
+                            "friend_w": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 0,
+                                "y": 192,
+                                "pixelRatio": 1
+                            },
+                            "neutral_w": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 64,
+                                "y": 192,
+                                "pixelRatio": 1
+                            },
+                            "suspect_joker_w": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 128,
+                                "y": 192,
+                                "pixelRatio": 1
+                            },
+                            "hostile_faker_w": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 192,
+                                "y": 192,
+                                "pixelRatio": 1
+                            },
+                            "mine_w": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 256,
+                                "y": 192,
+                                "pixelRatio": 1
+                            },
+                            "group_w": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 320,
+                                "y": 192,
+                                "pixelRatio": 1
+                            },
+                            "emergency_w": {
+                                "width": 64,
+                                "height": 64,
+                                "x": 384,
+                                "y": 192,
+                                "pixelRatio": 1
+                            }
+                            
+                        },
+                        "sprite": "/static/mapstorestyle/sprites/sprites.png"
+                    }
+                ],
+                "bbox": {
+                    "crs": "EPSG:4326",
+                    "bounds": {
+                        "minx": 35.9028738,
+                        "miny": 32.4168138,
+                        "maxx": 36.5747694,
+                        "maxy": 33.1424348
+                    }
+                },
+                "style": "daraa:topographic_sld"
+            }
+        ]
+    }
+}

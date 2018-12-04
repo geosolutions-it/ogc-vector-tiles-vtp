@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="32"
+   height="32"
+   viewBox="0 0 8.4666665 8.4666669"
+   version="1.1"
+   id="svg4557"
+   inkscape:version="0.92.1 r15371"
+   sodipodi:docname="mosque_w.svg">
+  <defs
+     id="defs4551" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="5.6"
+     inkscape:cx="6.6377035"
+     inkscape:cy="10.263206"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     units="px"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata4554">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Livello 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-288.53332)">
+    <path
+       inkscape:connector-curvature="0"
+       style="fill:#ffffff;fill-opacity:1;stroke-width:1.42227638"
+       d="M 2.3895182,288.53332 C 2.3994742,288.98276 2.5289512,289.38403 2.7977622,289.71258 3.0694181,290.04113 3.4190912,290.25291 3.8287062,290.34251 V 292.96767 H 0.20205423 V 296.99999 H 8.2646124 V 292.96767 H 4.6477792 V 290.34251 C 5.0588173,290.25291 5.3986722,290.04113 5.6689041,289.71258 5.9391363,289.38403 6.0786993,288.98276 6.0786993,288.53332 H 5.2596284 C 5.2596284,288.76231 5.1782473,288.99267 5.0089963,289.22165 4.8497012,289.45206 4.5894152,289.56323 4.2395353,289.56323 3.9493903,289.56323 3.6976133,289.46353 3.4984953,289.26299 3.3093312,289.06245 3.2085892,288.82347 3.2085892,288.53332 Z"
+       id="rect4679-7" />
+  </g>
+</svg>

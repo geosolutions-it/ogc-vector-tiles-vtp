@@ -1,0 +1,406 @@
+* {
+    font-family: @font-family-base;
+}
+
+.mapstorestyle, #map-viewer-container, #container, .fill, .fill > div {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    margin: 0;
+    background-color: darken(@ms2-color-background, 10%);
+}
+
+.holygrail {
+    & > .ms2-border-layout-body {
+        & > .ms2-border-layout-content {
+            background-color: darken(@ms2-color-background, 10%);
+            position: relative;
+        }
+    }
+}
+
+#container {
+    .background-plugin-position {
+        margin-bottom: 0;
+        bottom: 40px;
+    }
+    .mapToolbar {
+        .shadow-far;
+        margin-bottom: 0;
+        bottom: 40px;
+    }
+
+    .loader-container {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        & > div:first-child {
+            width: 150px !important;
+            height: 150px !important;
+            padding: 0 !important;
+            margin: auto;
+            .mapstore-full-size-loader{
+                .mapstore-circle-loader(12px, 100%, @ms2-color-text);
+            }
+        }
+    }
+
+    .empty-state-container {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        font-size: @font-size-small;
+        h1 {
+            font-size: @font-size-base;
+            margin-bottom: 0;
+        }
+        * {
+            text-align: center;
+        }
+        .empty-state-main-view {
+            margin: auto;
+            .empty-state-image {
+                margin: 0;
+                margin: auto;
+                width: 70px;
+                height: 70px;
+                
+                .glyphicon  {
+                    font-size: 70px !important; 
+                }
+            }
+        }
+    }
+}
+
+#map {
+    position: relative;
+    background-color: darken(@ms2-color-background, 5%);
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    margin: 0;
+    .ol-scale-line.ol-unselectable {
+        border-radius: 0;
+        background-color: fade(@ms2-color-background, 50%);
+        left: 5px;
+        .ol-scale-line-inner {
+            border-color:  @ms2-color-text;
+            color: @ms2-color-text;
+        }
+    }
+    .ol-attribution:not(.ol-collapsed) {
+        border-radius: 0;
+        background-color: transparent;
+        bottom: 8px;
+        right: 5px;
+        height: unset;
+        line-height: unset;
+        padding: 0;
+        > *:not(button) {
+            margin-bottom: 0;
+            
+            background-color: fade(@ms2-color-background, 50%);
+            font-size: @font-size-small * 0.8;
+            display: block;
+        }
+        a {
+            color: @ms2-color-primary;
+            font-weight: bold;
+            text-decoration: none;
+            &:hover {
+                color: darken(@ms2-color-primary, 10%);
+            }
+        }
+        ul {
+            
+            li {
+                padding: 4px;
+                display: block;
+            }
+        }
+    }
+}
+
+.square-button {
+    padding: @padding-left-square - 2;
+}
+
+.btn.active {
+    .shadow-soft-inset;
+}
+
+.btn:focus,
+.btn:active:focus,
+.btn.active:focus,
+.btn.focus,
+.btn:active.focus,
+.btn.active.focus {
+    outline: 10px auto @ms2-color-success !important;
+}
+
+.msSideGrid {
+    margin: 0;
+    width: 100%;
+    padding: 0 8px;
+    position: absolute;
+    box-sizing: border-box;
+    padding-bottom: 8px;
+    .mapstore-side-card {
+        transform: unset;
+        &:hover {
+            transform: unset;
+        }
+    }
+    .items-list {
+        box-sizing: border-box;
+        position: relative;
+        width: 100%;
+        margin: 0;
+        & > .col-xs-12 {
+            padding: 0;
+        }
+    }
+}
+
+.mapstore-filter {
+    margin: 0;
+    input {
+        font-size: @font-size-small;
+    }
+    
+    .input-group {
+        height: 32px;
+        width: 100%;
+        .input-group-addon {
+            position: absolute;
+            z-index: 2;
+            right: 0;
+            border-color: transparent;
+            background-color: transparent;
+            .glyphicon {
+                color: @ms2-color-text;
+            }
+        }
+    }
+}
+
+.label  {
+    border-radius: 0;
+    + .label {
+        margin-left: 2px;
+    }
+}
+
+.ms-underline.btn {
+    border: none;
+    border-bottom: 1px solid @ms2-color-text;
+    padding: 0 2px;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: @ms2-color-text;
+}
+
+.ms2-border-layout-content {
+    position: relative;
+    overflow-y: auto;
+}
+
+.ms-resizable-modal {
+    color: @ms2-color-text;
+    .modal-content {
+        max-height: 70%;
+        height: unset;
+        .modal-body {
+            padding: 12px;
+            .alert, .form-group {
+                margin-bottom: 0;
+            }
+        }
+    }
+}
+
+.ms-toc-container {
+    border-right: 1px solid @ms2-color-shade-lighter;
+}
+
+.ms-style-editor-container {
+    font-size: @font-size-small;
+    overflow-x: hidden;
+    .mapstore-side-card-info {
+        * {
+            font-size: @font-size-small !important;
+            line-height: @font-size-small * 1.3 !important;
+            overflow: unset !important;
+        }
+        
+    }
+    .btn.close {
+        color: @ms2-color-background;
+    }
+    .ms2-border-layout-content {
+        overflow-x: hidden;
+    }
+}
+
+/*
+
+    Name:       Base16 Default Light
+    Author:     Chris Kempson (http://chriskempson.com)
+
+    CodeMirror template by Jan T. Sott (https://github.com/idleberg/base16-codemirror)
+    Original Base16 color scheme by Chris Kempson (https://github.com/chriskempson/base16)
+
+*/
+
+/* neo theme for codemirror */
+
+/* Color scheme */
+
+.cm-s-neo.CodeMirror {
+    background-color:#ffffff;
+    color:#2e383c;
+    line-height:1.4375;
+  }
+  .cm-s-neo .cm-comment { color:#75787b; }
+  .cm-s-neo .cm-keyword, .cm-s-neo .cm-property { color:#1d75b3; }
+  .cm-s-neo .cm-atom,.cm-s-neo .cm-number { color:#75438a; }
+  .cm-s-neo .cm-node,.cm-s-neo .cm-tag { color:#9c3328; }
+  .cm-s-neo .cm-string { color:#b35e14; }
+  .cm-s-neo .cm-variable,.cm-s-neo .cm-qualifier { color:#047d65; }
+  
+  
+  /* Editor styling */
+  
+  .cm-s-neo pre {
+    padding:0;
+  }
+  
+  .cm-s-neo .CodeMirror-gutters {
+    border:none;
+    border-right:10px solid transparent;
+    background-color:transparent;
+  }
+  
+  .cm-s-neo .CodeMirror-linenumber {
+    padding:0;
+    color:#e0e2e5;
+  }
+  
+  .cm-s-neo .CodeMirror-guttermarker { color: #1d75b3; }
+  .cm-s-neo .CodeMirror-guttermarker-subtle { color: #e0e2e5; }
+  
+  .cm-s-neo .CodeMirror-cursor {
+    width: auto;
+    border: 0;
+    background: rgba(155,157,162,0.37);
+    z-index: 1;
+  }
+
+  .cm-s-neo span.cm-error {
+    color: #ff917d;
+    text-decoration: underline wavy;
+    text-decoration-color: #dd2200;
+}
+  
+.ms-style-editor {
+    border-left: 1px solid @ms2-color-shade-lighter !important;
+    .ms-style-editor-inline-widget {
+        border: 1px solid @ms2-color-text;
+        display: inline-block;
+    margin-top: -24px;
+    margin-left: 0;
+    width: 10px;
+    height: 10px;
+    z-index: 10;
+      }
+}
+  .ms-style-editor-head {
+      background-color: @ms2-color-background !important;
+      border-color: @ms2-color-shade-lighter !important;
+      display: none !important;
+  }
+  
+  .react-resizable-handle {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    bottom: 0;
+    right: 0;
+    background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2IDYiIHN0eWxlPSJiYWNrZ3JvdW5kLWNvbG9yOiNmZmZmZmYwMCIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSI2cHgiIGhlaWdodD0iNnB4Ij48ZyBvcGFjaXR5PSIwLjMwMiI+PHBhdGggZD0iTSA2IDYgTCAwIDYgTCAwIDQuMiBMIDQgNC4yIEwgNC4yIDQuMiBMIDQuMiAwIEwgNiAwIEwgNiA2IEwgNiA2IFoiIGZpbGw9IiMwMDAwMDAiLz48L2c+PC9zdmc+');
+    background-position: bottom right;
+    padding: 0 3px 3px 0;
+    background-repeat: no-repeat;
+    background-origin: content-box;
+    box-sizing: border-box;
+    cursor: se-resize;
+}
+
+.mst-identify-feature-body  {
+    & + .mst-identify-feature-body  {
+        border-top: 1px solid @ms2-color-shade-lighter;
+    }
+    .mst-identify-feature-head {
+        overflow: hidden;
+        &:hover {
+            background-color: @ms2-color-shade-lighter;
+        }
+        
+        display: flex;
+        margin: 4px;
+        padding: 4px;
+        .mst-identify-feature-body-info {
+            flex: 1;
+            font-size: @font-size-small;
+            margin-left: 4px;
+        }
+    }
+    .mst-identify-feature-list {
+        margin: 4px;
+        overflow: hidden;
+        .mst-identify-feature-item {
+            display: flex;
+            div {
+                font-size: @font-size-small;
+                flex: 1;
+                &:first-child {
+                    font-weight: bold;
+                   
+                }
+                &:last-child {
+                    text-align: right;
+                   
+                }
+            }
+        }
+    }
+    &.expanded {
+        .mst-identify-feature-head {
+            border-bottom: 1px solid @ms2-color-shade-lighter;
+        }
+        .mst-identify-feature-list {
+            margin: 4px;
+            .mst-identify-feature-item {
+                display: flex;
+                div {
+                    font-size: @font-size-small;
+                }
+            }
+        }
+    }
+}
+
+.mst-identify {
+    .mapstore-side-card-title {
+        text-align: center;
+    }
+    .mapstore-side-card-desc {
+        border-bottom: none !important;
+    }
+}
+

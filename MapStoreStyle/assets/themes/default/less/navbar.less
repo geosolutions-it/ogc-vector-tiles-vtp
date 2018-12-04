@@ -1,0 +1,54 @@
+.mst-brand-navbar {
+    position: relative;
+    background-color: lighten(@ms2-color-background, 5%);
+    color: @ms2-color-text;
+    height: @square-btn-size;
+    z-index: 2000;
+    display: flex;
+    padding: 4px;
+    box-sizing: border-box;
+    * {
+        box-sizing: border-box;
+    }
+    .shadow;
+    .mst-brand-navbar-left {
+        flex: 1;
+        height: 100%;
+        align-items: center;
+        display: flex;
+        .mst-brand-logo {
+            position: relative;
+            height: 100%;
+            & + .mst-brand-logo {
+                margin-left: 8px;
+                border-left: 1px solid @ms2-color-shade-lighter;
+                padding-left: 8px;
+            }
+            img {
+                height: 100%;
+                width: auto;
+                & + img {
+                    margin-left: 8px;
+                }
+            }
+        }
+    }
+    .mst-brand-navbar-right {
+        flex: 1;
+        height: 100%;
+        align-items: center;
+        display: flex;
+        flex-direction: row-reverse;
+        > * {
+            position: relative;
+        }
+        .mst-brand-logo {
+            position: relative;
+            height: 100%;
+            img {
+                height: 100%;
+                width: auto;
+            }
+        }
+    }
+}
