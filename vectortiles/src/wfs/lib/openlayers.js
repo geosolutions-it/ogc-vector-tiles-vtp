@@ -31,11 +31,11 @@ const axios = require('axios');
 require('ol/ol.css');
 
 const defaultStyle = (colors) => (feature) => {
-
     const opacity = 1.0;
-    const { layer = '' } = feature.getProperties();
-    const lowerLayer = layer.toLowerCase();
+    const { layer = '', gmlid = '' } = feature.getProperties();
 
+    const lowerLayer = layer.toLowerCase() || gmlid && gmlid.toLocaleLowerCase() || '';
+    
     if (lowerLayer.indexOf('AgricultureSrf'.toLocaleLowerCase()) !== -1
     || lowerLayer.indexOf('agriculture_srf'.toLocaleLowerCase()) !== -1) {
         return new Style({
@@ -94,7 +94,8 @@ const defaultStyle = (colors) => (feature) => {
         });
     }
     if (lowerLayer.indexOf('TransportationGroundCrv'.toLocaleLowerCase()) !== -1
-    || lowerLayer.indexOf('transportation_ground_crv'.toLocaleLowerCase()) !== -1) {
+    || lowerLayer.indexOf('transportation_ground_crv'.toLocaleLowerCase()) !== -1
+    || lowerLayer.indexOf('transgroundcrv'.toLocaleLowerCase()) !== -1) {
         return new Style({
             stroke: new Stroke({
                 color: colors[7],
@@ -236,9 +237,13 @@ const openlayersMap = (target, maps, { urls, center, zoom, epsg = 'EPSG:3857', p
         GoogleMapsCompatible: {
             tileMatrix: GoogleMapsCompatible,
             epsg: 'EPSG:3857'
+        },
+        smerc: {
+            tileMatrix: GoogleMapsCompatible,
+            epsg: 'EPSG:3857'
         }
     };
-
+    
     const tileGrid = projections[epsg] && projections[epsg].tileMatrix || GoogleMapsCompatible;
     const projection = projections[epsg] && projections[epsg].epsg || 'EPSG:3857';
 
@@ -262,7 +267,7 @@ const openlayersMap = (target, maps, { urls, center, zoom, epsg = 'EPSG:3857', p
                     const vectorSource = new VectorSource({
                         features: (new GeoJSON()).readFeatures(data)
                     });
-            
+
                     const vectorLayer = new VectorLayer({
                         source: vectorSource,
                         style: defaultStyle(startColors)
@@ -277,7 +282,6 @@ const openlayersMap = (target, maps, { urls, center, zoom, epsg = 'EPSG:3857', p
             const source = new VectorTile({
                 tilePixelRatio: 1,
                 tileGrid,
-                declutter: true,
                 format: new MVT(),
                 url
             });

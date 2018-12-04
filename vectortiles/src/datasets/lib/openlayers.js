@@ -79,9 +79,11 @@ const openlayersMap = ({ target, center, zoom, url, buttons, layersName, minZoom
                         format: 'application/vnd.mapbox-vector-tile'
                     })
                 );
+
+                
                 const source = new VectorTile({
                     format: new MVT(),
-                    url: `${url}/${workspace}/gwc/service/wmts?layer=${layer}&style=&tilematrixset=EPSG:${epsg}&Service=WMTS&Request=GetTile&Version=1.0.0&Format=application/vnd.mapbox-vector-tile&TileMatrix=EPSG:${epsg}:{z}&TileCol={x}&TileRow={y}`,
+                    url: `${url}/gwc/rest/wmts/${workspace}:${layer}/generic/EPSG:${epsg}/EPSG:${epsg}:{z}/{y}/{x}?format=application/vnd.mapbox-vector-tile`,
                     tileGrid: wmts.getTileGrid()
                 });
                 return {
@@ -89,7 +91,6 @@ const openlayersMap = ({ target, center, zoom, url, buttons, layersName, minZoom
                     color
                 };
             });
-
 
             const layer = sources.map(({ source, color }) =>
                 new LayerVectorTile({

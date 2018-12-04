@@ -45,7 +45,14 @@ axios.get('./datasetConfig.json')
             minZoom
         });
 
-        const requests = [];
+        const requests = [
+            {
+                url: '/geoserver/gwc/rest/wmts/',
+                comment: 'WMTS Rest Tile Request',
+                path: ['{workspace}:{layer}', '{style}', '{TileMatrixSet}', '{TileMatrix}', '{y}', '{x}'],
+                params: {}
+            }
+        ];
 
         const snippet = requests.map(req => {
             const params = req.params && Object.keys(req.params).map((key) => `<b>${key}</b>=<i>${req.params[key]}</i>`) || '';

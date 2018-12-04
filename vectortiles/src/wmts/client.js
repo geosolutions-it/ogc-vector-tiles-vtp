@@ -49,7 +49,7 @@ const requests = [
             Service: 'WMTS',
             Request: 'GetTile',
             Version: '1.0.0',
-            Format: 'application/x-protobuf;type=mapbox-vector',
+            Format: 'application/vnd.mapbox-vector-tile',
             Layer: 'sourceName',
             TilematrixSet: 'EPSG:900193',
             TileMatrix: 'EPSG:900193:{z}',
