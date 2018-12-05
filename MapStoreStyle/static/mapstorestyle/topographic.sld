@@ -933,6 +933,7 @@
                 <CssParameter name="fill">#ffffff</CssParameter>
                 <CssParameter name="fill-opacity">1.0</CssParameter>
               </Fill>
+              <Radius>2</Radius>
             </Halo>
             <VendorOption name="followLine">true</VendorOption>
           </TextSymbolizer>
@@ -1046,6 +1047,7 @@
                 <CssParameter name="fill">#ffffff</CssParameter>
                 <CssParameter name="fill-opacity">1.0</CssParameter>
               </Fill>
+              <Radius>2</Radius>
             </Halo>
           </TextSymbolizer>
         </Rule>
@@ -1095,6 +1097,7 @@
               <Fill>
                 <CssParameter name="fill">#ffffff</CssParameter>
               </Fill>
+              <Radius>2</Radius>
             </Halo>
           </TextSymbolizer>
         </Rule>
