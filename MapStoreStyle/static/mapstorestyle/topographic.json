@@ -482,6 +482,7 @@
             },
             "paint": {
                 "text-halo-color": "#ffffff",
+                "text-halo-width": 2,
                 "text-color": "#000000"
             },
             "id": "a401d4f0-f86c-11e8-9538-773c66989985",
@@ -556,6 +557,7 @@
             "paint": {
                 "icon-opacity": 1,
                 "text-halo-color": "#ffffff",
+                "text-halo-width": 2,
                 "text-color": "#000000"
             },
             "id": "a401d4f3-f86c-11e8-9538-773c66989985",
@@ -580,6 +582,7 @@
             "paint": {
                 "icon-opacity": 1,
                 "text-halo-color": "#ffffff",
+                "text-halo-width": 2,
                 "text-color": "#000000"
             },
             "id": "a401d4f4-f86c-11e8-9538-773c66989985",
