@@ -6,7 +6,7 @@
             "type": "vector"
         }
     },
-    "sprite": "/static/mapstorestyle/sprites/sprites",
+    "sprite": "http://vtp2018.s3-eu-west-1.amazonaws.com/static/mapstorestyle/sprites/sprites",
     "layers": [
         {
             "type": "fill",
