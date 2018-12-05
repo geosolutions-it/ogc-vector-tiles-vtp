@@ -14,7 +14,9 @@
             "layout": {},
             "paint": {
                 "fill-color": "#7ac5a5"
-            }
+            },
+            "id": "a401d4e0-f86c-11e8-9538-773c66989985",
+            "source": "vtp:daraa_vtp"
         },
         {
             "type": "fill",
@@ -22,7 +24,9 @@
             "layout": {},
             "paint": {
                 "fill-color": "#C2E4B9"
-            }
+            },
+            "id": "a401d4e1-f86c-11e8-9538-773c66989985",
+            "source": "vtp:daraa_vtp"
         },
         {
             "type": "line",
@@ -31,7 +35,9 @@
             "paint": {
                 "line-color": "#000000",
                 "line-width": 2
-            }
+            },
+            "id": "a401d4e2-f86c-11e8-9538-773c66989985",
+            "source": "vtp:daraa_vtp"
         },
         {
             "type": "fill",
@@ -39,7 +45,9 @@
             "layout": {},
             "paint": {
                 "fill-color": "#E8C3B2"
-            }
+            },
+            "id": "a401d4e3-f86c-11e8-9538-773c66989985",
+            "source": "vtp:daraa_vtp"
         },
         {
             "type": "fill",
@@ -48,7 +56,9 @@
             "paint": {
                 "fill-color": "#f3602f",
                 "fill-opacity": 0.5
-            }
+            },
+            "id": "a401d4e4-f86c-11e8-9538-773c66989985",
+            "source": "vtp:daraa_vtp"
         },
         {
             "type": "fill",
@@ -57,7 +67,9 @@
             "paint": {
                 "fill-color": "#ab92d2",
                 "fill-opacity": 0.5
-            }
+            },
+            "id": "a401d4e5-f86c-11e8-9538-773c66989985",
+            "source": "vtp:daraa_vtp"
         },
         {
             "type": "line",
@@ -65,7 +77,10 @@
             "filter": [
                 "==",
                 "BH140",
-                ["get", "F_CODE"]
+                [
+                    "get",
+                    "F_CODE"
+                ]
             ],
             "layout": {},
             "paint": {
@@ -81,7 +96,9 @@
                     13,
                     4
                 ]
-            }
+            },
+            "id": "a401d4e6-f86c-11e8-9538-773c66989985",
+            "source": "vtp:daraa_vtp"
         },
         {
             "type": "fill",
@@ -89,13 +106,18 @@
             "filter": [
                 "==",
                 "BH082",
-                ["get", "F_CODE"]
+                [
+                    "get",
+                    "F_CODE"
+                ]
             ],
             "layout": {},
             "paint": {
                 "fill-color": "#B0E1ED",
                 "fill-outline-color": "#00A0C6"
-            }
+            },
+            "id": "a401d4e7-f86c-11e8-9538-773c66989985",
+            "source": "vtp:daraa_vtp"
         },
         {
             "type": "line",
@@ -105,12 +127,18 @@
                 [
                     "==",
                     "AQ040",
-                    ["get", "F_CODE"]
+                    [
+                        "get",
+                        "F_CODE"
+                    ]
                 ],
                 [
                     "==",
                     13,
-                    ["get", "TRS"]
+                    [
+                        "get",
+                        "TRS"
+                    ]
                 ]
             ],
             "layout": {
@@ -129,7 +157,9 @@
                     13,
                     20
                 ]
-            }
+            },
+            "id": "a401d4e8-f86c-11e8-9538-773c66989985",
+            "source": "vtp:daraa_vtp"
         },
         {
             "type": "line",
@@ -139,12 +169,18 @@
                 [
                     "==",
                     "AQ040",
-                    ["get", "F_CODE"]
+                    [
+                        "get",
+                        "F_CODE"
+                    ]
                 ],
                 [
                     "==",
                     13,
-                    ["get", "TRS"]
+                    [
+                        "get",
+                        "TRS"
+                    ]
                 ]
             ],
             "layout": {
@@ -163,7 +199,9 @@
                     13,
                     14
                 ]
-            }
+            },
+            "id": "a401d4e9-f86c-11e8-9538-773c66989985",
+            "source": "vtp:daraa_vtp"
         },
         {
             "type": "line",
@@ -173,12 +211,18 @@
                 [
                     "==",
                     "AP030",
-                    ["get", "F_CODE"]
+                    [
+                        "get",
+                        "F_CODE"
+                    ]
                 ],
                 [
                     "==",
                     3,
-                    ["get", "RIN_ROI"]
+                    [
+                        "get",
+                        "RIN_ROI"
+                    ]
                 ]
             ],
             "layout": {
@@ -198,7 +242,9 @@
                     13,
                     12
                 ]
-            }
+            },
+            "id": "a401d4ea-f86c-11e8-9538-773c66989985",
+            "source": "vtp:daraa_vtp"
         },
         {
             "type": "line",
@@ -208,12 +254,18 @@
                 [
                     "==",
                     "AP030",
-                    ["get", "F_CODE"]
+                    [
+                        "get",
+                        "F_CODE"
+                    ]
                 ],
                 [
                     "==",
                     4,
-                    ["get", "RIN_ROI"]
+                    [
+                        "get",
+                        "RIN_ROI"
+                    ]
                 ]
             ],
             "layout": {
@@ -233,7 +285,9 @@
                     13,
                     12
                 ]
-            }
+            },
+            "id": "a401d4eb-f86c-11e8-9538-773c66989985",
+            "source": "vtp:daraa_vtp"
         },
         {
             "type": "line",
@@ -243,12 +297,18 @@
                 [
                     "==",
                     "AP030",
-                    ["get", "F_CODE"]
+                    [
+                        "get",
+                        "F_CODE"
+                    ]
                 ],
                 [
                     "==",
                     5,
-                    ["get", "RIN_ROI"]
+                    [
+                        "get",
+                        "RIN_ROI"
+                    ]
                 ]
             ],
             "layout": {
@@ -268,7 +328,9 @@
                     13,
                     9
                 ]
-            }
+            },
+            "id": "a401d4ec-f86c-11e8-9538-773c66989985",
+            "source": "vtp:daraa_vtp"
         },
         {
             "type": "line",
@@ -278,12 +340,18 @@
                 [
                     "==",
                     "AP030",
-                    ["get", "F_CODE"]
+                    [
+                        "get",
+                        "F_CODE"
+                    ]
                 ],
                 [
                     "==",
                     5,
-                    ["get", "RIN_ROI"]
+                    [
+                        "get",
+                        "RIN_ROI"
+                    ]
                 ]
             ],
             "layout": {
@@ -303,7 +371,9 @@
                     13,
                     6
                 ]
-            }
+            },
+            "id": "a401d4ed-f86c-11e8-9538-773c66989985",
+            "source": "vtp:daraa_vtp"
         },
         {
             "type": "line",
@@ -313,12 +383,18 @@
                 [
                     "==",
                     "AP030",
-                    ["get", "F_CODE"]
+                    [
+                        "get",
+                        "F_CODE"
+                    ]
                 ],
                 [
                     "==",
                     4,
-                    ["get", "RIN_ROI"]
+                    [
+                        "get",
+                        "RIN_ROI"
+                    ]
                 ]
             ],
             "layout": {
@@ -338,7 +414,9 @@
                     13,
                     8
                 ]
-            }
+            },
+            "id": "a401d4ee-f86c-11e8-9538-773c66989985",
+            "source": "vtp:daraa_vtp"
         },
         {
             "type": "line",
@@ -348,12 +426,18 @@
                 [
                     "==",
                     "AP030",
-                    ["get", "F_CODE"]
+                    [
+                        "get",
+                        "F_CODE"
+                    ]
                 ],
                 [
                     "==",
                     3,
-                    ["get", "RIN_ROI"]
+                    [
+                        "get",
+                        "RIN_ROI"
+                    ]
                 ]
             ],
             "layout": {
@@ -373,7 +457,9 @@
                     13,
                     8
                 ]
-            }
+            },
+            "id": "a401d4ef-f86c-11e8-9538-773c66989985",
+            "source": "vtp:daraa_vtp"
         },
         {
             "type": "symbol",
@@ -381,12 +467,14 @@
             "filter": [
                 "!=",
                 "No Information",
-                ["get", "ZI005_FNA"]
+                [
+                    "get",
+                    "ZI005_FNA"
+                ]
             ],
             "layout": {
                 "text-field": "{ZI005_FNA}",
                 "text-size": 10,
-                "text-halo-width": 0.2,
                 "text-font": [
                     "Arial Bold"
                 ],
@@ -395,7 +483,9 @@
             "paint": {
                 "text-halo-color": "#ffffff",
                 "text-color": "#000000"
-            }
+            },
+            "id": "a401d4f0-f86c-11e8-9538-773c66989985",
+            "source": "vtp:daraa_vtp"
         },
         {
             "type": "line",
@@ -403,7 +493,10 @@
             "filter": [
                 "==",
                 "AT005",
-                ["get", "F_CODE"]
+                [
+                    "get",
+                    "F_CODE"
+                ]
             ],
             "layout": {},
             "paint": {
@@ -419,7 +512,9 @@
                     13,
                     4
                 ]
-            }
+            },
+            "id": "a401d4f1-f86c-11e8-9538-773c66989985",
+            "source": "vtp:daraa_vtp"
         },
         {
             "type": "symbol",
@@ -430,7 +525,9 @@
             },
             "paint": {
                 "icon-opacity": 1
-            }
+            },
+            "id": "a401d4f2-f86c-11e8-9538-773c66989985",
+            "source": "vtp:daraa_vtp"
         },
         {
             "type": "symbol",
@@ -438,7 +535,10 @@
             "filter": [
                 "!=",
                 "No Information",
-                ["get", "ZI005_FNA"]
+                [
+                    "get",
+                    "ZI005_FNA"
+                ]
             ],
             "layout": {
                 "icon-image": "square_b",
@@ -449,7 +549,6 @@
                     0,
                     1.5
                 ],
-                "text-halo-width": 0.2,
                 "text-font": [
                     "Arial Bold"
                 ]
@@ -458,7 +557,9 @@
                 "icon-opacity": 1,
                 "text-halo-color": "#ffffff",
                 "text-color": "#000000"
-            }
+            },
+            "id": "a401d4f3-f86c-11e8-9538-773c66989985",
+            "source": "vtp:daraa_vtp"
         },
         {
             "type": "symbol",
@@ -472,7 +573,6 @@
                     0,
                     1.5
                 ],
-                "text-halo-width": 0.2,
                 "text-font": [
                     "Arial Bold"
                 ]
@@ -481,7 +581,9 @@
                 "icon-opacity": 1,
                 "text-halo-color": "#ffffff",
                 "text-color": "#000000"
-            }
+            },
+            "id": "a401d4f4-f86c-11e8-9538-773c66989985",
+            "source": "vtp:daraa_vtp"
         },
         {
             "type": "symbol",
@@ -492,7 +594,9 @@
             },
             "paint": {
                 "icon-opacity": 1
-            }
+            },
+            "id": "a401d4f5-f86c-11e8-9538-773c66989985",
+            "source": "vtp:daraa_vtp"
         }
     ]
 }
