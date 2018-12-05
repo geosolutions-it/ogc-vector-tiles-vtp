@@ -44,7 +44,7 @@
             },
             {
                 "format": "application/vnd.mapbox-vector-tile",
-                "group": "Vetor Tiles",
+                "group": "Vector Tiles",
                 "id": "syria_vtp:syria_vtp",
                 "name": "syria_vtp:syria_vtp",
                 "title": "Syria",
@@ -76,7 +76,7 @@
             },
             {
                 "format": "application/vnd.mapbox-vector-tile",
-                "group": "Vetor Tiles",
+                "group": "Vector Tiles",
                 "id": "vtp:daraa_vtp",
                 "name": "vtp:daraa_vtp",
                 "title": "Daraa",
