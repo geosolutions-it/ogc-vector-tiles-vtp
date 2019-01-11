@@ -10,3 +10,4 @@ web/.project
 backend/.classpath
 backend/.project
 www/
+static/mapstorestyle/ol.*

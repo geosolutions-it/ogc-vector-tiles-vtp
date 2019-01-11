@@ -11,13 +11,15 @@ const assign = require('object-assign');
 const {isArray, castArray, isNil, head} = require('lodash');
 const {MAP_CONFIG_LOADED} = require('../../MapStore2/web/client/actions/config');
 const {setControlProperty} = require('../../MapStore2/web/client/actions/controls');
-const {updateNode, selectNode, UPDATE_SETTINGS_PARAMS, changeLayerProperties} = require('../../MapStore2/web/client/actions/layers');
+const {updateNode, selectNode, UPDATE_SETTINGS_PARAMS, changeLayerProperties, UPDATE_NODE, SELECT_NODE} = require('../../MapStore2/web/client/actions/layers');
 const {loadedStyle, loadingStyle} = require('../../MapStore2/web/client/actions/styleeditor');
-
+const { getLayerCapabilities } = require('../../MapStore2/web/client/observables/wms');
 const {layersSelector} = require('../../MapStore2/web/client/selectors/layers');
 const {getUpdatedLayer} = require('../../MapStore2/web/client/selectors/styleeditor');
 const uuidv1 = require('uuid/v1');
 const url = require('url');
+const { getStylesInfo } = require('../../MapStore2/web/client/api/geoserver/Styles');
+const { getStyle } = require('../../MapStore2/web/client/utils/VectorTileUtils');
 
 const makeValidMBStyle = (mbsStyle = {}, layer = {}) => {
     const name = layer.name;
@@ -93,6 +95,34 @@ const initVectorStyles = (action$, store) =>
                 .startWith(loadingStyle(status));
         });
 
+const initWMSStyles = (action$, store) =>
+    action$.ofType(MAP_CONFIG_LOADED)
+        .switchMap(() => {
+            const layers = [...layersSelector(store.getState()).filter(({ group }) => group === 'WMS')];
+            return Rx.Observable.forkJoin(
+                    layers.map(layer =>
+                        getLayerCapabilities(layer)
+                        .switchMap(capabilities => {
+                            const { protocol, hostname } = url.parse(layer.url);
+                            return Rx.Observable.defer(() => getStylesInfo({
+                                baseUrl: `${protocol}//${hostname}/geoserver/`,
+                                styles: [...capabilities.style]
+                            }))
+                            .map((availableStyles) => {
+                                return {...layer, availableStyles};
+                            });
+                        })
+                    )
+                )
+                .switchMap((newLayers) => {
+                    return Rx.Observable.concat(
+                        Rx.Observable.from(newLayers).mergeMap((layer) => Rx.Observable.of(updateNode(layer.id, 'layer', layer))),
+                        Rx.Observable.of(loadedStyle())
+                    );
+                })
+                .startWith(loadingStyle(status));
+        });
+
 const updateMapBgColor = (action$, store) =>
     action$.ofType(UPDATE_SETTINGS_PARAMS)
         .filter(({newParams}) => newParams && !isNil(newParams.style))
@@ -104,7 +134,33 @@ const updateMapBgColor = (action$, store) =>
                 changeLayerProperties(currentStyle.backgroundLayer || 'none', {visibility: true})
             );
         });
+
+const vtUpdateCode = (action$, store) =>
+    action$.ofType(UPDATE_SETTINGS_PARAMS, UPDATE_NODE, SELECT_NODE)
+        .filter(() => {
+            const updateLayer = getUpdatedLayer(store.getState());
+            return updateLayer.type === 'wms';
+        })
+        .filter(({newParams, type, options}) => newParams && !isNil(newParams.style)
+        || type === UPDATE_NODE && options && !isNil(options.format)
+        || type === SELECT_NODE)
+        .switchMap(({newParams}) => {
+            const updateLayer = getUpdatedLayer(store.getState());
+            const layer = newParams
+                ? {...getUpdatedLayer(store.getState()), style: newParams.style}
+                : updateLayer;
+            return Rx.Observable.of(setControlProperty('editor', 'style', null))
+                .concat(
+                    Rx.Observable.defer(() => new Promise((resolve) => getStyle(layer, (code) => resolve(code))))
+                    .switchMap((code) => {
+                        return Rx.Observable.of(setControlProperty('editor', 'style', code));
+                    })
+                );
+        });
+
 module.exports = {
     initVectorStyles,
-    updateMapBgColor
+    updateMapBgColor,
+    initWMSStyles,
+    vtUpdateCode
 };

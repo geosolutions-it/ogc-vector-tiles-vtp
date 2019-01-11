@@ -43,40 +43,74 @@
                 "attribution": "<a  href=\"https://s2maps.eu\">Sentinel-2 cloudless - https://s2maps.eu</a> by <a class=\"a-light\" xmlns:cc=\"http://creativecommons.org/ns#\" href=\"https://eox.at\" property=\"cc:attributionName\" rel=\"cc:attributionURL\">EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data 2016 &amp; 2017)"
             },
             {
-                "format": "application/vnd.mapbox-vector-tile",
-                "group": "Vector Tiles",
-                "id": "syria_vtp:syria_vtp",
-                "name": "syria_vtp:syria_vtp",
-                "title": "Syria",
+                "id": "vtp:AgricultureSrf",
+                "name": "vtp:AgricultureSrf",
+                "format": "image/png",
+                "group": "WMS",
+                "title": "Agriculture",
                 "opacity": 1,
-                "type": "vectortile",
-                "service": "tms",
-                "url": "http://maps.geo-solutions.it/geoserver/gwc/service/wmts",
-                "visibility": false,
-                "bbox": {
-                    "crs": "EPSG:4326",
-                    "bounds": {
-                        "minx": 35.9028738,
-                        "miny": 32.4168138,
-                        "maxx": 36.5747694,
-                        "maxy": 33.1424348
-                    }
-                },
-                "availableStyles": [
-                    {
-                        "name": "base",
-                        "format": "sld",
-                        "title": "Base",
-                        "_abstract": "",
-                        "filename": "base.sld",
-                        "href": "/static/mapstorestyle/base.sld"
-                    }
-                ],
-                "style": "base"
+                "type": "wms",
+                "url": "https://maps.geo-solutions.it/geoserver/wms",
+                "visibility": false
+            },
+            {
+                "id": "vtp:VegetationSrf",
+                "name": "vtp:VegetationSrf",
+                "format": "image/png",
+                "group": "WMS",
+                "title": "Vegetation",
+                "opacity": 1,
+                "type": "wms",
+                "url": "https://maps.geo-solutions.it/geoserver/wms",
+                "visibility": false
+            },
+            {
+                "id": "vtp:SettlementSrf",
+                "name": "vtp:SettlementSrf",
+                "format": "image/png",
+                "group": "WMS",
+                "title": "Settlement",
+                "opacity": 1,
+                "type": "wms",
+                "url": "https://maps.geo-solutions.it/geoserver/wms",
+                "visibility": false
+            },
+            {
+                "id": "vtp:MilitarySrf",
+                "name": "vtp:MilitarySrf",
+                "format": "image/png",
+                "group": "WMS",
+                "title": "Military",
+                "opacity": 1,
+                "type": "wms",
+                "url": "https://maps.geo-solutions.it/geoserver/wms",
+                "visibility": false
+            },
+            {
+                "id": "vtp:CultureSrf",
+                "name": "vtp:CultureSrf",
+                "format": "image/png",
+                "group": "WMS",
+                "title": "Culture",
+                "opacity": 1,
+                "type": "wms",
+                "url": "https://maps.geo-solutions.it/geoserver/wms",
+                "visibility": false
+            },
+            {
+                "id": "vtp:TransportationGroundCrv",
+                "name": "vtp:TransportationGroundCrv",
+                "format": "image/png",
+                "group": "WMS",
+                "title": "Transportation Ground",
+                "opacity": 1,
+                "type": "wms",
+                "url": "https://maps.geo-solutions.it/geoserver/wms",
+                "visibility": false
             },
             {
                 "format": "application/vnd.mapbox-vector-tile",
-                "group": "Vector Tiles",
+                "group": "WMTS",
                 "id": "vtp:daraa_vtp",
                 "name": "vtp:daraa_vtp",
                 "title": "Daraa",

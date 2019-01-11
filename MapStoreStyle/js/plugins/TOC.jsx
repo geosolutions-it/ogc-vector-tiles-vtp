@@ -12,22 +12,24 @@ const assign = require('object-assign');
 const {connect} = require('react-redux');
 const {createSelector} = require('reselect');
 const {compose, withState} = require('recompose');
-const {head, trim, startsWith} = require('lodash');
+const {head, trim, startsWith, get} = require('lodash');
 const {TOCPlugin, reducers, epics} = require('../../MapStore2/web/client/plugins/TOC');
 const {errorStyle, resetStyleEditor} = require('../../MapStore2/web/client/actions/styleeditor');
 const {getUpdatedLayer, getAllStyles, errorStyleSelector} = require('../../MapStore2/web/client/selectors/styleeditor');
 const {updateNode} = require('../../MapStore2/web/client/actions/layers');
-const Editor = require('../../MapStore2/web/client/components/styleeditor/Editor');
+
 const BorderLayout = require('../../MapStore2/web/client/components/layout/BorderLayout');
 const StyleList = require('../../MapStore2/web/client/components/styleeditor/StyleList');
 const emptyState = require('../../MapStore2/web/client/components/misc/enhancers/emptyState');
-
+const {updateStyle, getOriginalStyle} = require('../../MapStore2/web/client/utils/VectorTileUtils');
 const {updateSettingsParams} = require('../../MapStore2/web/client/actions/layers');
 const { SketchPicker } = require('react-color');
 const tinycolor = require('tinycolor2');
 const {
     Reader: sldReader
 } = require('@nieuwlandgeo/sldreader/src/index');
+const loadingState = require('../../MapStore2/web/client/components/misc/enhancers/loadingState');
+const Editor = loadingState(({ code }) => !code)(require('../../MapStore2/web/client/components/styleeditor/Editor'));
 
 const inlineWidgets = [
     {
@@ -93,6 +95,19 @@ const updateCode = {
         }
     }
 };
+const parseCode = (style = {}) => {
+    if (!style.code) return '';
+    if (style.format === 'mbstyle') {
+        return JSON.stringify(style.code, null, 4);
+    }
+    return style.code;
+};
+
+const comment = {
+    mbstyle: 'MapBox Style - edit mode (render client side)',
+    css: 'GeoCSS Style - read only mode (render as SLD client side)',
+    sld: 'SLD Style - edit mode (render client side)'
+};
 
 const VectorStyleEditor = compose(
     connect(
@@ -101,8 +116,9 @@ const VectorStyleEditor = compose(
                 getUpdatedLayer,
                 getAllStyles,
                 getStyleObj,
-                errorStyleSelector
-            ], (layer, { defaultStyle, enabledStyle, availableStyles }, {styleBody, format}, error) => ({
+                errorStyleSelector,
+                state => get(state, 'controls.editor.style')
+            ], (layer, { defaultStyle, enabledStyle, availableStyles }, {styleBody, format}, error, style) => ({
                 layer,
                 defaultStyle,
                 enabledStyle,
@@ -110,7 +126,8 @@ const VectorStyleEditor = compose(
                 mode: modes[format],
                 code: getCode[format] && getCode[format](styleBody) || styleBody,
                 format,
-                error: error.edit || null
+                error: error.edit || null,
+                vtStyle: style || {}
             })
         ),
         {
@@ -122,25 +139,53 @@ const VectorStyleEditor = compose(
     ),
     emptyState(({layer}) => !(layer && layer.name)),
     withState('filterText', 'onFilter', '')
-)((props) => (
-    <div style={{ display: 'flex', position: 'relative', height: '100%', width: 700, overflowX: 'hidden'}}>
-        <div style={{ width: LIST_WIDTH, overflowX: 'hidden'}}>
-            <StyleList {...props}/>
-        </div>
-        <div style={{ flex: 1, overflowX: 'hidden'}}>
-            <Editor
-                key={props.enabledStyle}
+)((props) => {
+    return (
+        <div style={{ display: 'flex', position: 'relative', height: '100%', width:
+        props.layer && (props.layer.type === 'vectortile' || props.layer.type === 'wms' && props.layer.format !== 'image/png') ? 700 : 256, overflowX: 'hidden'}}>
+            <div style={{ width: LIST_WIDTH, overflowX: 'hidden'}}>
+                <StyleList {...props}/>
+            </div>
+            {props.layer && props.layer.type === 'vectortile' && <div style={{ flex: 1, overflowX: 'hidden'}}>
+                <Editor
+                    key={props.enabledStyle}
+                    inlineWidgets={inlineWidgets}
+                    theme="neo"
+                    {...props}
+                    waitTime={0}
+                    onChange={(code) => {
+                        if (updateCode[props.format]) return updateCode[props.format](code, props);
+                        return null;
+                    }}/>
+            </div>}
+            {props.layer && props.layer.type === 'wms' && props.layer.format !== 'image/png' &&
+            <div style={{ flex: 1, overflowX: 'hidden', display: 'flex', flexDirection: 'column', position: 'relative', borderLeft: '1px solid #ddd'}}>
+                <div style={{ textAlign: 'center', padding: 12, borderBottom: '1px solid #ddd'}}>
+                    {comment[props.vtStyle.format] || 'Loading...'}
+                </div>
+                <div style={{ flex: 1, overflowX: 'hidden', position: 'relative'}}>
+                <Editor
+                key={`${props.enabledStyle}:${props.layer && props.layer.id || ''}`}
                 inlineWidgets={inlineWidgets}
                 theme="neo"
-                {...props}
+                readOnly={props.vtStyle.format === 'css'}
+                mode={modes[props.vtStyle.format]}
+                code={props.vtStyle.format !== 'css' ? parseCode(props.vtStyle) : getOriginalStyle(props.layer).code}
                 waitTime={0}
-                onChange={(code) => {
-                    if (updateCode[props.format]) return updateCode[props.format](code, props);
-                    return null;
-                }}/>
+                onChange={(codeString) => {
+                    try {
+                        const code = props.vtStyle.format === 'mbstyle' ? JSON.parse(codeString) : codeString;
+                        updateStyle(props.layer, {
+                            ...props.vtStyle,
+                            code
+                        });
+                        props.onSelect({ _v_: Date.now() }, true);
+                    } catch(e) { /**/ }
+                }}/></div></div>
+            }
         </div>
-    </div>
-));
+    );
+});
 
 class TOC extends React.Component {
     static propTypes = {
