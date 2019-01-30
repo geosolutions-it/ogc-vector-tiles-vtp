@@ -1,0 +1,113 @@
+{
+    "map": {
+        "projection": "EPSG:3857",
+        "units": "m",
+        "center": {
+            "x": 36.102816975000046,
+            "y": 32.62031887899901,
+            "crs": "EPSG:4326"
+        },
+        "zoom": 14,
+        "maxExtent": [
+            35.9028738,
+            32.4168138,
+            36.5747694,
+            33.1424348
+        ],
+        "layers": [
+            {
+                "source": "ol",
+                "group": "background",
+                "id": "none",
+                "title": "Empty Background",
+                "fixed": true,
+                "type": "empty",
+                "visibility": true,
+                "args": [
+                    "Empty Background",
+                    {
+                        "visibility": true
+                    }
+                ]
+            },
+            {
+                "type": "wms",
+                "title": "Cloudless",
+                "format": "image/png8",
+                "id": "s2cloudless",
+                "name": "s2cloudless:s2cloudless",
+                "url": "https://maps.geo-solutions.it/geoserver/wms",
+                "group": "background",
+                "thumbURL": "/static/mapstorestyle/img/s2cloudless-s2cloudless.png",
+                "visibility": false,
+                "attribution": "<a  href=\"https://s2maps.eu\">Sentinel-2 cloudless - https://s2maps.eu</a> by <a class=\"a-light\" xmlns:cc=\"http://creativecommons.org/ns#\" href=\"https://eox.at\" property=\"cc:attributionName\" rel=\"cc:attributionURL\">EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data 2016 &amp; 2017)"
+            },
+            {
+                "id": "vtp:AgricultureSrf",
+                "name": "vtp:AgricultureSrf",
+                "format": "image/png",
+                "group": "WMS",
+                "title": "Agriculture",
+                "opacity": 1,
+                "type": "wms",
+                "url": "https://maps.geo-solutions.it/geoserver/wms",
+                "visibility": true
+            },
+            {
+                "id": "vtp:VegetationSrf",
+                "name": "vtp:VegetationSrf",
+                "format": "image/png",
+                "group": "WMS",
+                "title": "Vegetation",
+                "opacity": 1,
+                "type": "wms",
+                "url": "https://maps.geo-solutions.it/geoserver/wms",
+                "visibility": true
+            },
+            {
+                "id": "vtp:SettlementSrf",
+                "name": "vtp:SettlementSrf",
+                "format": "image/png",
+                "group": "WMS",
+                "title": "Settlement",
+                "opacity": 1,
+                "type": "wms",
+                "url": "https://maps.geo-solutions.it/geoserver/wms",
+                "visibility": true
+            },
+            {
+                "id": "vtp:MilitarySrf",
+                "name": "vtp:MilitarySrf",
+                "format": "image/png",
+                "group": "WMS",
+                "title": "Military",
+                "opacity": 1,
+                "type": "wms",
+                "url": "https://maps.geo-solutions.it/geoserver/wms",
+                "visibility": true
+            },
+            {
+                "id": "vtp:CultureSrf",
+                "name": "vtp:CultureSrf",
+                "format": "image/png",
+                "group": "WMS",
+                "title": "Culture",
+                "opacity": 1,
+                "type": "wms",
+                "url": "https://maps.geo-solutions.it/geoserver/wms",
+                "visibility": true
+            },
+            {
+                "id": "vtp:TransportationGroundCrv",
+                "name": "vtp:TransportationGroundCrv",
+                "format": "image/png",
+                "group": "WMS",
+                "title": "Transportation Ground",
+                "opacity": 1,
+                "type": "wms",
+                "url": "https://maps.geo-solutions.it/geoserver/wms",
+                "visibility": true
+            }
+        ]
+    }
+}

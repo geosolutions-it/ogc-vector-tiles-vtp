@@ -24,7 +24,9 @@ fs.emptyDir('./www').then(() => {
                 console.log('dist');
             });
             [
-                {file: './index.html', name: 'mapstorestyle.html'}
+                {file: './vtpext-wfs.html', name: 'vtpext-wfs.html'},
+                {file: './vtpext-wms.html', name: 'vtpext-wms.html'},
+                {file: './vtpext-wmts.html', name: 'vtpext-wmts.html'}
             ].forEach(({file, name}) => {
                 fs.copy(`./${file}`, `./www/${name}`, err => {
                     if (err) return console.error(err);

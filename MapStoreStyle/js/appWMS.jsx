@@ -9,7 +9,7 @@
 const ConfigUtils = require('../MapStore2/web/client/utils/ConfigUtils');
 ConfigUtils.setLocalConfigurationFile('static/mapstorestyle/localConfig.json');
 
-const appConfig = require('./appConfig');
+const appConfig = require('./appConfigWMS');
 const plugins = require('./plugins');
 
 require('./main')(appConfig, plugins);

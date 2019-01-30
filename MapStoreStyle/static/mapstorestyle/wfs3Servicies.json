@@ -1,0 +1,7 @@
+{
+    "geo_solutions": {
+        "collectionsUrl": "http://localhost:8080/geoserver/vtp/wfs3/collections/",
+        "stylesUrl": "http://localhost:8080/geoserver/vtp/wfs3/styles/",
+        "title": "Server: GeoServer WFS3 Service"
+    }
+}

@@ -43,7 +43,7 @@ class MapViewer extends React.Component {
     componentWillMount() {
         if (!this.props.map) {
             this.props.reset();
-            this.props.loadMapConfig('/static/mapstorestyle/base-map.json');
+            this.props.loadMapConfig('/static/mapstorestyle/wmts-base-map.json');
         }
     }
 

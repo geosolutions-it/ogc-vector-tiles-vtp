@@ -77,6 +77,61 @@
                 }
             },
             "Identify"
+        ],
+        "wfs-viewer": [
+            "Notifications",
+            "MapLoading",
+            {
+                "name": "BrandNavbar",
+                "cfg": {
+                    "containerPosition": "header"
+                }
+            },
+            {
+                "name": "Map",
+                "cfg": {
+                    "mapType": "openlayers",
+                    "mapOptions": {
+                        "openlayers": {
+                            "interactions": {
+                                "pinchRotate": false,
+                                "altShiftDragRotate": false
+                            }
+                        }
+                    }
+                }
+            },
+            "BackgroundSelector",
+            {
+                "name": "LeftMenu",
+                "cfg": {
+                    "containerPosition": "columns"
+                }
+            },
+            {
+                "name": "Toolbar",
+                "id": "NavigationBar",
+                "cfg": {
+                    "id": "navigationBar"
+                }
+            },
+            {
+                "name": "ZoomIn",
+                "override": {
+                    "Toolbar": {
+                        "alwaysVisible": true
+                    }
+                }
+            },
+            {
+                "name": "ZoomOut",
+                "override": {
+                    "Toolbar": {
+                        "alwaysVisible": true
+                    }
+                }
+            },
+            "WFSPanel"
         ]
     }
 }

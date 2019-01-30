@@ -1,22 +1,215 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="en">
 
-        <title>VTP Styles</title>
+<head>
+    <title>vectortiles</title>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
+    <style>
+        body {
+            position: absolute;
+            margin: 0;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+        }
 
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-        <link rel="stylesheet" href="static/mapstorestyle/ol.css" />
-        <script src="static/mapstorestyle/ol.js"></script>
+        * {
+            box-sizing: border-box;
+            font-family: 'Noto Sans', sans-serif;
+        }
 
-        <link rel="stylesheet" href="/static/mapstorestyle/themes/default.css" />
-        
-    </head>
-    <body class="mapstorestyle" data-ms2-container="mapstorestyle">
-        <div id="container"></div>
-        <script src="static/mapstorestyle/mapstorestyle.js"></script>
-    </body>
+        .vt-title {
+            margin: 0 8px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .vt-title h3 {
+            display: flex;
+        }
+
+        .vt-title h3 .title {
+            flex: 1;
+        }
+
+        .vt-title h3 img {
+            height: 30px;
+            width: auto;
+        }
+
+        .vt-title h3 img+img {
+            margin-left: 8px;
+            padding-left: 8px;
+            border-left: 1px solid #ddd;
+        }
+
+        .vt-title p {
+            font-size: 12px;
+            padding-bottom: 8px;
+            background-color: #333;
+            color: #d2d0c9;
+            padding: 8px;
+            -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.06), 0 4px 8px rgba(0, 0, 0, 0.12);
+            -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.06), 0 4px 8px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.06), 0 4px 8px rgba(0, 0, 0, 0.12);
+            font-family: monospace;
+        }
+
+        .vt-title p b {
+            font-size: 12px;
+            color: #ffd479;
+            font-family: monospace;
+        }
+
+        .vt-title p i {
+            font-size: 12px;
+            color: #9c9;
+            font-family: monospace;
+        }
+
+        .vt-comment {
+            margin-top: 4px;
+            color: #f2f2f2;
+            text-decoration: underline;
+        }
+
+        .vt-container {
+            display: flex;
+            overflow: hidden;
+        }
+        .vt-container a {
+            padding: 8px;
+            text-decoration: none;
+            color: #333333;
+            display: block;
+        }
+
+        .vt-container a:hover {
+            color: #3369ff;
+        }
+        @media all and (max-width: 1024px) {
+            .vt-container {
+                display: block;
+                overflow-y: auto;
+            }
+        }
+        .vt-link {
+            position: relative;
+            overflow: hidden;
+            padding: 8px;
+            margin: 8px;
+            -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.06), 0 4px 8px rgba(0, 0, 0, 0.12);
+            -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.06), 0 4px 8px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.06), 0 4px 8px rgba(0, 0, 0, 0.12);
+            display: flex;
+            flex-direction: column;
+        }
+        .vt-link div:last-child {
+            margin-bottom: 0;
+            margin-top: auto;
+        }
+        .vt-image {
+            overflow: hidden;
+        }
+        .vt-image img {
+            transition: all 0.3s;
+            position: relative;
+            width: 100%;
+            height: auto;
+        }
+        .vt-image img:hover {
+            transform: scale(1.2);
+        }
+        .vt-options select {
+           width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="vt-title">
+        <h3>
+            <div class="title">
+                OGC Vector Tiles Pilot Extension Demo
+            </div>
+            
+            <div>
+                <img src="./geosolutions-logo.png" />
+                <img src="./ogc-logo.png" />
+            </div>
+        </h3>
+        <p id="vt-snippet"></p>
+
+    </div>
+    <div id="vt-container" class="vt-container">
+
+        <div class="vt-link">
+            <a href="./vtpext-wmts.html">
+                <h2><span>WMTS Demo</span></h2>
+            </a>
+            <div class="vt-options"></div>
+            <div class="vt-image">
+                <a href="./vtpext-wmts.html"><img src="static/mapstorestyle/wmts.png" /></a>
+            </div>
+        </div>
+
+        <div class="vt-link">
+            <a href="./vtpext-wms.html">
+                <h2><span>WMS Demo - render client side/ server side</span></h2>
+            </a>
+            <div class="vt-options"></div>
+            <div class="vt-image">
+                <a href="./vtpext-wms.html"><img src="static/mapstorestyle/wms.png" /></a>
+            </div>
+
+        </div>
+
+
+        <div class="vt-link">
+            <a class="link-wfs3" href="./vtpext-wfs.html">
+                <h2><span>WFS3 Demo</span></h2>
+            </a>
+            <div class="vt-options">
+                Server
+                <select id="select-service-wfs">
+                    <option value="./vtpext-wfs.html">
+                        GeoServer
+                    </option>
+                    <option value="./vtpext-wfs.html#/?wfs3=interactive_instruments">
+                        Interactive Instrument
+                    </option>
+                </select>
+            </div>
+            <div class="vt-image">
+                <a class="link-wfs3" href="./vtpext-wfs.html"><img src="static/mapstorestyle/wfs.png" /></a>
+            </div>
+        </div>
+    </div>
+    <script>
+        var selectWFS = document.getElementById("select-service-wfs");
+        var links = document.getElementsByClassName('link-wfs3');
+        if (links) {
+            for (var i = 0; i < links.length; i++) {
+                if (links[i]) {
+                    links[i].setAttribute('href', selectWFS.value);
+                }
+            }
+        }
+        selectWFS.onchange = function(event) {
+            var links = document.getElementsByClassName('link-wfs3');
+            if (links) {
+                for (var i = 0; i < links.length; i++) {
+                    if (links[i]) {
+                        links[i].setAttribute('href', event.target.value);
+                    }
+                }
+            }
+        };
+    </script>
+</body>
 
 </html>

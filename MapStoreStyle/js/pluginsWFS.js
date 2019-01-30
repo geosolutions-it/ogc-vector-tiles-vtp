@@ -9,11 +9,11 @@
 module.exports = {
     plugins: {
         MapPlugin: require('./plugins/Map'),
-        TOCPlugin: require('./plugins/TOC'),
         LeftMenuPlugin: require('./plugins/LeftMenu'),
         BrandNavbarPlugin: require('./plugins/BrandNavbar'),
         MapLoadingPlugin: require('./plugins/MapLoading'),
         IdentifyPlugin: require('./plugins/Identify'),
+        WFSPanelPlugin: require('./plugins/WFSPanel'),
 
         BackgroundSelectorPlugin: require('../MapStore2/web/client/plugins/BackgroundSelector'),
         ToolbarPlugin: require('../MapStore2/web/client/plugins/Toolbar'),

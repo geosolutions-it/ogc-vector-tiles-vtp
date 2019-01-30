@@ -4,7 +4,9 @@ const extractThemesPlugin = require('./MapStore2/themes.js').extractThemesPlugin
 
 module.exports = require('./buildConfig')(
     {
-        'mapstorestyle': path.join(__dirname, 'js', 'app')
+        'mapstorestyleWMTS': path.join(__dirname, 'js', 'appWMTS'),
+        'mapstorestyleWMS': path.join(__dirname, 'js', 'appWMS'),
+        'mapstorestyleWFS': path.join(__dirname, 'js', 'appWFS')
     },
     {
         'themes/default': path.join(__dirname, 'assets', 'themes', 'default', 'theme.less')

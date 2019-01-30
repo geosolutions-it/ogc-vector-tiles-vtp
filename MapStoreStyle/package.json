@@ -133,6 +133,7 @@
         "ol-mapbox-style": "3.3.0",
         "openlayers": "4.6.4",
         "pdfviewer": "0.3.2",
+        "prettify-xml": "1.2.0",
         "proj4": "https://github.com/geosolutions-it/proj4js/tarball/mapstore2_fixes",
         "prop-types": "15.6.0",
         "qrcode.react": "0.6.1",

@@ -9,9 +9,9 @@
 module.exports = {
     pages: [
         {
-            name: 'map',
+            name: 'viewer',
             path: '/',
-            component: require('./pages/MapViewer')
+            component: require('./pages/WMTSMapViewer')
         }
     ]
 };
