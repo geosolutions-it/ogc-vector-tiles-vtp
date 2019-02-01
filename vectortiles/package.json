@@ -48,6 +48,7 @@
     "ol": "5.2.0",
     "ol-mapbox-style": "3.0.1",
     "tangram": "0.15.4",
-    "tinycolor2": "1.4.1"
+    "tinycolor2": "1.4.1",
+    "xml2js": "0.4.19"
   }
 }

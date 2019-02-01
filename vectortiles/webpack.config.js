@@ -11,7 +11,8 @@ module.exports = {
         'webpack-dev-server': 'webpack-hot-middleware/client?path=http://localhost:3000/__webpack_hmr&timeout=20000',
         'wmtsDemo': './wmts/client.js',
         'wfsDemo': './wfs/client.js',
-        'datasets': './datasets/client.js'
+        'datasets': './datasets/client.js',
+        'wmtsext': './wmtsext/client.js'
     },
     output: {
         path: path.join(__dirname, 'www'),

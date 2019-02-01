@@ -7,7 +7,8 @@ let webpackConfig = require('./webpack.config.js');
 webpackConfig.entry = {
     'wmtsDemo': './wmts/client.js',
     'wfsDemo': './wfs/client.js',
-    'datasets': './datasets/client.js'
+    'datasets': './datasets/client.js',
+    'wmtsext': './wmtsext/client.js'
 };
 
 webpackConfig.output = {
