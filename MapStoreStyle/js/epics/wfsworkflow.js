@@ -40,7 +40,12 @@ const getFormat = ({ type = '', ...link }) => {
     };
 };
 
-const getNormalizedStyles = (result) => {
+const getPlainName = (name = '') => {
+    const splitName = name.split('/');
+    return splitName && splitName[splitName.length - 1];
+};
+
+const getNormalizedStyles = (result, service, translated) => {
     const styles = get(result, 'styles.styles') || [];
     return styles
     .reduce((arr, { links, ...style }) => {
@@ -48,17 +53,21 @@ const getNormalizedStyles = (result) => {
             ...arr,
             ...links.map((link) => {
                 const data = getFormat(link);
+                const id = style.id || style.identifier || '';
+                const { protocol, host } = url.parse(service.stylesUrl);
+                const { path } = url.parse(link.href);
+                const bodyUrl = `${protocol}//${host}${path}`;
                 return {
                     link,
-                    originalId: style.id,
-                    id: style.id + data.f,
+                    originalId: id,
+                    id: id + data.f,
                     format: data.f,
-                    name: style.id + data.f,
-                    title: style.id.replace('_', ' '),
-                    translated: links.length > 1 && data.f === 'sld',
-                    _abstract: links.length > 1 && data.f === 'sld' ?
+                    name: id + data.f,
+                    title: id.replace('_', ' '),
+                    translated: translated && links.length > 1 && data.f === 'sld',
+                    _abstract: translated && links.length > 1 && data.f === 'sld' ?
                     'translated server side' : '',
-                    bodyUrl: link.href
+                    bodyUrl
                 };
             }).filter(({format}) => format !== 'css')]
         ;
@@ -164,7 +173,7 @@ const vtpWFSRequest = (action$, store) =>
                                     [name]: data
                                 }), { });
                             return Rx.Observable
-                                .defer(() => axios.all((getNormalizedStyles(result) || [])
+                                .defer(() => axios.all((getNormalizedStyles(result, service, !query.wfs3 || query.wfs3 === 'geo_solutions') || [])
                                     .map(({ bodyUrl, ...style }) =>
                                         axios.get(bodyUrl)
                                             .then(({ data }) => ({ ...style, code: data }))
@@ -190,7 +199,12 @@ const vtpWFSRequest = (action$, store) =>
                                             ...otherStyles.map((style) => new Promise((resolve) => resolve(style)))
                                         ]);
                                     }).switchMap((styles) => {
-                                        const collections = (get(result, 'sources.collections') || []);
+                                        const collections = (get(result, 'sources.collections') || [])
+                                            .map(({ name, ...layer }) => ({
+                                                ...layer,
+                                                name: getPlainName(name),
+                                                originalName: name
+                                            }));
                                         const stylesWithSplitCode = styles.map((style = {}) => {
                                             let splitted = [];
                                             try {
@@ -252,12 +266,14 @@ const vtpWFSelectStyle = (action$, store) =>
                 Rx.Observable
                     .from(selected.splitted)
                     .mergeMap((layer) => {
+                        const service = get(store.getState(), 'wfsworkflow.service');
                         return Rx.Observable.of(
                             addLayer({
                                 ...layer,
                                 id: uuidv1(),
                                 group: groupId,
-                                type: 'wfs3'
+                                type: 'wfs3',
+                                service
                             })
                         );
                     })
@@ -407,12 +423,14 @@ const vtpAddRemoveWFS = (action$, store) =>
                     }
                     return stl;
                 });
+                const service = get(store.getState(), 'wfsworkflow.service');
                 return Rx.Observable.of(
                     addLayer({
                         ...newLayer,
                         id: uuidv1(),
                         group: groupId,
-                        type: 'wfs3'
+                        type: 'wfs3',
+                        service
                     }),
                     setupDataWFS({ styles: newStyles })
                 );
