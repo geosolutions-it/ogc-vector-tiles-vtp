@@ -47,16 +47,16 @@ axios.get('./datasetConfig.json')
 
         const requests = [
             {
-                url: '/geoserver/gwc/rest/wmts/',
+                url: '/geoserver/',
                 comment: 'WMTS Rest Tile Request',
-                path: ['{workspace}:{layer}', '{style}', '{TileMatrixSet}', '{TileMatrix}', '{y}', '{x}'],
+                path: ['{workspace}', 'gwc/service/wmts/rest', '{layer}', '{style}', '{TileMatrixSet}', '{TileMatrix}', '{y}', '{x}'],
                 params: {}
             }
         ];
 
         const snippet = requests.map(req => {
             const params = req.params && Object.keys(req.params).map((key) => `<b>${key}</b>=<i>${req.params[key]}</i>`) || '';
-            return '<div class="vt-comment"><small>' + req.comment + '</small></div>' + req.url + join((req.path || []).map(val => `<b>${val}</b>`), '/') + join(params, ' &');
+            return '<div class="vt-comment"><small>' + req.comment + '</small></div>' + req.url + join((req.path || []).map(val => val[0] === '{' ? `<b>${val}</b>` : val), '/') + join(params, ' &');
         }, '');
 
         const snippetDOM = document.getElementById('vt-snippet');

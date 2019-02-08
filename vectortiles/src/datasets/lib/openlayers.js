@@ -80,10 +80,9 @@ const openlayersMap = ({ target, center, zoom, url, buttons, layersName, minZoom
                     })
                 );
 
-                
                 const source = new VectorTile({
                     format: new MVT(),
-                    url: `${url}/gwc/rest/wmts/${workspace}:${layer}/generic/EPSG:${epsg}/EPSG:${epsg}:{z}/{y}/{x}?format=application/vnd.mapbox-vector-tile`,
+                    url: `${url}/${workspace}/gwc/service/wmts/rest/${layer}/generic/EPSG:${epsg}/EPSG:${epsg}:{z}/{y}/{x}?format=application/vnd.mapbox-vector-tile`,
                     tileGrid: wmts.getTileGrid()
                 });
                 return {
