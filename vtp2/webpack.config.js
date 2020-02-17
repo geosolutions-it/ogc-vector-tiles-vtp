@@ -1,32 +1,61 @@
-var path = require("path");
-var DefinePlugin = require("webpack/lib/DefinePlugin");
-var LoaderOptionsPlugin = require("webpack/lib/LoaderOptionsPlugin");
-var NormalModuleReplacementPlugin = require("webpack/lib/NormalModuleReplacementPlugin");
-var NoEmitOnErrorsPlugin = require("webpack/lib/NoEmitOnErrorsPlugin");
-var CopyWebpackPlugin = require('copy-webpack-plugin');
-var ParallelUglifyPlugin = require("webpack-parallel-uglify-plugin");
-
 const assign = require('object-assign');
-const themeEntries = require('./MapStore2/build/themes.js').themeEntries;
+const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
+const DefinePlugin = require('webpack/lib/DefinePlugin');
+const NormalModuleReplacementPlugin = require('webpack/lib/NormalModuleReplacementPlugin');
+const NoEmitOnErrorsPlugin = require('webpack/lib/NoEmitOnErrorsPlugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const path = require('path');
+const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const extractThemesPlugin = require('./MapStore2/build/themes.js').extractThemesPlugin;
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-module.exports = (env) => {
-    const isProduction = env && env.production ? true : false;
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const devHost = 'localhost';
+const port = '8090';
+
+module.exports = (env, argv) => {
+
+    const isProduction = argv.mode === 'production' ? true : false;
+
+    const bundles = {
+        'vtp2': path.join(__dirname, 'js', 'app')
+    };
+    const themeEntries = {
+        'themes/default': path.join(__dirname, 'themes', 'default', 'theme.less')
+    };
+    const paths = {
+        base: __dirname,
+        dist: path.join(__dirname, 'dist'),
+        framework: path.join(__dirname, 'MapStore2', 'web', 'client'),
+        code: [
+            path.join(__dirname, 'js'),
+            path.join(__dirname, 'MapStore2', 'web', 'client'),
+            path.join(__dirname, 'node_modules', '@terrestris', 'base-util', 'node_modules'),
+            path.join(__dirname, 'node_modules', 'query-string'),
+            path.join(__dirname, 'node_modules', 'strict-uri-encode'),
+            path.join(__dirname, 'node_modules', 'split-on-first')
+        ]
+    };
+    const publicPath = 'dist/';
     const cssPrefix = '.vtp2';
+    const chunks = [];
+
     return {
-        entry: assign({
-            'webpack-dev-server': 'webpack-dev-server/client?http://0.0.0.0:8081', // WebpackDevServer host and port
-            'webpack': 'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
-            'vtp2': path.join(__dirname, "js", "app")
-        }, themeEntries),
+        entry: assign(isProduction
+            ? {}
+            : {
+                'webpack-dev-server': `webpack-dev-server/client?http://0.0.0.0:${port}`, // WebpackDevServer host and port
+                'webpack': 'webpack/hot/only-dev-server' // 'only' prevents reload on syntax errors
+            }, bundles, themeEntries),
         output: {
-            path: path.join(__dirname, "dist"),
-            publicPath: "dist/",
-            filename: "[name].js"
+            path: paths.dist,
+            publicPath,
+            filename: '[name].js',
+            chunkFilename: isProduction ? '[name].[hash].chunk.js' : '[name].js'
         },
         plugins: [
             new CopyWebpackPlugin([
-                { from: path.join(__dirname, 'node_modules', 'bootstrap', 'less'), to: path.join(__dirname, "web", "client", "dist", "bootstrap", "less") }
+                { from: path.join(paths.base, 'node_modules', 'bootstrap', 'less'), to: path.join(paths.dist, 'bootstrap', 'less') }
             ]),
             new LoaderOptionsPlugin({
                 debug: !isProduction,
@@ -36,29 +65,45 @@ module.exports = (env) => {
                             require('postcss-prefix-selector')({prefix: cssPrefix, exclude: ['.ms2', cssPrefix, '[data-ms2-container]']})
                         ]
                     },
-                    context: __dirname
+                    context: paths.base
                 }
             }),
             new DefinePlugin({
-                "__DEVTOOLS__": !isProduction
+                '__DEVTOOLS__': !isProduction,
+                "__MS_VERSION__": `"${Date.now()}"`
             }),
-            new NormalModuleReplacementPlugin(/leaflet$/, path.join(__dirname, "MapStore2", "web", "client", "libs", "leaflet")),
-            new NormalModuleReplacementPlugin(/cesium$/, path.join(__dirname, "MapStore2", "web", "client", "libs", "cesium")),
-            new NormalModuleReplacementPlugin(/proj4$/, path.join(__dirname, "MapStore2", "web", "client", "libs", "proj4")),
+            new DefinePlugin({
+                'process.env': {
+                    'NODE_ENV': isProduction ? '"production"' : '""'
+                }
+            }),
+            new NormalModuleReplacementPlugin(/leaflet$/, path.join(paths.framework, 'libs', 'leaflet')),
+            new NormalModuleReplacementPlugin(/proj4$/, path.join(paths.framework, 'libs', 'proj4')),
             new NoEmitOnErrorsPlugin(),
-            extractThemesPlugin
-        ].concat(isProduction ? [new ParallelUglifyPlugin({
+            extractThemesPlugin,
+            ...(isProduction
+                ? [new HtmlWebpackPlugin({
+                    template: path.join(__dirname, 'index-template.html'),
+                    chunks: ['vtp2'],
+                    inject: true,
+                    hash: true
+                })]
+                : [])
+        ].concat(isProduction && chunks || []).concat(isProduction ? [new ParallelUglifyPlugin({
             uglifyJS: {
                 sourceMap: false,
-                compress: { warnings: false },
                 mangle: true
             }
         })] : []),
         resolve: {
-            extensions: [".js", ".jsx"],
+            extensions: ['.js', '.jsx'],
             alias: {
-                "@mapstore": path.resolve(__dirname, "MapStore2", "web", "client"),
-                "@js": path.resolve(__dirname, "js")
+                '@mapstore': path.resolve(__dirname, 'MapStore2/web/client'),
+                '@js': path.resolve(__dirname, "js"),
+                'jsonix': '@boundlessgeo/jsonix',
+                // next libs are added because of this issue https://github.com/geosolutions-it/MapStore2/issues/4569
+                'proj4': '@geosolutions/proj4',
+                'react-joyride': '@geosolutions/react-joyride'
             }
         },
         module: {
@@ -109,7 +154,7 @@ module.exports = (env) => {
                     use: [{
                         loader: 'url-loader',
                         options: {
-                            mimetype: "application/font-woff"
+                            mimetype: 'application/font-woff'
                         }
                     }]
                 },
@@ -118,7 +163,7 @@ module.exports = (env) => {
                     use: [{
                         loader: 'file-loader',
                         options: {
-                            name: "[name].[ext]"
+                            name: '[name].[ext]'
                         }
                     }]
                 },
@@ -127,35 +172,31 @@ module.exports = (env) => {
                     use: [{
                         loader: 'url-loader',
                         options: {
-                            name: "[path][name].[ext]",
+                            name: '[path][name].[ext]',
                             limit: 8192
                         }
-                    }]
+                    }] // inline base64 URLs for <=8k images, direct URLs for the rest
                 },
                 {
                     test: /\.jsx?$/,
                     exclude: /(ol\.js)$|(Cesium\.js)$/,
                     use: [{
-                        loader: "babel-loader",
+                        loader: 'babel-loader',
                         options: {
                             configFile: path.join(__dirname, 'babel.config.js')
                         }
                     }],
-                    include: [path.join(__dirname, "js"), path.join(__dirname, "MapStore2", "web", "client")]
+                    include: paths.code
                 }
-            ]
+            ].concat(isProduction ? [{
+                test: /\.html$/,
+                loader: 'html-loader'
+            }] : [])
         },
         devServer: isProduction ? undefined : {
-            proxy: {
-                '/mapstore/rest/geostore': {
-                    target: "http://dev.mapstore.geo-solutions.it"
-                },
-                '/mapstore/proxy': {
-                    target: "http://dev.mapstore.geo-solutions.it"
-                }
-            }
+            port: port,
+            host: devHost
         },
-
         devtool: !isProduction ? 'eval' : undefined
     };
 };

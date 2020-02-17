@@ -1,10 +1,12 @@
 {
-	"proxyUrl": "/mapstore/proxy/?url=",
-	"geoStoreUrl": "/mapstore/rest/geostore",
-	"printUrl": "/geoserver/pdf/info.json",
-  "themePrefix": "vtp2",
-	"translationsPath": "./MapStore2/web/client/translations",
-	"plugins": {
-			"desktop": ["Map", "Home"]
-	}
+    "proxyUrl": "/mapstore/proxy/?url=",
+    "geoStoreUrl": "",
+    "printUrl": "",
+    "themePrefix": "vtp2",
+    "translationsPath": "./MapStore2/web/client/translations",
+    "plugins": {
+        "viewer": [
+            "Layout"
+        ]
+    }
 }

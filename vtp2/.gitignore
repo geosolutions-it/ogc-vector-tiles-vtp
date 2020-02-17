@@ -1,11 +1,9 @@
 node_modules/
 libs/Cesium/
 dist/
+build/
 target/
 *.sublime-*
 npm-debug.log
 coverage/
-web/.classpath
-web/.project
-backend/.classpath
-backend/.project
+package-lock.json
