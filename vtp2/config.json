@@ -1,4 +1,5 @@
 {
+    "version": 2,
     "map": {
         "projection": "EPSG:900913",
         "units": "m",
@@ -16,12 +17,18 @@
         ],
         "layers": [
             {
-                "type": "osm",
-                "title": "Open Street Map",
-                "name": "mapnik",
-                "source": "osm",
+                "id": "empty-bg",
                 "group": "background",
-                "visibility": true
+                "source": "ol",
+                "title": "Empty Background",
+                "type": "empty",
+                "visibility": true,
+                "singleTile": false,
+                "dimensions": [],
+                "hideLoading": false,
+                "handleClickOnLayer": false,
+                "useForElevation": false,
+                "hidden": false
             }
         ]
     }

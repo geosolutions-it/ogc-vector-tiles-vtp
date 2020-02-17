@@ -4,9 +4,30 @@
     "printUrl": "",
     "themePrefix": "vtp2",
     "translationsPath": "./MapStore2/web/client/translations",
+    "initialState": {
+        "defaultState": {
+            "maptype": {
+                "mapType": "openlayers"
+            }
+        }
+    },
     "plugins": {
         "viewer": [
-            "Layout"
+            "Layout",
+            {
+                "name": "Map",
+                "cfg": {
+                    "mapType": "openlayers",
+                    "mapOptions": {
+                        "openlayers": {
+                            "interactions": {
+                                "pinchRotate": false,
+                                "altShiftDragRotate": false
+                            }
+                        }
+                    }
+                }
+            }
         ]
     }
 }

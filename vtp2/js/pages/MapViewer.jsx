@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import url from 'url';
@@ -14,6 +14,7 @@ import ConfigUtils from '@mapstore/utils/ConfigUtils';
 import { loadMapConfig } from '@mapstore/actions/config';
 import { resetControls } from '@mapstore/actions/controls';
 import { mapSelector } from '@mapstore/selectors/map';
+
 import Container from '@js/containers/Container';
 
 const urlQuery = url.parse(window.location.href, true).query;
@@ -21,8 +22,16 @@ const urlQuery = url.parse(window.location.href, true).query;
 function MapViewer({
     name = 'viewer',
     plugins,
-    match
+    match,
+    map,
+    onLoadConfig
 }) {
+
+    useEffect(() => {
+        if (!map) {
+            onLoadConfig('config.json', null);
+        }
+    }, []);
 
     const configPlugins = ConfigUtils.getConfigProp('plugins') || {};
     const pagePlugins = {
@@ -50,7 +59,7 @@ MapViewer.propTypes = {
     mode: PropTypes.string,
     match: PropTypes.object,
     map: PropTypes.object,
-    loadMapConfig: PropTypes.func,
+    onLoadConfig: PropTypes.func,
     reset: PropTypes.func,
     plugins: PropTypes.object
 };
@@ -60,7 +69,7 @@ export default connect((state) => ({
     map: mapSelector(state)
 }),
 {
-    loadMapConfig,
+    onLoadConfig: loadMapConfig,
     reset: resetControls
 }
 )(MapViewer);

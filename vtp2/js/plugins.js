@@ -8,8 +8,11 @@
 
 import LayoutPlugin from '@mapstore/plugins/Layout';
 
+import MapPlugin from '@js/plugins/Map';
+
 export const plugins = {
-    LayoutPlugin
+    LayoutPlugin,
+    MapPlugin
 };
 
 export const requires = {};
