@@ -14,7 +14,7 @@ import StandardRouterComponent from '@mapstore/components/app/StandardRouter';
 import StandardStore from '@mapstore/stores/StandardStore';
 import maptype from '@mapstore/reducers/maptype';
 import { setSupportedLocales } from '@mapstore/epics/localconfig';
-
+import 'regenerator-runtime';
 import axios from '@mapstore/libs/ajax';
 import { setLocalConfigurationFile } from '@mapstore/utils/ConfigUtils';
 setLocalConfigurationFile('localConfig.json');

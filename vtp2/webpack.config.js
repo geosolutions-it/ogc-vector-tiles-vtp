@@ -85,6 +85,10 @@ module.exports = (env, argv) => {
             new NormalModuleReplacementPlugin(/TOC\/Header$/, path.join(__dirname, 'js', '_overrides', 'components', 'TOC', 'Header')),
             new NormalModuleReplacementPlugin(/cardgrids\/SideCard$/, path.join(__dirname, 'js', '_overrides', 'components', 'misc', 'cardgrids', 'SideCard')),
             new NormalModuleReplacementPlugin(/utils\/VectorTileUtils$/, path.join(__dirname, 'js', '_overrides', 'utils', 'VectorTileUtils')),
+            new NormalModuleReplacementPlugin(/openlayers\/plugins\/index$/, path.join(__dirname, 'js', '_overrides', 'components', 'map', 'openlayers', 'plugins', 'index')),
+            new NormalModuleReplacementPlugin(/openlayers\/VectorStyle$/, path.join(__dirname, 'js', '_overrides', 'components', 'map', 'openlayers', 'VectorStyle')),
+            new NormalModuleReplacementPlugin(/utils\/openlayers\/VectorTileUtils$/, path.join(__dirname, 'js', '_overrides', 'utils', 'openlayers', 'VectorTileUtils')),
+            new NormalModuleReplacementPlugin(/utils\/VectorStyleUtils$/, path.join(__dirname, 'js', '_overrides', 'utils', 'VectorStyleUtils')),
             new NoEmitOnErrorsPlugin(),
             extractThemesPlugin,
             ...(isProduction
