@@ -1,3 +1,6 @@
 [submodule "MapStoreStyle/MapStore2"]
 	path = MapStoreStyle/MapStore2
 	url = https://github.com/geosolutions-it/MapStore2
+[submodule "vtp2/MapStore2"]
+	path = vtp2/MapStore2
+	url = https://github.com/geosolutions-it/MapStore2
