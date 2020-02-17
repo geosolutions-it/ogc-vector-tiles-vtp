@@ -1,5 +1,9 @@
 {
-    "proxyUrl": "/mapstore/proxy/?url=",
+    "proxyUrl": {
+        "url": "",
+        "useCORS": [],
+        "autoDetectCORS": true
+    },
     "geoStoreUrl": "",
     "printUrl": "",
     "themePrefix": "vtp2",
@@ -28,7 +32,8 @@
                     }
                 }
             },
-            "Layers"
+            "Layers",
+            "OGCAPICatalog"
         ]
     }
 }

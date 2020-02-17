@@ -10,11 +10,13 @@ import LayoutPlugin from '@mapstore/plugins/Layout';
 
 import MapPlugin from '@js/plugins/Map';
 import LayersPlugin from '@js/plugins/Layers';
+import OGCAPICatalogPlugin from '@js/plugins/OGCAPICatalog';
 
 export const plugins = {
     LayoutPlugin,
     MapPlugin,
-    LayersPlugin
+    LayersPlugin,
+    OGCAPICatalogPlugin
 };
 
 export const requires = {};
