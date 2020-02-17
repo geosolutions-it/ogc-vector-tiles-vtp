@@ -9,10 +9,12 @@
 import LayoutPlugin from '@mapstore/plugins/Layout';
 
 import MapPlugin from '@js/plugins/Map';
+import LayersPlugin from '@js/plugins/Layers';
 
 export const plugins = {
     LayoutPlugin,
-    MapPlugin
+    MapPlugin,
+    LayersPlugin
 };
 
 export const requires = {};

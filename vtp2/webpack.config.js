@@ -79,6 +79,11 @@ module.exports = (env, argv) => {
             }),
             new NormalModuleReplacementPlugin(/leaflet$/, path.join(paths.framework, 'libs', 'leaflet')),
             new NormalModuleReplacementPlugin(/proj4$/, path.join(paths.framework, 'libs', 'proj4')),
+            new NormalModuleReplacementPlugin(/proj4$/, path.join(paths.framework, 'libs', 'proj4')),
+            new NormalModuleReplacementPlugin(/plugins\/TOC$/, path.join(__dirname, 'js', '_overrides', 'plugins', 'TOC')),
+            new NormalModuleReplacementPlugin(/TOC\/Toolbar$/, path.join(__dirname, 'js', '_overrides', 'components', 'TOC', 'Toolbar')),
+            new NormalModuleReplacementPlugin(/TOC\/Header$/, path.join(__dirname, 'js', '_overrides', 'components', 'TOC', 'Header')),
+            new NormalModuleReplacementPlugin(/cardgrids\/SideCard$/, path.join(__dirname, 'js', '_overrides', 'components', 'misc', 'cardgrids', 'SideCard')),
             new NoEmitOnErrorsPlugin(),
             extractThemesPlugin,
             ...(isProduction
