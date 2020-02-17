@@ -19,6 +19,7 @@ import BurgerMenuPlugin from '@mapstore/plugins/BurgerMenu';
 import MapImportPlugin from '@mapstore/plugins/MapImport';
 import MapExportPlugin from '@mapstore/plugins/MapExport';
 import HelpLinkPlugin from '@mapstore/plugins/HelpLink';
+import ScaleBoxPlugin from '@mapstore/plugins/ScaleBox';
 
 import MapPlugin from '@js/plugins/Map';
 import LayersPlugin from '@js/plugins/Layers';
@@ -48,7 +49,8 @@ export const plugins = {
     MapImportPlugin,
     MapExportPlugin,
     HelpLinkPlugin,
-    LogoPlugin
+    LogoPlugin,
+    ScaleBoxPlugin
 };
 
 export const requires = {};

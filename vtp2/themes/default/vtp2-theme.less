@@ -208,6 +208,32 @@ html,
 
 }
 
+#mapstore-scalebox {
+    .form-group {
+        margin: 0;
+        label {
+            display: none;
+        }
+    }
+}
+
+.ms-scale-line-container {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    z-index: 10;
+    .ol-scale-line.ol-unselectable {
+        border-radius: 0;
+        background-color: transparent;
+        left: 0;
+        top: 0;
+        .ol-scale-line-inner {
+            border-color: @ms2-color-text;
+            color: @ms2-color-text;
+        }
+    }
+}
+
 @import "less/react-select.less";
 @import "less/sidegrid.less";
 @import "less/toc.less";

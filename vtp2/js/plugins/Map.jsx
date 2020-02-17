@@ -13,6 +13,8 @@ import { createPlugin } from '@mapstore/utils/PluginsUtils';
 import { MapPlugin as MSMapPlugin, reducers, epics } from '@mapstore/plugins/Map';
 import { setControlProperty } from '@mapstore/actions/controls';
 import SpatialFilterSupport from '@js/plugins/map/openlayers/SpatialFilterSupport';
+import OLScaleLine from '@js/plugins/map/openlayers/OLScaleLine';
+import { layoutTypeSelector } from '@mapstore/selectors/layout';
 
 const tools = [
     {
@@ -28,6 +30,12 @@ const tools = [
                 onAddFeature: setControlProperty.bind(null, 'spatialFilter', 'feature'),
                 onRemoveFeature: setControlProperty.bind(null, 'spatialFilter', null)
             })(SpatialFilterSupport)
+        }
+    },
+    {
+        openlayers: {
+            name: 'attribution',
+            impl: connect(createSelector([layoutTypeSelector], (layoutType) => ({ layoutType })))(OLScaleLine)
         }
     }
 ];
