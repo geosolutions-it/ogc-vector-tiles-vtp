@@ -87,6 +87,53 @@
                         "EPSG:3857"
                     ]
                 }
+            },
+            {
+                "name": "Toolbar",
+                "id": "NavigationBar",
+                "override": {
+                    "Layout": {
+                        "container": "body",
+                        "priority": 1
+                    }
+                },
+                "cfg": {
+                    "id": "navigationBar"
+                }
+            },
+            "MapLoading",
+            {
+                "name": "ZoomIn",
+                "override": {
+                    "Toolbar": {
+                        "alwaysVisible": true
+                    }
+                }
+            },
+            {
+                "name": "ZoomOut",
+                "override": {
+                    "Toolbar": {
+                        "alwaysVisible": true
+                    }
+                }
+            },
+            {
+                "name": "ZoomAll",
+                "override": {
+                    "Toolbar": {
+                        "alwaysVisible": true
+                    }
+                }
+            },
+            {
+                "name": "BackgroundSelector",
+                "override": {
+                    "Layout": {
+                        "container": "body",
+                        "priority": 1
+                    }
+                }
             }
         ]
     }

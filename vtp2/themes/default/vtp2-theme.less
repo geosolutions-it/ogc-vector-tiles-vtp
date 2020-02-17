@@ -56,6 +56,7 @@ html,
     overflow: hidden;
     margin: 0;
     padding: 0;
+    background-color: @ms2-color-shade-lighter;
 }
 
 .ms-layer-settings .react-codemirror2,
@@ -124,6 +125,38 @@ html,
 .mapstore-map-footer {
     display: flex;
     flex-direction: row-reverse;
+}
+
+.background-preview-button .btn-group,
+.background-tool-buttons {
+    display: none;
+}
+
+.background-plugin-position {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    z-index: 100;
+    margin-bottom: 0;
+    .background-preview-button {
+        .shadow-far;
+    }
+}
+#navigationBar-container {
+    bottom: 0;
+    right: 0;
+    z-index: 1000;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    .shadow-far;
+    .square-button {
+        padding: 0;
+    }
+}
+.ms-layout {
+    & > .ms2-border-layout-body {
+        overflow: hidden !important;
+    }
 }
 
 @import "less/react-select.less";
