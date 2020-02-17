@@ -94,6 +94,7 @@ module.exports = (env, argv) => {
             new NormalModuleReplacementPlugin(/FilterField$/, path.join(__dirname, 'js', '_overrides', 'components', 'query', 'FilterField')),
             new NormalModuleReplacementPlugin(/GroupField$/, path.join(__dirname, 'js', '_overrides', 'components', 'query', 'GroupField')),
             new NormalModuleReplacementPlugin(/FilterUtils$/, path.join(__dirname, 'js', '_overrides', 'utils', 'FilterUtils')),
+            new NormalModuleReplacementPlugin(/plugins\/CRSSelector$/, path.join(__dirname, 'js', '_overrides', 'plugins', 'CRSSelector')),
 
             new NoEmitOnErrorsPlugin(),
             extractThemesPlugin,

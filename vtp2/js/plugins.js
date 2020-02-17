@@ -7,6 +7,8 @@
  */
 
 import LayoutPlugin from '@mapstore/plugins/Layout';
+import MapFooterPlugin from '@mapstore/plugins/MapFooter';
+import CRSSelectorPlugin from '@mapstore/plugins/CRSSelector';
 
 import MapPlugin from '@js/plugins/Map';
 import LayersPlugin from '@js/plugins/Layers';
@@ -20,7 +22,9 @@ export const plugins = {
     LayersPlugin,
     OGCAPICatalogPlugin,
     LayerSettingsPlugin,
-    LayerFilterPlugin
+    LayerFilterPlugin,
+    MapFooterPlugin,
+    CRSSelectorPlugin
 };
 
 export const requires = {};
