@@ -134,7 +134,20 @@
                         "priority": 1
                     }
                 }
-            }
+            },
+            {
+                "name": "OmniBar", 
+                "override": {
+                    "Layout": {
+                        "container": "header",
+                        "priority": 1
+                    }
+                }
+            },
+            "BurgerMenu",
+            "MapImport",
+            "MapExport",
+            "HelpLink"
         ]
     }
 }

@@ -14,6 +14,11 @@ import ZoomInPlugin from '@mapstore/plugins/ZoomIn';
 import ZoomOutPlugin from '@mapstore/plugins/ZoomOut';
 import ZoomAllPlugin from '@mapstore/plugins/ZoomAll';
 import BackgroundSelectorPlugin from '@mapstore/plugins/BackgroundSelector';
+import OmnibarPlugin from '@mapstore/plugins/Omnibar';
+import BurgerMenuPlugin from '@mapstore/plugins/BurgerMenu';
+import MapImportPlugin from '@mapstore/plugins/MapImport';
+import MapExportPlugin from '@mapstore/plugins/MapExport';
+import HelpLinkPlugin from '@mapstore/plugins/HelpLink';
 
 import MapPlugin from '@js/plugins/Map';
 import LayersPlugin from '@js/plugins/Layers';
@@ -36,7 +41,12 @@ export const plugins = {
     ZoomInPlugin,
     ZoomOutPlugin,
     ZoomAllPlugin,
-    BackgroundSelectorPlugin
+    BackgroundSelectorPlugin,
+    OmnibarPlugin,
+    BurgerMenuPlugin,
+    MapImportPlugin,
+    MapExportPlugin,
+    HelpLinkPlugin
 };
 
 export const requires = {};

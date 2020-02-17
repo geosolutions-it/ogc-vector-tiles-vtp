@@ -16,8 +16,13 @@ import maptype from '@mapstore/reducers/maptype';
 import { setSupportedLocales } from '@mapstore/epics/localconfig';
 import 'regenerator-runtime';
 import axios from '@mapstore/libs/ajax';
+import rxjsConfig from 'recompose/rxjsObservableConfig';
+import { setObservableConfig } from 'recompose';
 import { setLocalConfigurationFile } from '@mapstore/utils/ConfigUtils';
 setLocalConfigurationFile('localConfig.json');
+
+// Map import needs this config
+setObservableConfig(rxjsConfig);
 
 const version = __MS_VERSION__;
 
