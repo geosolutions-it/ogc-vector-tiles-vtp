@@ -26,6 +26,7 @@ import OGCAPICatalogPlugin from '@js/plugins/OGCAPICatalog';
 import LayerSettingsPlugin from '@js/plugins/LayerSettings';
 import LayerFilterPlugin from '@js/plugins/LayerFilter';
 import MapLoadingPlugin from '@js/plugins/MapLoading';
+import LogoPlugin from '@js/plugins/Logo';
 
 export const plugins = {
     LayoutPlugin,
@@ -46,7 +47,8 @@ export const plugins = {
     BurgerMenuPlugin,
     MapImportPlugin,
     MapExportPlugin,
-    HelpLinkPlugin
+    HelpLinkPlugin,
+    LogoPlugin
 };
 
 export const requires = {};
