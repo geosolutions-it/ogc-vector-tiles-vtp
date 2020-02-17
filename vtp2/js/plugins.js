@@ -12,13 +12,15 @@ import MapPlugin from '@js/plugins/Map';
 import LayersPlugin from '@js/plugins/Layers';
 import OGCAPICatalogPlugin from '@js/plugins/OGCAPICatalog';
 import LayerSettingsPlugin from '@js/plugins/LayerSettings';
+import LayerFilterPlugin from '@js/plugins/LayerFilter';
 
 export const plugins = {
     LayoutPlugin,
     MapPlugin,
     LayersPlugin,
     OGCAPICatalogPlugin,
-    LayerSettingsPlugin
+    LayerSettingsPlugin,
+    LayerFilterPlugin
 };
 
 export const requires = {};

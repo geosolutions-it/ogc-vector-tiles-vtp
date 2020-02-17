@@ -34,7 +34,8 @@
             },
             "Layers",
             "OGCAPICatalog",
-            "LayerSettings"
+            "LayerSettings",
+            "LayerFilter"
         ]
     }
 }

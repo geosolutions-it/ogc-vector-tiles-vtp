@@ -7,10 +7,30 @@
 */
 
 import React from 'react';
+import { connect } from 'react-redux';
+import { createSelector } from 'reselect';
 import { createPlugin } from '@mapstore/utils/PluginsUtils';
 import { MapPlugin as MSMapPlugin, reducers, epics } from '@mapstore/plugins/Map';
+import { setControlProperty } from '@mapstore/actions/controls';
+import SpatialFilterSupport from '@js/plugins/map/openlayers/SpatialFilterSupport';
 
-const tools = [];
+const tools = [
+    {
+        openlayers: {
+            name: 'spatialFilterSupport',
+            impl: connect(createSelector([
+                state => state && state.controls && state.controls.spatialFilter && state.controls.spatialFilter.enabled,
+                state => state && state.controls && state.controls.spatialFilter && state.controls.spatialFilter.drawType
+            ], (enabled, drawType) => ({
+                enabled,
+                drawType
+            })), {
+                onAddFeature: setControlProperty.bind(null, 'spatialFilter', 'feature'),
+                onRemoveFeature: setControlProperty.bind(null, 'spatialFilter', null)
+            })(SpatialFilterSupport)
+        }
+    }
+];
 
 function MapPlugin(props) {
     return (

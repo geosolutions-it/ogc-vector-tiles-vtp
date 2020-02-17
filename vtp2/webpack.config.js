@@ -89,6 +89,12 @@ module.exports = (env, argv) => {
             new NormalModuleReplacementPlugin(/openlayers\/VectorStyle$/, path.join(__dirname, 'js', '_overrides', 'components', 'map', 'openlayers', 'VectorStyle')),
             new NormalModuleReplacementPlugin(/utils\/openlayers\/VectorTileUtils$/, path.join(__dirname, 'js', '_overrides', 'utils', 'openlayers', 'VectorTileUtils')),
             new NormalModuleReplacementPlugin(/utils\/VectorStyleUtils$/, path.join(__dirname, 'js', '_overrides', 'utils', 'VectorStyleUtils')),
+
+            new NormalModuleReplacementPlugin(/DateField$/, path.join(__dirname, 'js', '_overrides', 'components', 'query', 'DateField')),
+            new NormalModuleReplacementPlugin(/FilterField$/, path.join(__dirname, 'js', '_overrides', 'components', 'query', 'FilterField')),
+            new NormalModuleReplacementPlugin(/GroupField$/, path.join(__dirname, 'js', '_overrides', 'components', 'query', 'GroupField')),
+            new NormalModuleReplacementPlugin(/FilterUtils$/, path.join(__dirname, 'js', '_overrides', 'utils', 'FilterUtils')),
+
             new NoEmitOnErrorsPlugin(),
             extractThemesPlugin,
             ...(isProduction
