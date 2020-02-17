@@ -33,7 +33,8 @@
                 }
             },
             "Layers",
-            "OGCAPICatalog"
+            "OGCAPICatalog",
+            "LayerSettings"
         ]
     }
 }

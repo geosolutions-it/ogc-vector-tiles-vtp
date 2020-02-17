@@ -13,12 +13,15 @@ import withLayoutPanel from '@mapstore/plugins/layout/withLayoutPanel';
 import BorderLayout from '@mapstore/components/layout/BorderLayout';
 import GroupNode from '@js/components/GroupNode';
 import LayerNode from '@js/components/LayerNode';
+import PropTypes from 'prop-types';
+
+const TOCPluginPanel = withLayoutPanel(TOCPlugin, { defaultWidth: 300 });
 
 function TOCContainer({
     items = [],
     layoutPanelProps = {},
     ...props
-}) {
+}, context) {
 
     const [panels, setPanels] = useState([]);
     const [buttons, setButtons] = useState([]);
@@ -35,7 +38,7 @@ function TOCContainer({
                 if (panel && panel.Component) {
                     return panel.Component;
                 }
-                return getConfiguredPlugin({ ...impl }, this.context.loadedPlugins, <div />);
+                return getConfiguredPlugin({ ...impl }, context.loadedPlugins, <div />);
             })
             .filter(val => val));
     }, []);
@@ -44,7 +47,7 @@ function TOCContainer({
         <BorderLayout
             columns={renderedPanels}
             className="ms-toc">
-            <TOCPlugin
+            <TOCPluginPanel
                 { ...props }
                 buttons={buttons}
                 nodeButtons={nodeButtons}
@@ -55,8 +58,12 @@ function TOCContainer({
     );
 }
 
+TOCContainer.contextTypes = {
+    loadedPlugins: PropTypes.object
+};
+
 export default createPlugin('Layers', {
-    component: withLayoutPanel(TOCContainer, { defaultWidth: 300 }),
+    component: TOCContainer,
     containers: {
         Layout: {
             priority: 1,
