@@ -35,7 +35,9 @@ const isCrossLayerFilterValid = (crossLayerFilter) =>
     get(crossLayerFilter, 'operation', false) &&
         get(crossLayerFilter, 'collectGeometries.queryCollection.typeName', false) &&
         get(crossLayerFilter, 'collectGeometries.queryCollection.geometryName', false);
-const wrapAttributeWithDoubleQuotes = a => "\"" + a + "\"";
+
+// REMOVED QUOTE FOR OGC
+const wrapAttributeWithDoubleQuotes = a => "" + a + "";
 
 const setupCrossLayerFilterDefaults = (crossLayerFilter) => {
     if (!crossLayerFilter || !get(crossLayerFilter, 'collectGeometries.queryCollection')) {
