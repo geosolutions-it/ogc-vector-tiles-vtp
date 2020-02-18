@@ -16,6 +16,4 @@ Start the development application locally:
 
 `npm start`
 
-The application runs at `http://localhost:8081` afterwards.
-
-Read more on the [wiki](https://github.com/geosolutions-it/ogc-vector-tiles-vtp/wiki).
+The application runs at `http://localhost:8090` afterwards.
