@@ -74,8 +74,40 @@
                 }
             },
             "Layers",
-            "OGCAPICatalog",
-            "LayerSettings",
+            {
+                "name": "OGCAPICatalog",
+                "cfg": {
+                    "services": [
+                        {
+                            "label": "Local GeoServer OGC Tiles API",
+                            "value": "http://localhost:8080/geoserver/ogc/tiles"
+                        },
+                        {
+                            "label": "Local GeoServer OGC Features API",
+                            "value": "http://localhost:8080/geoserver/ogc/features"
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "LayerSettings",
+                "cfg": {
+                    "staticStyles": [
+                        {
+                            "id": "wireframe",
+                            "name": "wireframe",
+                            "title": "Wireframe (sld static style)",
+                            "links": [
+                                {
+                                    "rel": "stylesheet",
+                                    "type": "application/vnd.ogc.sld+xml",
+                                    "href": "static/styles/wireframe.sld"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
             "LayerFilter",
             {
                 "name": "MapFooter",
