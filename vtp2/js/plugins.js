@@ -28,6 +28,7 @@ import LayerSettingsPlugin from '@js/plugins/LayerSettings';
 import LayerFilterPlugin from '@js/plugins/LayerFilter';
 import MapLoadingPlugin from '@js/plugins/MapLoading';
 import LogoPlugin from '@js/plugins/Logo';
+import MapTypePlugin from '@js/plugins/MapType';
 
 export const plugins = {
     LayoutPlugin,
@@ -50,7 +51,8 @@ export const plugins = {
     MapExportPlugin,
     HelpLinkPlugin,
     LogoPlugin,
-    ScaleBoxPlugin
+    ScaleBoxPlugin,
+    MapTypePlugin
 };
 
 export const requires = {};

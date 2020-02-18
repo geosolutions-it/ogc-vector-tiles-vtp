@@ -148,7 +148,8 @@
             "MapExport",
             "HelpLink",
             "Logo",
-            "ScaleBox"
+            "ScaleBox",
+            "MapType"
         ]
     }
 }
