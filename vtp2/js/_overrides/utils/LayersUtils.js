@@ -485,7 +485,10 @@ const LayersUtils = {
             origin: layer.origin,
             thematic: layer.thematic,
             tooltipOptions: layer.tooltipOptions,
-            tooltipPlacement: layer.tooltipPlacement
+            tooltipPlacement: layer.tooltipPlacement,
+            tileUrls: layer.tileUrls,
+            vectorStyle: layer.vectorStyle,
+            declutter: layer.declutter
         },
         layer.params ? { params: layer.params } : {},
         layer.credits ? { credits: layer.credits } : {});
