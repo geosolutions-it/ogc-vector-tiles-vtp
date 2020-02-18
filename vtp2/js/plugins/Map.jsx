@@ -15,6 +15,7 @@ import { setControlProperty } from '@mapstore/actions/controls';
 import SpatialFilterSupport from '@js/plugins/map/openlayers/SpatialFilterSupport';
 import OLScaleLine from '@js/plugins/map/openlayers/OLScaleLine';
 import { layoutTypeSelector } from '@mapstore/selectors/layout';
+import OLVectorFeaturesInfo from '@js/plugins/map/openlayers/OLVectorFeaturesInfo';
 
 const tools = [
     {
@@ -36,6 +37,16 @@ const tools = [
         openlayers: {
             name: 'attribution',
             impl: connect(createSelector([layoutTypeSelector], (layoutType) => ({ layoutType })))(OLScaleLine)
+        }
+    },
+    {
+        openlayers: {
+            name: 'vectorFeaturesInfo',
+            impl: connect(createSelector([
+                state => state && state.controls && state.controls.spatialFilter && state.controls.spatialFilter.enabled
+            ], (spatialFilterEnabled) => ({
+                enabled: !spatialFilterEnabled
+            })))(OLVectorFeaturesInfo)
         }
     }
 ];
