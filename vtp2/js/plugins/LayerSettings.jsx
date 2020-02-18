@@ -232,7 +232,20 @@ function LayerSettings({
     onClose = () => {},
     onChange,
     layoutPanelProps,
-    staticStyles = []
+    staticStyles = [
+        {
+            "id": "wireframe",
+            "name": "wireframe",
+            "title": "Wireframe (sld static style)",
+            "links": [
+                {
+                    "rel": "stylesheet",
+                    "type": "application/vnd.ogc.sld+xml",
+                    "href": "static/styles/wireframe.sld"
+                }
+            ]
+        }
+    ]
 }) {
     const [queryables, setQueryables] = useState();
     const [loadingQueryables, setLoadingQueryables] = useState(false);

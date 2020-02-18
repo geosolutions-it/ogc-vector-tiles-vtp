@@ -66,7 +66,16 @@ class OGCAPICatalogPlugin extends React.Component {
         resizeDisabled: false,
         resizeHandle: 'w',
         resizeHandleAxis: 'x',
-        services: []
+        services: [
+            {
+                label: 'Local GeoServer OGC Tiles API',
+                value: 'http://localhost:8080/geoserver/ogc/tiles'
+            },
+            {
+                label: 'Local GeoServer OGC Features API',
+                value: 'http://localhost:8080/geoserver/ogc/features'
+            }
+        ]
     };
 
     state = {

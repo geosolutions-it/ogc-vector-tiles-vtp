@@ -7,3 +7,7 @@ target/
 npm-debug.log
 coverage/
 package-lock.json
+
+static/services.json
+static/styles/*
+!static/styles/wireframe.sld
