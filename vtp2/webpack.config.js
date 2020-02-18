@@ -85,6 +85,7 @@ module.exports = (env, argv) => {
             new NormalModuleReplacementPlugin(/TOC\/Toolbar$/, path.join(__dirname, 'js', '_overrides', 'components', 'TOC', 'Toolbar')),
             new NormalModuleReplacementPlugin(/TOC\/Header$/, path.join(__dirname, 'js', '_overrides', 'components', 'TOC', 'Header')),
             new NormalModuleReplacementPlugin(/cardgrids\/SideCard$/, path.join(__dirname, 'js', '_overrides', 'components', 'misc', 'cardgrids', 'SideCard')),
+            new NormalModuleReplacementPlugin(/cardgrids\/SideGrid$/, path.join(__dirname, 'js', '_overrides', 'components', 'misc', 'cardgrids', 'SideGrid')),
             new NormalModuleReplacementPlugin(/utils\/VectorTileUtils$/, path.join(__dirname, 'js', '_overrides', 'utils', 'VectorTileUtils')),
             new NormalModuleReplacementPlugin(/openlayers\/plugins\/index$/, path.join(__dirname, 'js', '_overrides', 'components', 'map', 'openlayers', 'plugins', 'index')),
             new NormalModuleReplacementPlugin(/openlayers\/VectorStyle$/, path.join(__dirname, 'js', '_overrides', 'components', 'map', 'openlayers', 'VectorStyle')),

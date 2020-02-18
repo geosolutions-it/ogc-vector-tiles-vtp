@@ -35,7 +35,31 @@
     },
     "plugins": {
         "viewer": [
-            "Layout",
+            {
+                "name": "Layout",
+                "cfg": {
+                    "options": {
+                        "sm": {
+                            "dragMargin": [0, 0],
+                            "minLayoutBodySize": [256, 256],
+                            "resizeDisabled": false,
+                            "steps": [0, 0.5, 1],
+                            "maxDragThreshold": 0.1,
+                            "initialStepIndex": 1
+                        },
+                        "md": {
+                            "dragMargin": [8, 8],
+                            "minLayoutBodySize": [256, 256],
+                            "resizeDisabled": false
+                        },
+                        "lg": {
+                            "dragMargin": [256, 256],
+                            "minLayoutBodySize": [256, 256],
+                            "resizeDisabled": false
+                        }
+                    }
+                }
+            },
             {
                 "name": "Map",
                 "cfg": {
