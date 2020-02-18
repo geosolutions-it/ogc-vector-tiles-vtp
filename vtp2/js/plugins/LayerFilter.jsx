@@ -20,6 +20,7 @@ import tooltip from '@mapstore/components/misc/enhancers/tooltip';
 import GroupField from '@mapstore/components/data/query/GroupField';
 import BorderLayout from '@mapstore/components/layout/BorderLayout';
 import Toolbar from '@mapstore/components/misc/toolbar/Toolbar';
+import Loader from '@mapstore/components/misc/Loader';
 import withLayoutPanel from '@mapstore/plugins/layout/withLayoutPanel';
 import Select from 'react-select';
 
@@ -378,7 +379,7 @@ const LayerFilter = withLayoutPanel(({
     const [spatial, setSpatial] = useState({ spatialField });
 
     useEffect(() => {
-        if (!name) {
+        if (!layerId) {
             onClose();
         } else {
             setFilter(layerFilter);
@@ -392,15 +393,42 @@ const LayerFilter = withLayoutPanel(({
                 })
                 .catch(() => setLoadingQueryables(false));
         }
-    }, [layerType, name, enabled]);
+    }, [layerType, layerId, enabled]);
     if (!enabled) {
         return null;
     }
     if (loadingQueryables) {
-        return null;
+        return (
+            <div
+                style={{
+                    position: 'absolute',
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                }}>
+                <Loader size={100}/>
+            </div>
+        );
     }
     if (!queryables) {
-        return null;
+        return (
+            <div
+                style={{
+                    position: 'absolute',
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontStyle: 'italic',
+                    padding: 8,
+                    textAlign: 'center'
+                }}>
+                    This type of layer does not support queryables
+            </div>
+        );
     }
     const geomAttributes = queryables && queryables.filter(({ type }) => type === 'geometry');
     return (

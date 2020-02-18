@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { createPlugin } from '@mapstore/utils/PluginsUtils';
 import get from 'lodash/get';
 import omit from 'lodash/omit';
@@ -19,7 +19,6 @@ import { Button as ButtonRB, Glyphicon, Form, FormControl, FormGroup, ControlLab
 import withLayoutPanel from '@mapstore/plugins/layout/withLayoutPanel';
 import tooltip from '@mapstore/components/misc/enhancers/tooltip';
 import Select from 'react-select';
-import { getQueryables } from '@js/api/OGC';
 
 const Button = tooltip(ButtonRB);
 
@@ -55,7 +54,6 @@ const formatLabels = {
 
 const LayerSettingsPanel = withLayoutPanel(({
     selectedLayer,
-    queryables,
     tileUrls,
     onChange,
     tileUrl,
@@ -193,20 +191,6 @@ const LayerSettingsPanel = withLayoutPanel(({
                                     });
                             }}/>
                     </FormGroup>}
-                    {queryables &&
-                    <FormGroup
-                        controlId="queryables"
-                        key="queryables"
-                        style={{
-                            zIndex: 10
-                        }}>
-                        <ControlLabel>Queryables</ControlLabel>
-                        <Select
-                            clearable
-                            placeholder="Available queryables"
-                            options={queryables
-                                .map(({ id, type }) => ({ value: id, label: `${id} {${type}}`, type }))}/>
-                    </FormGroup>}
                     {availableTileMatrixSet && availableTileMatrixSet.length > 0 &&
                     <FormGroup
                         controlId="tilematrix"
@@ -247,22 +231,10 @@ function LayerSettings({
         }
     ]
 }) {
-    const [queryables, setQueryables] = useState();
-    const [loadingQueryables, setLoadingQueryables] = useState(false);
-    const { id, name, type, tileUrls = [], availableStyles, tileMatrixSet = [], url } = selectedLayer || {};
+    const { id, name, type, tileUrls = [], availableStyles, tileMatrixSet = [] } = selectedLayer || {};
     useEffect(() => {
         if (!name) {
             onClose();
-        }
-        if ((type === 'ogc-tile' || type === 'ogc-features') && url) {
-            setLoadingQueryables(true);
-            setQueryables(undefined);
-            getQueryables(url)
-                .then((response) => {
-                    setQueryables(response);
-                    setLoadingQueryables(false);
-                })
-                .catch(() => setLoadingQueryables(false));
         }
     }, [type, id]);
     const tileUrl = tileUrls.find((tUrl) => tUrl.format === selectedLayer.format) || {};
@@ -278,8 +250,6 @@ function LayerSettings({
                 availableStyles={availableStyles}
                 availableTileMatrixSet={availableTileMatrixSet}
                 layoutPanelProps={layoutPanelProps}
-                queryables={queryables}
-                loadingQueryables={loadingQueryables}
                 staticStyles={staticStyles}
             />
         )
