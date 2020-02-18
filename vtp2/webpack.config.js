@@ -101,6 +101,8 @@ module.exports = (env, argv) => {
             new NormalModuleReplacementPlugin(/map\/index$/, path.join(__dirname, 'js', '_overrides', 'plugins', 'map', 'index')),
             new NormalModuleReplacementPlugin(/LayersUtils$/, path.join(__dirname, 'js', '_overrides', 'utils', 'LayersUtils')),
 
+            new NormalModuleReplacementPlugin(/theme\/Theme$/, path.join(__dirname, 'js', '_overrides', 'components', 'theme', 'Theme')),
+
             new NoEmitOnErrorsPlugin(),
             extractThemesPlugin,
             ...(isProduction
