@@ -31,12 +31,20 @@ const tools = [
                 onAddFeature: setControlProperty.bind(null, 'spatialFilter', 'feature'),
                 onRemoveFeature: setControlProperty.bind(null, 'spatialFilter', null)
             })(SpatialFilterSupport)
+        },
+        mapboxgl: {
+            name: 'spatialFilterSupport',
+            impl: () => <div></div>
         }
     },
     {
         openlayers: {
             name: 'attribution',
             impl: connect(createSelector([layoutTypeSelector], (layoutType) => ({ layoutType })))(OLScaleLine)
+        },
+        mapboxgl: {
+            name: 'attribution',
+            impl: () => <div></div>
         }
     },
     {
@@ -47,6 +55,10 @@ const tools = [
             ], (spatialFilterEnabled) => ({
                 enabled: !spatialFilterEnabled
             })))(OLVectorFeaturesInfo)
+        },
+        mapboxgl: {
+            name: 'vectorFeaturesInfo',
+            impl: () => <div></div>
         }
     }
 ];

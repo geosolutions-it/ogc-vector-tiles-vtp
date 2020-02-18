@@ -96,6 +96,9 @@ module.exports = (env, argv) => {
             new NormalModuleReplacementPlugin(/FilterUtils$/, path.join(__dirname, 'js', '_overrides', 'utils', 'FilterUtils')),
             new NormalModuleReplacementPlugin(/plugins\/CRSSelector$/, path.join(__dirname, 'js', '_overrides', 'plugins', 'CRSSelector')),
 
+            new NormalModuleReplacementPlugin(/map\/index$/, path.join(__dirname, 'js', '_overrides', 'plugins', 'map', 'index')),
+            new NormalModuleReplacementPlugin(/LayersUtils$/, path.join(__dirname, 'js', '_overrides', 'utils', 'LayersUtils')),
+
             new NoEmitOnErrorsPlugin(),
             extractThemesPlugin,
             ...(isProduction
