@@ -18,12 +18,12 @@ import VectorSource from 'ol/source/Vector';
 import VectorLayer from 'ol/layer/Vector';
 import SecurityUtils from '@mapstore/utils/SecurityUtils';
 import GeoJSON from 'ol/format/GeoJSON';
-import * as flatgeobuf from 'flatgeobuf/dist/flatgeobuf-geojson.min.js';
+import { deserializeStream } from 'flatgeobuf/lib/geojson';
 import { optionsToVendorParams } from '@mapstore/utils/VendorParamsUtils';
 
 const streamFlatGeobuf = async function({url, srs}, source) {
     const response = await fetch(url);
-    for await (let feature of flatgeobuf.deserializeStream(response.body)) {
+    for await (let feature of deserializeStream(response.body)) {
         const olFeature = source.getFormat().readFeature(feature);
         if (srs !== 'EPSG:4326') {
             olFeature.getGeometry().transform('EPSG:4326', srs);

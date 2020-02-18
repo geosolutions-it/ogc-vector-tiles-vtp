@@ -33,7 +33,8 @@ module.exports = (env, argv) => {
             path.join(__dirname, 'node_modules', '@terrestris', 'base-util', 'node_modules'),
             path.join(__dirname, 'node_modules', 'query-string'),
             path.join(__dirname, 'node_modules', 'strict-uri-encode'),
-            path.join(__dirname, 'node_modules', 'split-on-first')
+            path.join(__dirname, 'node_modules', 'split-on-first'),
+            path.join(__dirname, 'node_modules', 'flatgeobuf')
         ]
     };
     const publicPath = 'dist/';
