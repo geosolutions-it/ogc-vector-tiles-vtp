@@ -16,6 +16,8 @@ import SpatialFilterSupport from '@js/plugins/map/openlayers/SpatialFilterSuppor
 import OLScaleLine from '@js/plugins/map/openlayers/OLScaleLine';
 import { layoutTypeSelector } from '@mapstore/selectors/layout';
 import OLVectorFeaturesInfo from '@js/plugins/map/openlayers/OLVectorFeaturesInfo';
+import SaveCachedOGCTiles from '@js/plugins/map/openlayers/SaveCachedOGCTiles';
+import { selectOGCTileVisibleLayers } from '@js/selectors/layers';
 
 const tools = [
     {
@@ -58,6 +60,25 @@ const tools = [
         },
         mapboxgl: {
             name: 'vectorFeaturesInfo',
+            impl: () => <div></div>
+        }
+    },
+    {
+        openlayers: {
+            name: 'saveCachedOGCTiles',
+            impl: connect(
+                createSelector(
+                    [selectOGCTileVisibleLayers],
+                    (layers) => ({
+                        layers
+                    })),
+                {
+                    onUpdate: setControlProperty.bind(null, 'cachedTiles', 'values')
+                }
+            )(SaveCachedOGCTiles)
+        },
+        mapboxgl: {
+            name: 'saveCachedOGCTiles',
             impl: () => <div></div>
         }
     }

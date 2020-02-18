@@ -282,18 +282,18 @@ export function collectionUrlToLayer(collectionUrl, serviceUrl, collection) {
 
 export const getTileSetMetadata = (collectionUrls, options) => {
     return axios.all(collectionUrls
-        .map((collectionUrl) =>
-            collectionUrlToLayer(collectionUrl)
+        .map(({ url, ...layer }) =>
+            collectionUrlToLayer(url)
                 .then((collection = {}) => {
                     const { links = [] } = collection;
                     const queryablesUrl = (find(links, ({ rel, type }) => rel === 'queryables' && (type === 'application/json' || type === undefined)) || {}).href;
                     return axios.get(queryablesUrl)
                         .then(({ data = {} } = {}) => {
                             const { queryables = {} } = data;
-                            return { ...collection, queryables };
+                            return { ...collection, id: layer.id, queryables };
                         })
                         .catch(() => {
-                            return collection;
+                            return { ...collection, id: layer.id };
                         });
                 })
         ))
@@ -339,21 +339,19 @@ export const getTileSetMetadata = (collectionUrls, options) => {
                     "validTill": validTillDate,  // client side ?
                     "receivedOn": receivedOnDate  // client side ?
                 },
-                "layers": collections.map((collection) => [
-                    {
-                        // /collections/{collectionId}/
-                        "id": collection.id,
-                        "title": collection.title,
-                        "description": collection.description,
-                        "data_type": null, // missing (why key it snake case?)
-                        "geometry_type": null, // missing (why key it snake case?)
-                        "min_zoom": null, // missing (why key it snake case?)
-                        "max_zoom": null, // missing (why key it snake case?)
+                "layers": collections.map((collection) => ({
+                    // /collections/{collectionId}/
+                    "id": collection.id,
+                    "title": collection.title || collection.id,
+                    "description": collection.description,
+                    "data_type": null, // missing (why key it snake case?)
+                    "geometry_type": null, // missing (why key it snake case?)
+                    "min_zoom": null, // missing (why key it snake case?)
+                    "max_zoom": null, // missing (why key it snake case?)
 
-                        // /collections/{collectionId}/queryables/
-                        "featureAttributes": collection.queryables
-                    }
-                ]),
+                    // /collections/{collectionId}/queryables/
+                    "featureAttributes": collection.queryables
+                })),
 
                 "tileMatrixSetLink": {
 

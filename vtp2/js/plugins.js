@@ -29,6 +29,7 @@ import LayerFilterPlugin from '@js/plugins/LayerFilter';
 import MapLoadingPlugin from '@js/plugins/MapLoading';
 import LogoPlugin from '@js/plugins/Logo';
 import MapTypePlugin from '@js/plugins/MapType';
+import TileSetMetadataPlugin from '@js/plugins/TileSetMetadata';
 
 export const plugins = {
     LayoutPlugin,
@@ -52,7 +53,8 @@ export const plugins = {
     HelpLinkPlugin,
     LogoPlugin,
     ScaleBoxPlugin,
-    MapTypePlugin
+    MapTypePlugin,
+    TileSetMetadataPlugin
 };
 
 export const requires = {};
