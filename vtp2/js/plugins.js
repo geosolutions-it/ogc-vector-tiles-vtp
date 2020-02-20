@@ -30,6 +30,7 @@ import MapLoadingPlugin from '@js/plugins/MapLoading';
 import LogoPlugin from '@js/plugins/Logo';
 import MapTypePlugin from '@js/plugins/MapType';
 import TileSetMetadataPlugin from '@js/plugins/TileSetMetadata';
+import TileSetsCatalogPlugin from '@js/plugins/TileSetsCatalog';
 
 export const plugins = {
     LayoutPlugin,
@@ -54,7 +55,8 @@ export const plugins = {
     LogoPlugin,
     ScaleBoxPlugin,
     MapTypePlugin,
-    TileSetMetadataPlugin
+    TileSetMetadataPlugin,
+    TileSetsCatalogPlugin
 };
 
 export const requires = {};

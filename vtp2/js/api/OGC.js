@@ -65,7 +65,7 @@ const getTileMatrixSet = function({
             .catch(() => null);
 };
 
-const getSRS = function({ supportedCRS }) {
+export const getSRS = function({ supportedCRS }) {
     const code = supportedCRS && supportedCRS.split('/0/');
     return code && `EPSG:${code[code.length - 1]}`;
 };

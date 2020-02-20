@@ -26,7 +26,7 @@ function SaveCachedOGCTiles({
                     const tiles = tileCache.getValues().map((tile) => {
                         if (tile instanceof VectorImageTile) {
                             const olTile = tile.getTile(tile.tileKeys[0]);
-                            const [ z, x, y] = tile.tileCoord;
+                            const [ z, x, y] = olTile.tileCoord;
                             return {
                                 url: olTile.url_,
                                 z,

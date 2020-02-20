@@ -1,0 +1,36 @@
+{
+    "version": 2,
+    "map": {
+        "center": {
+            "x": 36.096253797522586,
+            "y": 32.619396503692926,
+            "crs": "EPSG:4326"
+        },
+        "maxExtent": [
+            -20037508.34,
+            -20037508.34,
+            20037508.34,
+            20037508.34
+        ],
+        "projection": "EPSG:3857",
+        "units": "m",
+        "zoom": 13,
+        "mapOptions": {},
+        "layers": [
+            {
+                "id": "empty-bg",
+                "group": "background",
+                "source": "ol",
+                "title": "Empty Background",
+                "type": "empty",
+                "visibility": true,
+                "singleTile": false,
+                "dimensions": [],
+                "hideLoading": false,
+                "handleClickOnLayer": false,
+                "useForElevation": false,
+                "hidden": false
+            }
+        ]
+    }
+}

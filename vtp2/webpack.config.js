@@ -37,7 +37,7 @@ module.exports = (env, argv) => {
             path.join(__dirname, 'node_modules', 'flatgeobuf')
         ]
     };
-    const publicPath = 'dist/';
+    const publicPath = isProduction ? 'dist/' : 'http://localhost:8090/dist/';
     const cssPrefix = '.vtp2';
     const chunks = [];
 

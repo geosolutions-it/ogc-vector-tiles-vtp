@@ -103,6 +103,15 @@ const createLayer = (options) => {
             return null;
         }
         const [ z, x, y ] = tileCoord;
+        const tileY = -y - 1;
+
+        if (options.cachedTilesNames) {
+            const tileName = `${z}_${tileY}_${x}`;
+            if (options.cachedTilesNames.indexOf(tileName) === -1) {
+                return null;
+            }
+        }
+
         const tileMatrixIdentifier = tileMatrix && tileMatrix[z] && tileMatrix[z]['ows:Identifier'];
         const matrixLimitsIdentifier = (find(matrixIds, ({ identifier }) => identifier === tileMatrixIdentifier) || {}).identifier;
         if (!matrixLimitsIdentifier) {
@@ -112,7 +121,7 @@ const createLayer = (options) => {
         return (layerUrl + queryParametersString)
             .replace(/\{tileMatrix\}/g, matrixLimitsIdentifier)
             .replace(/\{tileCol\}/g, x.toString())
-            .replace(/\{tileRow\}/g, (-y - 1).toString())
+            .replace(/\{tileRow\}/g, tileY.toString())
             .replace(/\{styleId\}/g, styleId)
             .replace(/\{tileMatrixSetId\}/g, tilingSchemeId);
     };

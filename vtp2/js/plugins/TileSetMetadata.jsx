@@ -25,13 +25,20 @@ import FileSaver from 'file-saver';
 
 import { selectOGCTileVisibleLayers } from '@js/selectors/layers';
 import { getTileSetMetadata } from '@js/api/OGC';
+import { projectionSelector } from '@mapstore/selectors/map';
 
 const Button = tooltip(ButtonRB);
 const PLUGIN_NAME = 'TileSetMetadata';
 
 const TileSetMetadataPlugin = ({
     visibleLayers = [],
-    cachedTiles = []
+    cachedTiles = [],
+    projection,
+    projectionsLabels = {
+        'EPSG:4326': 'WorldCRS84Quad',
+        'EPSG:3857': 'WebMercatorQuad',
+        'EPSG:3395': 'WorldMercatorWGS84Quad'
+    }
 }) => {
 
     const [showModal, setShowModal] = useState();
@@ -71,6 +78,7 @@ const TileSetMetadataPlugin = ({
                                 if (collectionUrls.length > 0) {
                                     getTileSetMetadata(visibleLayers, {
                                         ...options,
+                                        tileMatrixSetId: projectionsLabels[projection],
                                         creationDate
                                     })
                                         .then((tileSetMetadata) => {
@@ -79,7 +87,7 @@ const TileSetMetadataPlugin = ({
                                                     return new Promise(resolve => {
                                                         axios.all(
                                                             tiles.map(tile =>
-                                                                axios.get(tile.url)
+                                                                axios.get(tile.url, {  responseType: 'blob' })
                                                                     .then(({ data }) => ({
                                                                         ...tile,
                                                                         data
@@ -104,9 +112,10 @@ const TileSetMetadataPlugin = ({
                                                     });
                                                     return {
                                                         format: cachedLayer.format,
-                                                        tileTemplate: `${cachedLayer.id}/{z}_{y}_{x}`,
+                                                        tileTemplate: `${cachedLayer.id}/{tileMatrix}_{tileRow}_{tileCol}`,
                                                         id: cachedLayer.id,
-                                                        name
+                                                        name,
+                                                        cachedTilesNames: cachedLayer.tiles.map(tile => `${tile.z}_${tile.y}_${tile.x}`)
                                                     };
                                                 });
 
@@ -176,11 +185,13 @@ export default createPlugin(PLUGIN_NAME, {
         createSelector([
             state => get(state, 'controls.toc.activePanel'),
             selectOGCTileVisibleLayers,
-            state => get(state, 'controls.cachedTiles.values')
-        ], (activePanel, visibleLayers, cachedTiles) => ({
+            state => get(state, 'controls.cachedTiles.values'),
+            projectionSelector
+        ], (activePanel, visibleLayers, cachedTiles, projection) => ({
             enabled: activePanel === PLUGIN_NAME,
             visibleLayers,
-            cachedTiles
+            cachedTiles,
+            projection
         })),
         {
             onClose: setControlProperty.bind(null, 'toc', 'activePanel', '')
