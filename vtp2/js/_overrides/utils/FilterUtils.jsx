@@ -13,6 +13,7 @@ const { read } = require('@mapstore/utils/ogc/Filter/CQL/parser');
 const fromObject = require('@mapstore/utils/ogc/Filter/fromObject');
 const filterBuilder = require('@mapstore/utils/ogc/Filter/FilterBuilder');
 const CoordinatesUtils = require('@mapstore/utils/CoordinatesUtils');
+const upperCase = require('lodash/upperCase');
 
 const cqlToOgc = (cqlFilter, fOpts) => {
     const fb = filterBuilder(fOpts);
@@ -670,7 +671,7 @@ const FilterUtils = {
     },
 
     getCQLGeometryElement: function(coordinates, type) {
-        let geometry = type + "(";
+        let geometry = upperCase(type) + "(";
 
         switch (type) {
         case "Point":
