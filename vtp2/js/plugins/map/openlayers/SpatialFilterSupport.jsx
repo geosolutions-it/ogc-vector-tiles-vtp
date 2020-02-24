@@ -15,6 +15,11 @@ const GeoJSONFormat = new GeoJSON();
 
 const getDrawOptions = (type) => {
     switch (type) {
+    case 'Point': {
+        return {
+            type: 'Point'
+        };
+    }
     case 'Polygon': {
         return {
             type: 'Polygon'

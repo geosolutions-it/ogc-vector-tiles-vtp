@@ -211,13 +211,22 @@ const SpatialFilter = connect((state) => ({
                         type: 'Feature',
                         properties: {},
                         geometry,
-                        style: {
-                            fillColor: color,
-                            fillOpacity: 0.2,
-                            color: color,
-                            opacity: 0.75,
-                            weight: 3
-                        }
+                        style: geometry.type === 'Point'
+                            ? {
+                                fillColor: color,
+                                fillOpacity: 0.2,
+                                color: '#333333',
+                                opacity: 0.75,
+                                weight: 3,
+                                radius: 6
+                            }
+                            : {
+                                fillColor: color,
+                                fillOpacity: 0.2,
+                                color: '#333333',
+                                opacity: 0.75,
+                                weight: 3
+                            }
                     }
                 ]
             });
@@ -303,6 +312,10 @@ const SpatialFilter = connect((state) => ({
                     {
                         value: 'Polygon',
                         label: 'Polygon'
+                    },
+                    {
+                        value: 'Point',
+                        label: 'Point'
                     }
                 ]}
                 onChange={(option) => {
