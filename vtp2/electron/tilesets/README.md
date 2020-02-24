@@ -1,0 +1,1 @@
+Add here zipped tile set metadata folders

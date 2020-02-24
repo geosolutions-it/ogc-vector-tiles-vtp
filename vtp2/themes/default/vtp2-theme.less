@@ -238,6 +238,29 @@ html,
     min-height: @square-btn-size;
 }
 
+.drop-area, .dropzone {
+    position: relative;
+    width: 100%;
+    height: auto;
+    flex: 1;
+}
+.dropzone {
+    min-height: 50px;
+    display: flex;
+    margin: 8px 0;
+    width: 100%;
+    text-align: center;
+    font-style: italic;
+    align-items: center;
+    justify-content: center;
+    background-color: @ms2-color-shade-lighter;
+    padding: 8px;
+}
+
+.dropzone-active {
+    background-color: lighten(@ms2-color-success, 10%);
+}
+
 @import "less/react-select.less";
 @import "less/sidegrid.less";
 @import "less/toc.less";

@@ -22,6 +22,7 @@ import moment from 'moment';
 import ReactJson from 'react-json-view';
 import ResizableModal from '@mapstore/components/misc/ResizableModal';
 import Portal from '@mapstore/components/misc/Portal';
+import Dropzone from 'react-dropzone';
 
 const tileSetMetadataToLayers = (tileSetMetadata) => {
 
@@ -112,10 +113,15 @@ function TileSetsCatalog({
 }) {
     const [tileSets, setTileSets] = useState([]);
     const [showModal, setShowModal] = useState();
-    useEffect(() => {
+
+    function updateTileSets() {
         if (window.msGetTileSets) {
-            setTileSets(window.msGetTileSets(directoryPath));
+            window.msGetTileSets(directoryPath)
+                .then((response) => setTileSets(response));
         }
+    }
+    useEffect(() => {
+        updateTileSets();
     }, []);
     return (
         <div
@@ -139,17 +145,30 @@ function TileSetsCatalog({
                                 display: 'block'
                             }}
                             bsSize="small"
-                            onClick={() => {
-                                if (window.msGetTileSets) {
-                                    setTileSets(window.msGetTileSets(directoryPath));
-                                }
-                            }}>
+                            onClick={() => updateTileSets()}>
                             Refresh list
                         </Button>
+                        <Dropzone
+                            className="dropzone"
+                            activeClassName="dropzone-active"
+                            multiple={false}
+                            onDrop={(files) => {
+                                const _metadata = [...files.filter(({ type }) => {
+                                    return type.match(/zip/g);
+                                })];
+                                if (!_metadata[0]) return null;
+                                if (window.msWriteTileSet) {
+                                    window.msWriteTileSet(directoryPath, _metadata[0])
+                                        .then(() => updateTileSets());
+                                }
+                                return null;
+                            }}>
+                            Drop or click here to add a new zipped tile set metadata folder
+                        </Dropzone>
                     </div>
                 }>
                 {tileSets.length === 0
-                    ? <Alert bsStyle="warning">No tile set metadata available. Add a new tile set metadata folder to tilset/ directory.</Alert>
+                    ? <Alert bsStyle="warning" style={{ textAlign: 'center' }}>No tile set metadata available.</Alert>
                     : <SideGrid
                         size="sm"
                         items={tileSets.map((tileSetMetadata) => ({
