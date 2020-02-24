@@ -283,7 +283,7 @@ export function collectionUrlToLayer(collectionUrl, serviceUrl, collection) {
 export const getTileSetMetadata = (collectionUrls, options) => {
     return axios.all(collectionUrls
         .map(({ url, ...layer }) =>
-            collectionUrlToLayer(url)
+            collectionUrlToLayer(url, url)
                 .then((collection = {}) => {
                     const { links = [] } = collection;
                     const queryablesUrl = (find(links, ({ rel, type }) => rel === 'queryables' && (type === 'application/json' || type === undefined)) || {}).href;

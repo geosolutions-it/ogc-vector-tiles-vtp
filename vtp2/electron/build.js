@@ -109,7 +109,6 @@ return packager(options)
         ];
 
         fs.removeSync(path.join(resourceAppPath, 'tilesets'));
-        fs.removeSync(path.join(resourceAppPath, 'node_modules'));
         fs.removeSync(path.join(resourceAppPath, '.gitignore'));
         fs.removeSync(path.join(resourceAppPath, 'package-lock.json'));
 

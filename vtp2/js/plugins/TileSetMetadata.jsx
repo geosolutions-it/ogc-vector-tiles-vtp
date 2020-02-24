@@ -142,6 +142,9 @@ const TileSetMetadataPlugin = ({
                                                 });
                                             });
                                         });
+                                } else {
+                                    setShowModal(false);
+                                    setLoading(false);
                                 }
                             } catch (e) {
                                 setShowModal(false);
