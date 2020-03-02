@@ -71,7 +71,7 @@ export const getSRS = function({ supportedCRS }) {
     if (code === 'CRS84') {
         return 'EPSG:4326';
     }
-    return code && `EPSG:${code[code.length - 1]}`;
+    return code && `EPSG:${code}`;
 };
 
 const stylesMimeTypes = {
