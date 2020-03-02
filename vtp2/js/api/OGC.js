@@ -111,7 +111,7 @@ export const getQueryables = (collectionUrl) => {
         .then(({ data = {} } = {}) => {
             const { links = [] } = data;
             const queryablesUrl = (find(links, ({ rel, type }) => rel === 'queryables' && (type === 'application/json' || type === undefined)) || {}).href;
-            return axios.get(queryablesUrl);
+            return axios.get(getFullHREF(collectionUrl, queryablesUrl));
         })
         .then(({ data = {} } = {}) => {
             const { queryables = {} } = data;
