@@ -32,8 +32,12 @@ const createLayer = (options) => {
     const projection = olGet(srs);
     const metersPerUnit = projection.getMetersPerUnit();
     const tilingSchemeId = (options.tileMatrixSet.find((tM) => {
-        const code = tM['ows:SupportedCRS'].split('/0/');
-        return srs === `EPSG:${code[code.length - 1]}`;
+        const supportedCRSSplit = tM['ows:SupportedCRS'] && tM['ows:SupportedCRS'].split(/\//g);
+        const code = supportedCRSSplit[supportedCRSSplit.length - 1];
+        if (code === 'CRS84') {
+            return srs === 'EPSG:4326';
+        }
+        return srs === `EPSG:${code}`;
     }) || {})['ows:Identifier'];
 
     const tileMatrixSet = options.tileMatrixSet.find(tM => {
