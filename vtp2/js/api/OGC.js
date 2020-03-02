@@ -66,7 +66,11 @@ const getTileMatrixSet = function({
 };
 
 export const getSRS = function({ supportedCRS }) {
-    const code = supportedCRS && supportedCRS.split('/0/');
+    const supportedCRSSplit = supportedCRS && supportedCRS.split(/\//g);
+    const code = supportedCRSSplit[supportedCRSSplit.length - 1];
+    if (code === 'CRS84') {
+        return 'EPSG:4326';
+    }
     return code && `EPSG:${code[code.length - 1]}`;
 };
 
