@@ -139,6 +139,22 @@ const LayerSettingsPanel = withLayoutPanel(({
                             }}>{tileUrl.url}
                         </small>}
                     </FormGroup>}
+                    {selectedLayer.type === 'ogc-tile' && formatLabels[selectedLayer.format] === 'GeoJSON' && <FormGroup
+                        controlId="dataProjection"
+                        key="dataProjection">
+                        <ControlLabel>Data projection</ControlLabel>
+                        <Select
+                            value={selectedLayer.dataProjection || ''}
+                            clearable={false}
+                            options={[{
+                                value: '',
+                                label: 'Use tile matrix set crs'
+                            }, {
+                                value: 'EPSG:4326',
+                                label: 'EPSG:4326'
+                            }]}
+                            onChange={({ value }) => onChange(selectedLayer.id, 'layers', { dataProjection: value })}/>
+                    </FormGroup>}
                     {availableStyles && availableStyles.length > 0 &&
                     <FormGroup
                         controlId="styles"

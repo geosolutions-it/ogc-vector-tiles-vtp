@@ -488,7 +488,8 @@ const LayersUtils = {
             tooltipPlacement: layer.tooltipPlacement,
             tileUrls: layer.tileUrls,
             vectorStyle: layer.vectorStyle,
-            declutter: layer.declutter
+            declutter: layer.declutter,
+            dataProjection: layer.dataProjection
         },
         layer.params ? { params: layer.params } : {},
         layer.credits ? { credits: layer.credits } : {});

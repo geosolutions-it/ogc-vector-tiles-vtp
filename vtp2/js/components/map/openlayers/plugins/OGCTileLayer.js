@@ -134,7 +134,7 @@ const createLayer = (options) => {
         const Format = OL_VECTOR_FORMATS[options.format] || MVT;
         const source = new VectorTile({
             format: new Format({
-                dataProjection: srs,
+                dataProjection: options.dataProjection || srs,
                 layerName: '_layer_'
             }),
             tileGrid,
@@ -176,7 +176,8 @@ Layers.registerType('ogc-tile', {
             || oldOptions.srs !== newOptions.srs
             || oldOptions.format !== newOptions.format
             || oldOptions._v_ !== newOptions._v_
-            || oldOptions.style !== newOptions.style) {
+            || oldOptions.style !== newOptions.style
+            || oldOptions.dataProjection !== newOptions.dataProjection) {
             return createLayer(newOptions, map);
         }
         if (get(oldOptions, 'vectorStyle.body') !== get(newOptions, 'vectorStyle.body')
