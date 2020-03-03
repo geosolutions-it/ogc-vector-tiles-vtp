@@ -129,7 +129,7 @@ export function collectionUrlToLayer(collectionUrl, serviceUrl, collection) {
         ? axios.get(getFullHREF(serviceUrl, collectionUrl)).then(({ data }) => data)
         : new Promise((resolve) => resolve(collection)))
         .then(function(data) {
-            const { id, title, extent, links, styles } = data;
+            const { id, title, extent, links, styles } = data || {};
             const availableStyles = (styles || []).filter(style => style.id).map(style => ({
                 ...style,
                 ...getStyleInfoFromLinks(style)
@@ -291,7 +291,7 @@ export const getTileSetMetadata = (collectionUrls, options) => {
                 .then((collection = {}) => {
                     const { links = [] } = collection;
                     const queryablesUrl = (find(links, ({ rel, type }) => rel === 'queryables' && (type === 'application/json' || type === undefined)) || {}).href;
-                    return axios.get(queryablesUrl)
+                    return axios.get(getFullHREF(url, queryablesUrl))
                         .then(({ data = {} } = {}) => {
                             const { queryables = {} } = data;
                             return { ...collection, id: layer.id, queryables };
@@ -314,6 +314,9 @@ export const getTileSetMetadata = (collectionUrls, options) => {
             };
         })
         .then(({ collections, tileMatrixSet, tileMatrixSetLimits }) => {
+            if (!tileMatrixSet) {
+                return { error: 'tileMatrixSet is undefined' };
+            }
             const {
                 title = null,
                 abstract = null,
