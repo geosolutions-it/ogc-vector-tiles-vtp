@@ -15,7 +15,7 @@ import last from 'lodash/last';
 import find from 'lodash/find';
 import isFunction from 'lodash/isFunction';
 import isObject from 'lodash/isObject';
-
+import { METERS_PER_UNIT } from 'ol/proj/Units';
 import { colorToRgbaStr } from '@mapstore/utils/ColorUtils';
 import { reproject, transformLineToArcs } from '@mapstore/utils/CoordinatesUtils';
 import Icons from '@mapstore/utils/openlayers/Icons';
@@ -311,14 +311,38 @@ export const parseStyles = (feature = {properties: {}}) => {
 
 };
 
+function adjustScaleDenominator(projection, style) {
+    if (projection === 'EPSG:4326') {
+        return {
+            ...style,
+            rules: style.rules.map((rule) => {
+                const max = rule.scaleDenominator.max && rule.scaleDenominator.max / METERS_PER_UNIT.degrees;
+                const min = rule.scaleDenominator.min && rule.scaleDenominator.min / METERS_PER_UNIT.degrees;
+                const maxScaleDenominator = max && { max };
+                const minScaleDenominator = max && { min };
+                const scaleDenominator = (minScaleDenominator || maxScaleDenominator) && {
+                    ...maxScaleDenominator,
+                    ...minScaleDenominator
+                };
+                return {
+                    ...rule,
+                    ...(scaleDenominator && { scaleDenominator })
+                };
+            })
+        };
+    }
+    return style;
+}
 
-function getOlStyleFunction(format, styleBody) {
+function getOlStyleFunction(format, styleBody, options) {
+    const { projection } = options || {};
     const splitStyle = splitStyleSheet(format, styleBody);
     const layersStyles = isArray(splitStyle) && splitStyle;
     if (!layersStyles || layersStyles.length === 1 && layersStyles[0] && layersStyles[0].group && layersStyles[0].group.length === 1) {
         return getStyleParser(format)
             .readStyle(styleBody)
             .then(style => adjustIconSize(format, style))
+            .then(style => adjustScaleDenominator(projection, style))
             .then(style => olStyleParser.writeStyle(style));
     }
     return Promise.all(
@@ -330,6 +354,7 @@ function getOlStyleFunction(format, styleBody) {
                         getStyleParser(format)
                             .readStyle(layerStyleBody)
                             .then(style => adjustIconSize(format, style))
+                            .then(style => adjustScaleDenominator(projection, style))
                             .then(style => olStyleParser.writeStyle(style))
                             .then(olStyle => ({
                                 layerName,
@@ -391,11 +416,11 @@ function getOlStyleFunction(format, styleBody) {
 export const getStyle = (options, isDrawing = false, textValues = []) => {
     if (options.style && options.style.url) {
         return axios.get(options.style.url).then(response => {
-            return getOlStyleFunction(options.style.format, response.data);
+            return getOlStyleFunction(options.style.format, response.data, options);
         });
     }
     if (options.style && options.style.body) {
-        return getOlStyleFunction(options.style.format, options.style.body);
+        return getOlStyleFunction(options.style.format, options.style.body, options);
     }
     const style = getStyleLegacy(options, isDrawing, textValues);
     if (options.asPromise) {

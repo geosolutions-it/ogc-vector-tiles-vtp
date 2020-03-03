@@ -149,7 +149,7 @@ const createLayer = (options) => {
             zIndex: options.zIndex,
             declutter: options.declutter
         });
-        applyStyle(options.vectorStyle, layer);
+        applyStyle(options.vectorStyle, layer, { projection: srs });
         return layer;
     }
 
@@ -181,7 +181,7 @@ Layers.registerType('ogc-tile', {
         }
         if (get(oldOptions, 'vectorStyle.body') !== get(newOptions, 'vectorStyle.body')
             || get(oldOptions, 'vectorStyle.url') !== get(newOptions, 'vectorStyle.url')) {
-            applyStyle(newOptions.vectorStyle, layer);
+            applyStyle(newOptions.vectorStyle, layer, { projection: newOptions.srs });
         }
         return null;
     },

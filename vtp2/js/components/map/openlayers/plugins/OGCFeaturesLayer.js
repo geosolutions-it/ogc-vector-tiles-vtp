@@ -82,7 +82,7 @@ const createLayer = (options) => {
         zIndex: options.zIndex,
         opacity: options.opacity
     });
-    applyStyle(vectorStyle, layer);
+    applyStyle(vectorStyle, layer, { projection: srs });
     return layer;
 };
 Layers.registerType('ogc-features', {
@@ -96,7 +96,7 @@ Layers.registerType('ogc-features', {
         if (get(oldOptions, 'vectorStyle.body') !== get(newOptions, 'vectorStyle.body')
             || get(oldOptions, 'vectorStyle.url') !== get(newOptions, 'vectorStyle.url')
             || oldOptions.style !== newOptions.style) {
-            applyStyle(newOptions.vectorStyle, layer);
+            applyStyle(newOptions.vectorStyle, layer, { projection: newOptions.srs });
         }
         if (oldOptions.srs !== newOptions.srs) {
             layer.getSource().forEachFeature(olFeature => {

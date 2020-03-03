@@ -20,8 +20,8 @@ export const OL_VECTOR_FORMATS = {
     'application/vnd.geo+json': GeoJSON
 };
 
-export const applyStyle = (vectorStyle, layer) => {
-    getStyle({ asPromise: true, style: vectorStyle }).then((style) => {
+export const applyStyle = (vectorStyle, layer, options) => {
+    getStyle({ asPromise: true, style: vectorStyle, ...options }).then((style) => {
         layer.setStyle(style);
     }).catch(() => {
         // TODO: error notifications
