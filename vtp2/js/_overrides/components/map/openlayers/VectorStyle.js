@@ -316,8 +316,8 @@ function adjustScaleDenominator(projection, style) {
         return {
             ...style,
             rules: style.rules.map((rule) => {
-                const max = rule.scaleDenominator.max && rule.scaleDenominator.max / METERS_PER_UNIT.degrees;
-                const min = rule.scaleDenominator.min && rule.scaleDenominator.min / METERS_PER_UNIT.degrees;
+                const max = rule.scaleDenominator && rule.scaleDenominator.max / METERS_PER_UNIT.degrees;
+                const min = rule.scaleDenominator && rule.scaleDenominator.min / METERS_PER_UNIT.degrees;
                 const maxScaleDenominator = max && { max };
                 const minScaleDenominator = max && { min };
                 const scaleDenominator = (minScaleDenominator || maxScaleDenominator) && {
