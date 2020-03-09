@@ -22,21 +22,6 @@ import Select from 'react-select';
 
 const Button = tooltip(ButtonRB);
 
-function mimeTypeToStyleFormat(mimeType) {
-    const formats = [
-        {
-            format: 'mbstyle',
-            types: [ 'application/vnd.geoserver.mbstyle+json', 'application/vnd.mapbox.style+json' ]
-        },
-        {
-            format: 'sld',
-            types: ['application/vnd.ogc.sld+xml']
-        }
-    ];
-    const { format = 'sld' } = formats.find(({ types }) => types.indexOf(mimeType) !== -1) || {};
-    return format;
-}
-
 const formatLabels = {
     'application/vnd.mapbox-vector-tile': 'MapBox Vector Tile',
     'application/json;type=geojson': 'GeoJSON',
@@ -166,17 +151,12 @@ const LayerSettingsPanel = withLayoutPanel(({
                             options={availableStyles.map(({ id, title }) => ({ value: id, label: title || id }))}
                             onChange={({ value }) => {
                                 const availableStyle = availableStyles.find(({ id }) => id === value) || {};
-                                const { links = [] } = availableStyle;
-                                const stylesLinks = links.filter(({ rel }) => rel === 'stylesheet') || {};
-                                const { href: url, type: mimeType } = stylesLinks.length > 1
-                                    && stylesLinks.filter((stylesLink) => stylesLink.type.indexOf('sld') === -1)[0]
-                                    || stylesLinks[0];
                                 onChange(selectedLayer.id, 'layers',
                                     {
                                         style: value,
                                         vectorStyle: {
-                                            url,
-                                            format: mimeTypeToStyleFormat(mimeType)
+                                            url: availableStyle.styleSheetHref,
+                                            format: availableStyle.format
                                         }
                                     });
                             }}/>
@@ -192,17 +172,12 @@ const LayerSettingsPanel = withLayoutPanel(({
                             options={staticStyles.map(({ id, title }) => ({ value: id, label: title || id }))}
                             onChange={({ value }) => {
                                 const staticStyle = staticStyles.find(({ id }) => id === value) || {};
-                                const { links = [] } = staticStyle;
-                                const stylesLinks = links.filter(({ rel }) => rel === 'stylesheet') || {};
-                                const { href: url, type: mimeType } = stylesLinks.length > 1
-                                    && stylesLinks.filter((stylesLink) => stylesLink.type.indexOf('sld') === -1)[0]
-                                    || stylesLinks[0];
                                 onChange(selectedLayer.id, 'layers',
                                     {
                                         style: value,
                                         vectorStyle: {
-                                            url,
-                                            format: mimeTypeToStyleFormat(mimeType)
+                                            url: staticStyle.styleSheetHref,
+                                            format: staticStyle.format
                                         }
                                     });
                             }}/>

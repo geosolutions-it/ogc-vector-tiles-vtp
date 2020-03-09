@@ -75,22 +75,37 @@ export const getSRS = function({ supportedCRS }) {
 };
 
 const stylesMimeTypes = {
-    css: ['application/vnd.geoserver.geocss+css'],
-    sld: ['application/vnd.ogc.sld+xml'],
-    sldse: ['application/vnd.ogc.se+xml'],
-    zip: ['application/zip']
+    // css: ['application/vnd.geoserver.geocss+css'],
+    sld: [
+        'application/vnd.ogc.sld+xml',
+        'application/vnd.ogc.sld+xml;version=1.1'
+    ],
+    // sldse: ['application/vnd.ogc.se+xml'],
+    // zip: ['application/zip'],
+    mbstyle: [
+        'application/vnd.mapbox.style+json',
+        'application/json',
+        'application/vnd.geoserver.mbstyle+json'
+    ]
 };
 
 
-export const getStyleInfoFromLinks = (style) => {
-    const styleSheet = (find(style && style.links, ({ rel }) => rel === 'stylesheet') || {});
+export const getStyleInfoFromLinks = (style, serviceUrl) => {
+
     const describedBy = (find(style && style.links, ({ rel, type }) => rel === 'describedBy' && (type === 'application/json' || type === undefined)) || {});
-    return {
-        name: style.id,
-        format: find(Object.keys(stylesMimeTypes), (key) => stylesMimeTypes[key].indexOf(styleSheet.type) !== -1),
-        styleSheetHref: styleSheet.href,
-        href: describedBy.href
-    };
+    return (style.links || [])
+        .filter(({ rel }) => (rel === 'stylesheet' || rel === 'style'))
+        .map((styleSheet) => {
+            const format = find(Object.keys(stylesMimeTypes), (key) => stylesMimeTypes[key].indexOf(styleSheet.type) !== -1);
+            return {
+                id: `${style.identifier || style.id}-${format}`,
+                name: `${style.identifier || style.id}-${format}`,
+                format,
+                title: `${style.title || style.identifier || style.id} (${format})`,
+                styleSheetHref: getFullHREF(serviceUrl, styleSheet.href),
+                href: describedBy.href
+            };
+        });
 };
 
 export const getCapabilities = (collectionUrl) => {
@@ -123,6 +138,25 @@ export const getQueryables = (collectionUrl) => {
         });
 };
 
+function getAvailableStyles(styles = [], serviceUrl) {
+    const availableStyles = (styles || [])
+        .filter(style => (style.id || style.identifier)) // e identifier
+        .reduce((acc, style) => [
+            ...acc,
+            ...getStyleInfoFromLinks(style, serviceUrl)
+                .map((styleProperties) => ({
+                    ...style,
+                    ...styleProperties
+                }))
+        ], [])
+        .filter(({ format }) => format);
+
+    return {
+        style: undefined,
+        availableStyles
+    };
+}
+
 export function collectionUrlToLayer(collectionUrl, serviceUrl, collection) {
     const collectionFullUrl = getFullHREF(serviceUrl, collectionUrl);
     return (collectionFullUrl // if missing collection/self
@@ -130,16 +164,11 @@ export function collectionUrlToLayer(collectionUrl, serviceUrl, collection) {
         : new Promise((resolve) => resolve(collection)))
         .then(function(data) {
             const { id, title, extent, links, styles } = data || {};
-            const availableStyles = (styles || []).filter(style => style.id).map(style => ({
-                ...style,
-                ...getStyleInfoFromLinks(style)
-            }));
             const spatial = extent && extent.spatial && extent.spatial.bbox && extent.spatial.bbox[0]
                 || [-180, -90, 180, 90];
             const tiles = (links || []).filter(({ rel, type }) =>
                 rel === 'tiles' && type === 'application/json'
                 || rel === 'tiles' && type === undefined);
-            const style = (availableStyles && availableStyles[0] || {}).id;
             const items = (links || [])
                 .filter(({ rel, type }) => rel === 'items' && isVectorFormat(type))
                 .map(({ href, type }) => ({ url: getFullHREF(serviceUrl, href), format: type  }));
@@ -149,6 +178,9 @@ export function collectionUrlToLayer(collectionUrl, serviceUrl, collection) {
                     type: 'ogc'
                 }
             };
+
+            const stylesLink = (links || []).find(({ rel, type }) => rel === 'styles' && (type === undefined || type === 'application/json'));
+
             return {
                 ...data,
                 name: id,
@@ -158,10 +190,10 @@ export function collectionUrlToLayer(collectionUrl, serviceUrl, collection) {
                 // check missing params
                 ...collection,
                 tiles,
-                availableStyles,
-                style,
                 ...searchParam,
                 url: getFullHREF(serviceUrl, collectionUrl),
+                stylesLink,
+                stylesParam: styles,
                 bbox: {
                     crs: 'EPSG:4326',
                     bounds: {
@@ -172,6 +204,26 @@ export function collectionUrlToLayer(collectionUrl, serviceUrl, collection) {
                     }
                 }
             };
+        })
+        .then(function({ stylesLink, stylesParam = [], ...layer }) {
+
+            if (!(stylesLink && stylesLink.href)) {
+                return {
+                    ...layer,
+                    ...getAvailableStyles(stylesParam, serviceUrl)
+                };
+            }
+            return axios.get(getFullHREF(serviceUrl, stylesLink.href))
+                .then(({ data } = {}) => {
+                    return {
+                        ...layer,
+                        ...getAvailableStyles([ ...stylesParam, ...(data.styles || [])], serviceUrl)
+                    };
+                })
+                .catch(() => ({
+                    ...layer,
+                    ...getAvailableStyles(stylesParam, serviceUrl)
+                }));
         })
         .then(function({ tiles, ...layer }) {
             return axios.all(

@@ -19,7 +19,7 @@ const getStyle = (options) => {
     if (options.style && options.style.body) {
         return convertStyle(options.style.format, 'mbstyle', options.style.body);
     }
-    return null;
+    return new Promise((resolve) => resolve(null));
 };
 
 export const getStyleLayers = (vectorStyle, source) => {
