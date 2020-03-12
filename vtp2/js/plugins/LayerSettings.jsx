@@ -195,6 +195,30 @@ const LayerSettingsPanel = withLayoutPanel(({
                             );
                         })}
                     </FormGroup>}
+                    {<FormGroup
+                        controlId="mvtBorderSize"
+                        key="mvtBorderSize">
+                        <ControlLabel>mvtBorderSize (custom param)</ControlLabel>
+                        <FormControl
+                            defaultValue={selectedLayer && selectedLayer.params && selectedLayer.params.mvtBorderSize || ''}
+                            type="text"
+                            placeholder="Enter mvtBorderSize param..."
+                            onChange={(event) => {
+                                if (!event.target.value) {
+                                    const params = omit({ ...selectedLayer.params }, ['mvtBorderSize']);
+                                    return onChange(selectedLayer.id, 'layers',
+                                        { params: {...params}, '_v_': Date.now() }
+                                    );
+                                }
+                                return onChange(selectedLayer.id, 'layers', {
+                                    params: {
+                                        ...selectedLayer.params,
+                                        mvtBorderSize: event.target.value
+                                    },
+                                    '_v_': Date.now()
+                                });
+                            }} />
+                    </FormGroup>}
                 </Form>
             </div>
         </div>

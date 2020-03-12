@@ -98,10 +98,10 @@ export const getStyleInfoFromLinks = (style, serviceUrl) => {
         .map((styleSheet) => {
             const format = find(Object.keys(stylesMimeTypes), (key) => stylesMimeTypes[key].indexOf(styleSheet.type) !== -1);
             return {
-                id: `${style.identifier || style.id}-${format}`,
-                name: `${style.identifier || style.id}-${format}`,
+                id: `${style.id}-${format}`,
+                name: `${style.id}-${format}`,
                 format,
-                title: `${style.title || style.identifier || style.id} (${format})`,
+                title: `${style.title || style.id} (${format})`,
                 styleSheetHref: getFullHREF(serviceUrl, styleSheet.href),
                 href: describedBy.href
             };

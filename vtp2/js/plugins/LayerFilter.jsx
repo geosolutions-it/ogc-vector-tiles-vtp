@@ -9,13 +9,14 @@
 import React, { useState, useEffect } from 'react';
 import { createPlugin } from '@mapstore/utils/PluginsUtils';
 import get from 'lodash/get';
+import omit from 'lodash/omit';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { setControlProperty } from '@mapstore/actions/controls';
 import { updateNode } from '@mapstore/actions/layers';
 import { updateAdditionalLayer, removeAdditionalLayer } from '@mapstore/actions/additionallayers';
 import { getSelectedLayer } from '@mapstore/selectors/layers';
-import { Button as ButtonRB, Glyphicon } from 'react-bootstrap';
+import { Button as ButtonRB, Glyphicon, FormControl, FormGroup, ControlLabel } from 'react-bootstrap';
 import tooltip from '@mapstore/components/misc/enhancers/tooltip';
 import GroupField from '@mapstore/components/data/query/GroupField';
 import BorderLayout from '@mapstore/components/layout/BorderLayout';
@@ -23,6 +24,7 @@ import Toolbar from '@mapstore/components/misc/toolbar/Toolbar';
 import Loader from '@mapstore/components/misc/Loader';
 import withLayoutPanel from '@mapstore/plugins/layout/withLayoutPanel';
 import Select from 'react-select';
+
 
 import { getQueryables } from '@js/api/OGC';
 
@@ -429,17 +431,45 @@ const LayerFilter = withLayoutPanel(({
         return (
             <div
                 style={{
-                    position: 'absolute',
+                    position: 'relative',
                     width: '100%',
                     height: '100%',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    fontStyle: 'italic',
                     padding: 8,
                     textAlign: 'center'
                 }}>
-                    This type of layer does not support queryables
+                <div>
+                    <div style={{ fontStyle: 'italic' }}>This type of layer does not support queryables</div>
+                    <hr />
+                    <div style={{ fontStyle: 'italic' }}>You can use input area to enter a filter</div>
+                    <FormGroup
+                        controlId="filter"
+                        key="filter">
+                        <ControlLabel>CQL filter</ControlLabel>
+                        <FormControl
+                            defaultValue={selectedLayer && selectedLayer.params && selectedLayer.params.filter || ''}
+                            type="text"
+                            placeholder="Enter filter..."
+                            onChange={(event) => {
+                                if (!event.target.value) {
+                                    const params = omit({ ...selectedLayer.params }, ['filter', 'filter-lang']);
+                                    return onChange(selectedLayer.id, 'layers',
+                                        { params: {...params}, '_v_': Date.now() }
+                                    );
+                                }
+                                return onChange(selectedLayer.id, 'layers', {
+                                    params: {
+                                        ...selectedLayer.params,
+                                        'filter': event.target.value,
+                                        'filter-lang': 'cql-text'
+                                    },
+                                    '_v_': Date.now()
+                                });
+                            }} />
+                    </FormGroup>
+                </div>
             </div>
         );
     }
