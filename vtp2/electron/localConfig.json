@@ -88,7 +88,9 @@
                                     "type": "application/vnd.ogc.sld+xml",
                                     "href": "static/styles/wireframe.sld"
                                 }
-                            ]
+                            ],
+                            "styleSheetHref": "static/styles/wireframe.sld",
+                            "format": "sld"
                         }
                     ]
                 }
@@ -100,31 +102,6 @@
                         "container": "footer",
                         "priority": 1
                     }
-                }
-            },
-            {
-                "name": "CRSSelector",
-                "cfg": {
-                    "additionalCRS": {
-                        "EPSG:3395": {
-                            "label": "WorldMercatorWGS84Quad"
-                        }
-                    },
-                    "crsProperties": {
-                        "EPSG:3395": {
-                            "label": "WorldMercatorWGS84Quad"
-                        },
-                        "EPSG:4326": {
-                            "label": "WorldCRS84Quad"
-                        },
-                        "EPSG:3857": {
-                            "label": "WebMercatorQuad"
-                        }
-                    },
-                    "filterAllowedCRS": [
-                        "EPSG:4326",
-                        "EPSG:3857"
-                    ]
                 }
             },
             {
@@ -176,7 +153,8 @@
             },
             "Logo",
             "ScaleBox",
-            "TileSetsCatalog"
+            "TileSetsCatalog",
+            "ProjectionLabel"
         ]
     }
 }
