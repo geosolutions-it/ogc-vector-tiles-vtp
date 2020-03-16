@@ -35,7 +35,7 @@ import OlStyleParser from 'geostyler-openlayers-parser';
 const olStyleParser = new OlStyleParser();
 
 import {
-    getStyle as getStyleLegacy, getMarkerStyle as getMarkerStyleLegacyFun,
+    /* getStyle as getStyleLegacy,*/ getMarkerStyle as getMarkerStyleLegacyFun,
     startEndPolylineStyle as startEndPolylineStyleLegacy, defaultStyles as defaultStylesLegacy
 } from '@mapstore/components/map/openlayers/LegacyVectorStyle';
 
@@ -413,7 +413,7 @@ function getOlStyleFunction(format, styleBody, options) {
         });
 }
 
-export const getStyle = (options, isDrawing = false, textValues = []) => {
+export const getStyle = (options/* , isDrawing = false, textValues = [] */) => {
     if (options.style && options.style.url) {
         return axios.get(options.style.url).then(response => {
             return getOlStyleFunction(options.style.format, response.data, options);
@@ -422,7 +422,33 @@ export const getStyle = (options, isDrawing = false, textValues = []) => {
     if (options.style && options.style.body) {
         return getOlStyleFunction(options.style.format, options.style.body, options);
     }
-    const style = getStyleLegacy(options, isDrawing, textValues);
+    // only for vtp project change default style
+    const style = (feature) => {
+        const type = feature.getGeometry().getType();
+        if (type.indexOf('Point') !== -1) {
+            return new Style({
+                image: new CircleStyle({
+                    radius: 6,
+                    fill: new Fill({ color: 'rgba(50, 91, 239, 0.25)' }),
+                    stroke: new Stroke({ color: 'rgba(50, 91, 239, 1.0)', width: 1 })
+                })
+            });
+        }
+        if (type.indexOf('Line') !== -1) {
+            return new Style({
+                stroke: new Stroke({
+                    color: 'rgba(50, 91, 239, 1.0)',
+                    width: 1
+                })
+            });
+        }
+        return new Style({
+            fill: new Fill({
+                color: 'rgba(50, 91, 239, 0.25)'
+            })
+        });
+    }; // getStyleLegacy(options, isDrawing, textValues);
+
     if (options.asPromise) {
         return new Promise((resolve) => {
             resolve(style);

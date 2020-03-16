@@ -189,6 +189,7 @@ export function collectionUrlToLayer(collectionUrl, serviceUrl, collection) {
                 visibility: true,
                 // check missing params
                 ...collection,
+                collection: data,
                 tiles,
                 ...searchParam,
                 url: getFullHREF(serviceUrl, collectionUrl),
@@ -236,21 +237,27 @@ export function collectionUrlToLayer(collectionUrl, serviceUrl, collection) {
                                 .map(({ href: url, type: format }) => ({ url: getFullHREF(serviceUrl, url), format }));
                             return {
                                 tileMatrixSetLinks,
-                                tile
+                                tile,
+                                tilesLinks: links
                             };
                         })
-                        .catch(() => null)
+                        .catch(() => ({}))
                 )
             )
                 .then(function(tilesResponses) {
                     const tileUrls = uniqBy(tilesResponses.reduce((acc, { tile }) => [...acc, ...tile], []), 'format');
                     const tileMatrixSetLinks = uniqBy(tilesResponses.reduce((acc, tilesResponse) => [...acc, ...(tilesResponse.tileMatrixSetLinks || [])], []), 'tileMatrixSet');
                     const { format } = (tileUrls.find((tileUrl) => tileUrl.format === 'application/vnd.mapbox-vector-tile' || tileUrl.format === 'image/png' || tileUrl.format === 'image/png' || tileUrl.format === 'image/png8') || tileUrls[0] || {});
+                    const tilesLinks = tilesResponses.map(({ tilesLinks: links }) => links);
                     return {
                         ...layer,
                         format,
                         tileUrls,
-                        tileMatrixSetLinks
+                        tileMatrixSetLinks,
+                        collection: {
+                            ...layer.collection,
+                            tilesLinks
+                        }
                     };
                 });
         })
@@ -261,7 +268,10 @@ export function collectionUrlToLayer(collectionUrl, serviceUrl, collection) {
                     if (tileMatrixSetCache[tileMatrixSetCacheId] !== undefined) {
                         return new Promise((resolve) => resolve(
                             tileMatrixSetCache[tileMatrixSetCacheId]
-                                ? { ...tileMatrixSetCache[tileMatrixSetCacheId] }
+                                ? {
+                                    ...tileMatrixSetCache[tileMatrixSetCacheId],
+                                    ...(tileMatrixSetLimits && { tileMatrixSetLimits })
+                                }
                                 : null
                         ));
                     }
@@ -271,16 +281,16 @@ export function collectionUrlToLayer(collectionUrl, serviceUrl, collection) {
                         tileMatrixSetURI,
                         tileMatrixSetLimits
                     }).then((response) => {
-
                         if (tileMatrixSetCache[tileMatrixSetCacheId] === undefined) {
                             tileMatrixSetCache[tileMatrixSetCacheId] = !response
                                 ? null
-                                : tileMatrixSetLimits
-                                    ? { ...response, tileMatrixSetLimits }
-                                    : response;
+                                : response;
                         }
                         return tileMatrixSetCache[tileMatrixSetCacheId]
-                            ? { ...tileMatrixSetCache[tileMatrixSetCacheId] }
+                            ? {
+                                ...tileMatrixSetCache[tileMatrixSetCacheId],
+                                ...(tileMatrixSetLimits && { tileMatrixSetLimits })
+                            }
                             : null;
                     });
                 }))
@@ -336,36 +346,66 @@ export function collectionUrlToLayer(collectionUrl, serviceUrl, collection) {
         });
 }
 
-export const getTileSetMetadata = (collectionUrls, options) => {
-    return axios.all(collectionUrls
-        .map(({ url, ...layer }) =>
-            collectionUrlToLayer(url, url)
-                .then((collection = {}) => {
-                    const { links = [] } = collection;
-                    const queryablesUrl = (find(links, ({ rel, type }) => rel === 'queryables' && (type === 'application/json' || type === undefined)) || {}).href;
-                    return axios.get(getFullHREF(url, queryablesUrl))
-                        .then(({ data = {} } = {}) => {
-                            const { queryables = {} } = data;
-                            return { ...collection, id: layer.id, queryables };
-                        })
-                        .catch(() => {
-                            return { ...collection, id: layer.id };
-                        });
+export const getTileSetMetadata = (collectionOptions, options) => {
+    const url = collectionOptions.url;
+    return collectionUrlToLayer(url, url, collectionOptions && collectionOptions.collection)
+        .then((collection = {}) => {
+            const { links = [] } = collection;
+            const queryablesUrl = (find(links, ({ rel, type }) => rel === 'queryables' && (type === 'application/json' || type === undefined)) || {}).href;
+            return axios.get(getFullHREF(url, queryablesUrl))
+                .then(({ data = {} } = {}) => {
+                    const { queryables = {} } = data;
+                    return { ...collection, id: collectionOptions.id, queryables };
                 })
-        ))
-        .then((collections) => {
+                .catch(() => {
+                    return { ...collection, id: collectionOptions.id };
+                });
+        })
+        .then((collection) => {
             const {
                 tileMatrixSetId = 'WebMercatorQuad'
             } = options || {};
-            const filteredCollections = collections.filter(({ matrixIds }) => matrixIds[tileMatrixSetId]);
-            const tileMatrixSet = filteredCollections && filteredCollections[0] && filteredCollections[0].tileMatrixResponse
-                && find(filteredCollections[0].tileMatrixResponse, (collection = {}) => collection.tileMatrixSet.identifier === tileMatrixSetId);
+            const coll = collection.collection || {};
+            const isDescribedBy = find(coll.tilesLinks || [], (tilesLinks) =>
+                find(tilesLinks, (link) => link.rel === 'describedby' && (link.type === 'application/json' || link.type === undefined))
+            );
+            const describedBy = (find(isDescribedBy, (link) => link.rel === 'describedby' && (link.type === 'application/json' || link.type === undefined)) || {}).href;
+            if (!describedBy) {
+                return collection;
+            }
+            return axios.get(describedBy.replace(/\{tileMatrixSetId\}/g, tileMatrixSetId))
+                .then(({ data }) => {
+                    if (data && data.tilejson) {
+                        return {
+                            ...collection,
+                            layers: data.vector_layers.map((layer) => ({
+                                "id": layer.id,
+                                "title": layer.id,
+                                "description": layer.description,
+                                "featureAttributes": Object.keys(layer.fields)
+                                    .map((fieldKey) => ({
+                                        id: fieldKey,
+                                        stype: layer.fields[fieldKey]
+                                    }))
+                            }))
+                        };
+                    }
+                    return { ...collection };
+                })
+                .catch(() => collection);
+        })
+        .then((collection) => {
+            const {
+                tileMatrixSetId = 'WebMercatorQuad'
+            } = options || {};
+            const tileMatrixSet = collection && collection.tileMatrixResponse
+                && find(collection.tileMatrixResponse, (res = {}) => res.tileMatrixSet.identifier === tileMatrixSetId);
             return {
-                collections: filteredCollections,
+                collection,
                 ...tileMatrixSet
             };
         })
-        .then(({ collections, tileMatrixSet, tileMatrixSetLimits }) => {
+        .then(({ collection, tileMatrixSet, tileMatrixSetLimits }) => {
             if (!tileMatrixSet) {
                 return { error: 'tileMatrixSet is undefined' };
             }
@@ -382,10 +422,11 @@ export const getTileSetMetadata = (collectionUrls, options) => {
                 validTillDate = null,
                 receivedOnDate = null
             } = options || {}; // options provided client side
-
+            const coll = collection && collection.collection;
+            const layers = collection && collection.layers;
             return {
-                "title": title, // client side
-                "abstract": abstract, // client side
+                "title": title || coll.title || coll.id, // client side
+                "abstract": abstract || coll.description, // client side
                 "keywords": keywords, // client side
                 "pointOfContact": pointOfContact, // client side
                 "version": version, // client side
@@ -398,19 +439,14 @@ export const getTileSetMetadata = (collectionUrls, options) => {
                     "validTill": validTillDate,  // client side ?
                     "receivedOn": receivedOnDate  // client side ?
                 },
-                "layers": collections.map((collection) => ({
+                "layers": layers || [{
                     // /collections/{collectionId}/
-                    "id": collection.id,
-                    "title": collection.title || collection.id,
-                    "description": collection.description,
-                    "data_type": null, // missing (why key it snake case?)
-                    "geometry_type": null, // missing (why key it snake case?)
-                    "min_zoom": null, // missing (why key it snake case?)
-                    "max_zoom": null, // missing (why key it snake case?)
-
+                    "id": coll.id,
+                    "title": coll.title || coll.id,
+                    "description": coll.description,
                     // /collections/{collectionId}/queryables/
                     "featureAttributes": collection.queryables
-                })),
+                }],
 
                 "tileMatrixSetLink": {
 
@@ -443,7 +479,7 @@ export const getTileSetMetadata = (collectionUrls, options) => {
                     "tileMatrixSetLimits": {
                         // /collections/{collectionId}/tiles
                         // or provided client side if the tileMatrixSets it's one of the default
-                        "tileMatrixLimits": tileMatrixSetLimits.map((tileMatrixSetLimit) => ({
+                        "tileMatrixLimits": tileMatrixSetLimits && tileMatrixSetLimits.map((tileMatrixSetLimit) => ({
                             "tileMatrix": tileMatrixSetLimit.tileMatrix,
                             "minTileRow": tileMatrixSetLimit.minTileRow,
                             "maxTileRow": tileMatrixSetLimit.maxTileRow,

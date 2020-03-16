@@ -10,6 +10,9 @@ import React, { useState } from 'react';
 import { createPlugin } from '@mapstore/utils/PluginsUtils';
 import get from 'lodash/get';
 import find from 'lodash/find';
+import uniq from 'lodash/uniq';
+import min from 'lodash/min';
+import max from 'lodash/max';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { setControlProperty } from '@mapstore/actions/controls';
@@ -18,7 +21,7 @@ import tooltip from '@mapstore/components/misc/enhancers/tooltip';
 import ResizableModal from '@mapstore/components/misc/ResizableModal';
 import Loader from '@mapstore/components/misc/Loader';
 import Portal from '@mapstore/components/misc/Portal';
-
+import Select from 'react-select';
 import JSZip from 'jszip';
 import axios from '@mapstore/libs/ajax';
 import FileSaver from 'file-saver';
@@ -44,7 +47,7 @@ const TileSetMetadataPlugin = ({
     const [showModal, setShowModal] = useState();
     const [loading, setLoading] = useState();
     const [options, setOptions] = useState({});
-
+    const [selectedLayer, setSelectedLayer] = useState();
     return (
         <>
         <Button
@@ -67,80 +70,117 @@ const TileSetMetadataPlugin = ({
                         text: 'Download',
                         bsSize: 'sm',
                         bsStyle: 'primary',
+                        disabled: !selectedLayer,
                         onClick: () =>  {
-                            if (loading) {
+                            if (loading || !selectedLayer) {
                                 return null;
                             }
                             try {
-                                const collectionUrls = visibleLayers.map(({ url }) => url);
                                 const creationDate = Date.now();
                                 setLoading(true);
-                                if (collectionUrls.length > 0) {
-                                    getTileSetMetadata(visibleLayers, {
+                                if (selectedLayer && selectedLayer.layer) {
+                                    getTileSetMetadata(selectedLayer.layer, {
                                         ...options,
                                         tileMatrixSetId: projectionsLabels[projection],
                                         creationDate
                                     })
                                         .then((tileSetMetadata) => {
-                                            Promise.all(
-                                                cachedTiles.map(({ tiles, ...layer }) => {
-                                                    return new Promise(resolve => {
-                                                        axios.all(
-                                                            tiles.map(tile =>
-                                                                axios.get(tile.url, {  responseType: 'blob' })
-                                                                    .then(({ data }) => ({
-                                                                        ...tile,
-                                                                        data
-                                                                    }))
-                                                                    .catch(() => null)
-                                                            )
-                                                        ).then((newTiles) => resolve({
-                                                            ...layer,
-                                                            tiles: newTiles.filter(val => val)
-                                                        }));
-                                                    });
-                                                })
-                                            ).then((response) => {
-
-                                                const zip = new JSZip();
-
-                                                const cachedProperties = response.map((cachedLayer) => {
-                                                    const { name } = find(visibleLayers, (layer) => layer.id === cachedLayer.id) || {};
-                                                    const tilesFolder = zip.folder(cachedLayer.id);
-                                                    cachedLayer.tiles.forEach((tile) => {
-                                                        tilesFolder.file(`${tile.z}_${tile.y}_${tile.x}`, tile.data);
-                                                    });
-                                                    return {
-                                                        format: cachedLayer.format,
-                                                        tileTemplate: `${cachedLayer.id}/{tileMatrix}_{tileRow}_{tileCol}`,
-                                                        id: cachedLayer.id,
-                                                        name,
-                                                        cachedTilesNames: cachedLayer.tiles.map(tile => `${tile.z}_${tile.y}_${tile.x}`)
-                                                    };
-                                                });
-
-                                                const { layers = [] } = tileSetMetadata;
-
-                                                const newLayers = layers.map((layer) => {
-                                                    const { name, ...newProperties } = find(cachedProperties, (cached) => layer.id === cached.id) || {};
-                                                    return {
-                                                        ...layer,
-                                                        ...newProperties,
-                                                        id: name
-                                                    };
-                                                });
-
-                                                zip.file('tileSetMetadata.json', JSON.stringify({
-                                                    ...tileSetMetadata,
-                                                    layers: newLayers
-                                                }, null, 4));
-
-                                                zip.generateAsync({ type: 'blob' }).then(function(content) {
-                                                    FileSaver.saveAs(content, `tilesetmetadata_${options.title && `${options.title.toLowerCase()}_` || ''}${creationDate}.zip`);
-                                                    setShowModal(false);
-                                                    setLoading(false);
-                                                });
+                                            if (tileSetMetadata && tileSetMetadata.error) {
+                                                setShowModal(false);
+                                                return setLoading(false);
+                                            }
+                                            const layer = selectedLayer.layer;
+                                            const layerCachedTiles = find(cachedTiles, (cachedLayer) => layer.id === cachedLayer.id) || {};
+                                            const { tiles = [] } = layerCachedTiles;
+                                            const zooms = [ ...uniq(tiles.map(({ z }) => z)) ].sort();
+                                            const tileLimitsByZoomLevel = zooms.map((zoom) => {
+                                                const tiltByZoom = tiles.filter(({ z }) => z === zoom);
+                                                const cols = tiltByZoom.map(({ x }) => x);
+                                                const rows = tiltByZoom.map(({ y }) => y);
+                                                return {
+                                                    zoom,
+                                                    minTileRow: min(rows),
+                                                    maxTileRow: max(rows),
+                                                    minTileCol: min(cols),
+                                                    maxTileCol: max(cols)
+                                                };
                                             });
+
+                                            const tileMatrix = get(tileSetMetadata, 'tileMatrixSetLink.tileMatrixSet.tileMatrix');
+                                            const tileMatrixLimits = tileLimitsByZoomLevel.map(({ zoom, ...limits }) => {
+                                                const id = tileMatrix[zoom] && tileMatrix[zoom].id;
+                                                return {
+                                                    ...limits,
+                                                    tileMatrix: id
+                                                };
+                                            });
+
+                                            let tileRequests = [];
+                                            for (let i = 0; i < tileMatrixLimits.length; i++) {
+                                                const tileMatrixLimit = tileMatrixLimits[i] || {};
+                                                const { tileMatrix: z, minTileRow, maxTileRow, minTileCol, maxTileCol } = tileMatrixLimit;
+                                                for (let y = minTileRow; y <= maxTileRow; y++) {
+                                                    for (let x = minTileCol; x <= maxTileCol; x++) {
+                                                        tileRequests.push({
+                                                            z,
+                                                            x,
+                                                            y
+                                                        });
+                                                    }
+                                                }
+                                            }
+
+                                            const tileTemplate = (find(layer && layer.tileUrls, ({ format }) => format === 'application/vnd.mapbox-vector-tile') || {}).url;
+                                            const tileMatrixSetId = get(tileSetMetadata, 'tileMatrixSetLink.tileMatrixSet.id');
+
+                                            axios.all(
+                                                tileRequests.map(({ z, y, x }) =>
+                                                    axios.get(
+                                                        tileTemplate
+                                                            .replace(/\{tileMatrix\}/g, z)
+                                                            .replace(/\{tileCol\}/g, x)
+                                                            .replace(/\{tileRow\}/g, y)
+                                                            .replace(/\{tileMatrixSetId\}/g, tileMatrixSetId),
+                                                        {  responseType: 'blob' })
+                                                        .then(({ data }) => ({
+                                                            z, y, x, data
+                                                        }))
+                                                        .catch(() => ({
+                                                            z, y, x, data: null
+                                                        }))
+                                                ))
+                                                .then((response) => {
+                                                    const zip = new JSZip();
+                                                    const template = `${layerCachedTiles.id}/{tileMatrix}_{tileRow}_{tileCol}.mvt`;
+                                                    const tilesFolder = zip.folder(layerCachedTiles.id);
+                                                    response.forEach((tile) => {
+                                                        tilesFolder.file(`${tile.z}_${tile.y}_${tile.x}.mvt`, tile.data);
+                                                    });
+
+                                                    const tileMatrixSetLink = get(tileSetMetadata, 'tileMatrixSetLink');
+                                                    const tileMatrixSetLimits = get(tileSetMetadata, 'tileMatrixSetLink.tileMatrixSetLimits');
+
+                                                    zip.file('tileSetMetadata.json', JSON.stringify({
+                                                        ...tileSetMetadata,
+                                                        tiles: [
+                                                            template
+                                                        ],
+                                                        tileMatrixSetLink: {
+                                                            ...tileMatrixSetLink,
+                                                            tileMatrixSetLimits: {
+                                                                ...tileMatrixSetLimits,
+                                                                tileMatrixLimits
+                                                            }
+                                                        }
+                                                    }, null, 4));
+
+                                                    zip.generateAsync({ type: 'blob' }).then(function(content) {
+                                                        FileSaver.saveAs(content, `tilesetmetadata_${tileSetMetadata.title && `${tileSetMetadata.title.toLowerCase()}_` || ''}${creationDate}.zip`);
+                                                        setShowModal(false);
+                                                        setLoading(false);
+                                                    });
+                                                });
+                                            return null;
                                         });
                                 } else {
                                     setShowModal(false);
@@ -164,6 +204,19 @@ const TileSetMetadataPlugin = ({
                         padding: 16
                     }}><Loader size={70}/></div>
                     : <Form>
+                        <FormGroup
+                            key="collection">
+                            <ControlLabel>Collection</ControlLabel>
+                            <Select
+                                value={selectedLayer && selectedLayer.value}
+                                placeholder="Select collection..."
+                                options={visibleLayers.map((layer) => ({
+                                    layer,
+                                    value: layer.id,
+                                    label: layer.title || layer.name || layer.id
+                                }))}
+                                onChange={(selected) => setSelectedLayer(selected)}/>
+                        </FormGroup>
                         <FormGroup
                             key="title">
                             <ControlLabel>Title</ControlLabel>

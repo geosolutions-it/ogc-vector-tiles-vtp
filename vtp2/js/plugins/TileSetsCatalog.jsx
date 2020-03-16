@@ -23,10 +23,11 @@ import ReactJson from 'react-json-view';
 import ResizableModal from '@mapstore/components/misc/ResizableModal';
 import Portal from '@mapstore/components/misc/Portal';
 import Dropzone from 'react-dropzone';
+import uuidv1 from 'uuid/v1';
 
 const tileSetMetadataToLayers = (tileSetMetadata) => {
 
-    const { tileMatrixSetLink, layers, tileSetPath } = tileSetMetadata || {};
+    const { tileMatrixSetLink, tileSetPath, tiles = [], title } = tileSetMetadata || {};
     const { tileMatrixSet: tMS, tileMatrixSetLimits } = tileMatrixSetLink || {};
     const tML = tileMatrixSetLimits && tileMatrixSetLimits.tileMatrixLimits || [];
     const tileMatrixSet = [
@@ -69,26 +70,31 @@ const tileSetMetadataToLayers = (tileSetMetadata) => {
         [srs]: true
     };
 
+    const tileUrl = tiles[0] || '';
+    const splitTileUrl =  tileUrl.split(/\./g);
+    const ext = splitTileUrl[splitTileUrl.length - 1] || '';
+    const formats = {
+        mvt: 'application/vnd.mapbox-vector-tile'
+    };
     return {
         srs,
         tileMatrixSetId: tMS.id,
-        layers: layers.map(layer => ({
-            name: layer.id,
-            title: layer.title,
+        layers: [{
+            name: uuidv1(),
+            title: title,
             type: 'ogc-tile',
             visibility: true,
             availableStyles: [],
             url: `${tileSetPath}/tileSetMetadata.json`,
-            format: layer.format,
+            format: formats[ext],
             tileUrls: [{
-                url: `${tileSetPath}/${layer.tileTemplate}`,
-                format: layer.format
+                url: `${tileSetPath}/${tileUrl}`,
+                format: formats[ext]
             }],
             allowedSRS,
             tileMatrixSet,
-            matrixIds,
-            cachedTilesNames: layer.cachedTilesNames
-        }))
+            matrixIds
+        }]
     };
 };
 
@@ -190,7 +196,8 @@ function TileSetsCatalog({
                                         tooltip: 'Show metadata',
                                         onClick: (event) => {
                                             event.stopPropagation();
-                                            setShowModal(tileSetMetadata);
+                                            const { tileSetPath, ...metadata } = tileSetMetadata;
+                                            setShowModal(metadata);
                                         }
                                     }
                                 ]}/>
@@ -218,7 +225,7 @@ export default createPlugin('TileSetsCatalog', {
     containers: {
         Layout: {
             priority: 1,
-            glyph: '1-map',
+            glyph: 'th-large',
             position: 3,
             size: 'auto',
             container: 'right-menu',

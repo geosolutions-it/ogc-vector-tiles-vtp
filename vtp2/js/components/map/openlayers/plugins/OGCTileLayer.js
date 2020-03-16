@@ -9,6 +9,7 @@
 import urlParser from 'url';
 import get from 'lodash/get';
 import find from 'lodash/find';
+import isNaN from 'lodash/isNaN';
 import CoordinatesUtils from '@mapstore/utils/CoordinatesUtils';
 import MapUtils from '@mapstore/utils/MapUtils';
 import Layers from '@mapstore/utils/openlayers/Layers';
@@ -109,16 +110,17 @@ const createLayer = (options) => {
         const [ z, x, y ] = tileCoord;
         const tileY = -y - 1;
 
-        if (options.cachedTilesNames) {
-            const tileName = `${z}_${tileY}_${x}`;
-            if (options.cachedTilesNames.indexOf(tileName) === -1) {
-                return null;
-            }
-        }
-
         const tileMatrixIdentifier = tileMatrix && tileMatrix[z] && tileMatrix[z]['ows:Identifier'];
-        const matrixLimitsIdentifier = (find(matrixIds, ({ identifier }) => identifier === tileMatrixIdentifier) || {}).identifier;
-        if (!matrixLimitsIdentifier) {
+        const currentMatrixLimits = (find(matrixIds, ({ identifier }) => identifier === tileMatrixIdentifier) || {});
+        const matrixLimitsIdentifier = currentMatrixLimits.identifier;
+
+        const minCol = parseFloat(get(currentMatrixLimits, 'ranges.cols.min'));
+        const maxCol = parseFloat(get(currentMatrixLimits, 'ranges.cols.max'));
+        const minRow = parseFloat(get(currentMatrixLimits, 'ranges.rows.min'));
+        const maxRow = parseFloat(get(currentMatrixLimits, 'ranges.rows.max'));
+        const isLimitValid = !isNaN(minCol) && !isNaN(maxCol) && !isNaN(minRow) && !isNaN(maxRow);
+        const isInLimits = !isLimitValid || x >= minCol && x <= maxCol && tileY >= minRow && tileY <= maxRow;
+        if (!matrixLimitsIdentifier || !isInLimits) {
             return null;
         }
         const styleId = options.style;
