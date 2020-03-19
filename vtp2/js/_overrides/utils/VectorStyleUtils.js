@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const { isNil, get, uniq, isArray, isObject, castArray } = require('lodash');
+const { isNil, get, uniq, isArray, isObject, castArray, flatten } = require('lodash');
 const { set } = require('@mapstore/utils/ImmutableUtils');
 const { colorToRgbaStr } = require('@mapstore/utils/ColorUtils');
 const axios = require('axios');
@@ -434,6 +434,10 @@ function mergeStyleSheet(format, styleSheets) {
     return styleSheets;
 }
 
+const uoms = {
+    'http://www.opengeospatial.org/se/units/metre': 'm'
+};
+
 function splitStyleSheet(format, styleSheet, options = {}) {
     const {
         onlyLayers
@@ -456,6 +460,10 @@ function splitStyleSheet(format, styleSheet, options = {}) {
             const { Name, UserStyle } = namedLayer;
             const { FeatureTypeStyle } = UserStyle[0];
             const featureTypeStyles = FeatureTypeStyle.map((featureTypeStyle) => {
+                const unitOfMeasures = (get(featureTypeStyle, 'Rule') || [])
+                    .map(({ LineSymbolizer }) => LineSymbolizer && ({
+                        line: LineSymbolizer.map(({ $ }) => uoms[get($, 'uom')])
+                    }));
                 const geoStylerStyle = styleParser.sldObjectToGeoStylerStyle({
                     StyledLayerDescriptor: {
                         ...StyledLayerDescriptor,
@@ -472,9 +480,11 @@ function splitStyleSheet(format, styleSheet, options = {}) {
                         }]
                     }
                 });
-                return styleParser.geoStylerStyleToSldObject(geoStylerStyle);
+                return {
+                    unitOfMeasures,
+                    sldObject: styleParser.geoStylerStyleToSldObject(geoStylerStyle)
+                };
             });
-
             const group = onlyLayers
                 ? builder.buildObject({
                     StyledLayerDescriptor: {
@@ -485,15 +495,19 @@ function splitStyleSheet(format, styleSheet, options = {}) {
                                 {
                                     ...UserStyle[0],
                                     FeatureTypeStyle: featureTypeStyles
-                                        .map(sld => get(sld, 'StyledLayerDescriptor.NamedLayer[0].UserStyle[0].FeatureTypeStyle[0]'))
+                                        .map(({ sldObject }) => get(sldObject, 'StyledLayerDescriptor.NamedLayer[0].UserStyle[0].FeatureTypeStyle[0]'))
                                 }
                             ]
                         }]
                     }
                 })
-                : featureTypeStyles.map(featureTypeStyle => builder.buildObject(featureTypeStyle));
+                : featureTypeStyles.map(({ sldObject }) => builder.buildObject(sldObject));
+            const uom = flatten(featureTypeStyles.map(({ unitOfMeasures }) => unitOfMeasures));
             return {
                 group,
+                properties: {
+                    uom
+                },
                 layerName: Name[0]
             };
         });

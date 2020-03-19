@@ -310,6 +310,57 @@ export const parseStyles = (feature = {properties: {}}) => {
     return [];
 
 };
+/*
+function adjustUnitOfMeasure(properties, style, projection) {
+    const getPixelSize = (size, uom) => {
+        if (!uom) {
+            return size;
+        }
+        // 10 is ~ 13 zoom level
+        if (projection === 'EPSG:4326') {
+            return size / 10 * METERS_PER_UNIT.degrees;
+        }
+        return size / 10;
+    };
+    if (properties && properties.uom) {
+        return {
+            ...style,
+            rules: style.rules.map((rule, ruleId) => {
+                const uoms = properties.uom[ruleId] || {};
+                if (!uoms.line) {
+                    return rule;
+                }
+                const { symbolizers } = rule;
+                let lineId = 0;
+                return {
+                    ...rule,
+                    symbolizers: symbolizers.map((symbolizer) => {
+                        if (symbolizer.kind === 'Line') {
+                            const uom = uoms.line[lineId];
+                            lineId++;
+                            return {
+                                ...symbolizer,
+                                ...(symbolizer.width && { width: getPixelSize(symbolizer.width, uom) })
+                            };
+                        }
+                        return symbolizer;
+                    })
+                };
+            })
+        };
+    }
+    return style;
+}
+*/
+const getPixelSize = ({ size, uom, projection, resolution }) => {
+    if (!uom) {
+        return size;
+    }
+    if (projection === 'EPSG:4326') {
+        return size / resolution * METERS_PER_UNIT.degrees;
+    }
+    return size / resolution;
+};
 
 function adjustScaleDenominator(projection, style) {
     if (projection === 'EPSG:4326') {
@@ -347,7 +398,7 @@ function getOlStyleFunction(format, styleBody, options) {
     }
     return Promise.all(
         layersStyles
-            .reduce((acc, { group, layerName }) => [
+            .reduce((acc, { group, layerName, properties }) => [
                 ...acc,
                 ...group
                     .map((layerStyleBody) =>
@@ -355,11 +406,13 @@ function getOlStyleFunction(format, styleBody, options) {
                             .readStyle(layerStyleBody)
                             .then(style => adjustIconSize(format, style))
                             .then(style => adjustScaleDenominator(projection, style))
-                            .then(style => olStyleParser.writeStyle(style))
-                            .then(olStyle => ({
-                                layerName,
-                                olStyle
-                            }))
+                            .then(style =>
+                                olStyleParser.writeStyle(style)
+                                    .then(olStyle => ({
+                                        properties,
+                                        layerName,
+                                        olStyle
+                                    })))
                             .catch(() => ({}))
                     )
             ], [])
@@ -367,13 +420,14 @@ function getOlStyleFunction(format, styleBody, options) {
         .then((olStyles) => {
             const filteredStyles = olStyles.filter(({ olStyle }) => olStyle);
             const groupedStylesByLayerName = filteredStyles
-                .reduce(function(acc, { layerName, olStyle }) {
+                .reduce(function(acc, { layerName, olStyle, properties }) {
                     const currentStyle = acc.find((style) => style.layerName === layerName);
                     if (currentStyle) {
                         return acc.map(function(style) {
                             return style.layerName === layerName
                                 ? {
                                     layerName,
+                                    properties,
                                     group: [
                                         ...style.group,
                                         olStyle
@@ -381,13 +435,14 @@ function getOlStyleFunction(format, styleBody, options) {
                                 } : style;
                         });
                     }
-                    return [...acc, { layerName, group: [olStyle] }];
+                    return [...acc, { layerName, properties, group: [olStyle] }];
                 }, []);
             let count = 0;
             const zIndex = groupedStylesByLayerName.map(({ group }) => group.map(() => count++));
+            let strokes = { };
             return function(...args) {
                 return groupedStylesByLayerName
-                    .map(function({ layerName, group }, groupIdx) {
+                    .map(function({ layerName, group, properties: styleProperties }, groupIdx) {
                         return function() {
                             const [olFeature] = args;
                             const properties = olFeature.getProperties();
@@ -397,10 +452,27 @@ function getOlStyleFunction(format, styleBody, options) {
                                 .reduce((acc, olStyle, idx) => {
                                     const olStyleObjects = isFunction(olStyle) ? olStyle(...args) : olStyle;
                                     const styles = isArray(olStyleObjects) ? olStyleObjects : [olStyleObjects];
+                                    const uoms = styleProperties && styleProperties.uom && styleProperties.uom[idx] || {};
+                                    let lineId = 0;
                                     return [
                                         ...acc,
                                         ...styles
                                             .map((style) => {
+                                                const stroke = style.getStroke();
+                                                const width = stroke && stroke.getWidth();
+                                                const uom = uoms.line && uoms.line[0];
+                                                if (width && uom) {
+                                                    if (!strokes[`${layerName}:${idx}:${lineId}`]) {
+                                                        strokes[`${layerName}:${idx}:${lineId}`] = width;
+                                                    }
+                                                    stroke.setWidth(getPixelSize({
+                                                        uom,
+                                                        size: strokes[`${idx}:${lineId}`],
+                                                        projection,
+                                                        resolution: args[1]
+                                                    }));
+                                                    lineId++;
+                                                }
                                                 style.setZIndex(zIndex[groupIdx][idx]);
                                                 return style;
                                             })

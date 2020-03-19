@@ -363,7 +363,10 @@ const mapQueryablesToTypes = ({ id, type }) => {
         integer: 'number',
         number: 'number',
         string: 'string',
-        dateTime: 'date-time'
+        dateTime: 'date-time',
+        varchar: 'string',
+        float4: 'number',
+        int8: 'number'
     };
     return {
         attribute: id,
@@ -473,7 +476,7 @@ const LayerFilter = withLayoutPanel(({
             </div>
         );
     }
-    const geomAttributes = queryables && queryables.filter(({ type }) => type === 'geometry');
+    const geomAttributes = queryables && queryables.filter(({ type }) => type === 'geometry' || type === 'bytea');
     return (
         <BorderLayout
             header={

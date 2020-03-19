@@ -78,7 +78,8 @@ const stylesMimeTypes = {
     // css: ['application/vnd.geoserver.geocss+css'],
     sld: [
         'application/vnd.ogc.sld+xml',
-        'application/vnd.ogc.sld+xml;version=1.1'
+        'application/vnd.ogc.sld+xml;version=1.1',
+        'application/vnd.ogc.sld+xml;version=1.0'
     ],
     // sldse: ['application/vnd.ogc.se+xml'],
     // zip: ['application/zip'],
@@ -96,7 +97,10 @@ export const getStyleInfoFromLinks = (style, serviceUrl) => {
     return (style.links || [])
         .filter(({ rel }) => (rel === 'stylesheet' || rel === 'style'))
         .map((styleSheet) => {
-            const format = find(Object.keys(stylesMimeTypes), (key) => stylesMimeTypes[key].indexOf(styleSheet.type) !== -1);
+            const format = find(Object.keys(stylesMimeTypes), (key) => {
+                const mimeType = styleSheet.type && styleSheet.type.split(/\;/g)[0];
+                return stylesMimeTypes[key].indexOf(mimeType) !== -1;
+            });
             return {
                 id: `${style.id}-${format}`,
                 name: `${style.id}-${format}`,
@@ -385,7 +389,7 @@ export const getTileSetMetadata = (collectionOptions, options) => {
                                 "featureAttributes": Object.keys(layer.fields)
                                     .map((fieldKey) => ({
                                         id: fieldKey,
-                                        stype: layer.fields[fieldKey]
+                                        type: layer.fields[fieldKey]
                                     }))
                             }))
                         };
