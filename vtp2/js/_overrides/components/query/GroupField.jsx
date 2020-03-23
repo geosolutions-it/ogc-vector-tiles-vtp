@@ -111,6 +111,15 @@ class GroupField extends React.Component {
         case "boolean": {
             return ["="];
         }
+        case "date": {
+            return [ "AFTER", "BEFORE", "DURING" ];
+        }
+        case "date-time": {
+            return [ "AFTER", "BEFORE", "DURING" ];
+        }
+        case "time": {
+            return [ "AFTER", "BEFORE", "DURING" ];
+        }
         default:
             return ["=", ">", "<", ">=", "<=", "<>", "><"];
         }

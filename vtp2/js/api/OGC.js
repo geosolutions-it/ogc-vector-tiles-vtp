@@ -103,7 +103,7 @@ export const getStyleInfoFromLinks = (style, serviceUrl) => {
             });
             return {
                 id: `${style.id}-${format}`,
-                name: `${style.id}-${format}`,
+                name: `${style.id}`,
                 format,
                 title: `${style.title || style.id} (${format})`,
                 styleSheetHref: getFullHREF(serviceUrl, styleSheet.href),
@@ -536,11 +536,56 @@ const getCollectionUrl = function(url) {
     return axios.get(url)
         .then(({ data }) => {
             const { links = [] } = data;
+            const tilingSchemesUrl = (links
+                .find(({ rel, type }) => rel === 'tiling-schemes' && (type === 'application/json' || type === undefined)) || {}).href;
             const isTiled = links.find(({  rel }) => rel === 'tiles');
-            return [
+            const response = [
                 links.find(({ type, rel }) => rel === 'data' && type === 'application/json' || rel === 'data' && type === undefined),
                 isTiled ? data : null
             ];
+
+            if (tilingSchemesUrl) {
+                return axios.get(getFullHREF(url, tilingSchemesUrl))
+                    .then(({ data: tilingSchemes }) => {
+                        const { tileMatrixSets } = tilingSchemes || {};
+                        const tileMatrixSetsRequests = tileMatrixSets.map((tileMatrixSet = {}) => {
+                            const tileMatrixSetLinks = tileMatrixSet.links || [];
+                            const tileMatrixSetLink = (tileMatrixSetLinks
+                                .find(({ type, rel }) => rel === 'tileMatrixSet' && (type === 'application/json' || type === undefined)) || {}).href;
+                            return {
+                                identifier: tileMatrixSet.identifier,
+                                href: getFullHREF(url, tileMatrixSetLink)
+                            };
+                        })
+                            .filter(({ href }) => href)
+                            .map(({ identifier, href }) => {
+                                return getTileMatrixSet({
+                                    serviceUrl: url,
+                                    tileMatrixSet: identifier,
+                                    tileMatrixSetURI: href
+                                })
+                                    .then((res) => {
+                                        const tileMatrixSetCacheId = `${url}:${identifier}`;
+                                        if (tileMatrixSetCache[tileMatrixSetCacheId] === undefined) {
+                                            tileMatrixSetCache[tileMatrixSetCacheId] = !res
+                                                ? null
+                                                : res;
+                                        }
+                                        return null;
+                                    });
+                            });
+
+                        if (tileMatrixSetsRequests.length > 0) {
+                            return axios.all(tileMatrixSetsRequests)
+                                .then(() => {
+                                    return response;
+                                });
+                        }
+                        return response;
+                    })
+                    .catch(() => response);
+            }
+            return response;
         })
         .then(([res = {}, rootCollection]) => [getFullHREF(url, res.href), rootCollection]);
 };

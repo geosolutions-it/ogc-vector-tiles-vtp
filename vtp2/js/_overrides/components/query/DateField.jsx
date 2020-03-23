@@ -68,7 +68,7 @@ class DateField extends React.Component {
 
         // needed to initialize the time parts to 00:00:00
 
-        let dateRow = this.props.operator === "><" ?
+        let dateRow = (this.props.operator === "><" || this.props.operator === "DURING") ?
             (<div>
                 <Row>
                     <Col xs={6}>

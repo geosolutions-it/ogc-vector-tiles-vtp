@@ -44,7 +44,7 @@ const updateFilterField = (field = {}, action = {}) => {
         return {
             ...newField,
             value: action.fieldType === 'string' ? '' : null,
-            operator: '='
+            operator: ''
         };
     }
     if (action.fieldName === 'operator') {
@@ -94,7 +94,7 @@ const FilterBuilder = ({
                         rowId: new Date().getTime(),
                         groupId: groupId,
                         attribute: null,
-                        operator: "=",
+                        operator: "",
                         value: null,
                         type: null,
                         fieldOptions: {

@@ -146,14 +146,15 @@ const LayerSettingsPanel = withLayoutPanel(({
                         key="styles">
                         <ControlLabel>Available styles</ControlLabel>
                         <Select
-                            value={selectedLayer.style}
+                            value={selectedLayer.styleId}
                             clearable={false}
-                            options={availableStyles.map(({ id, title }) => ({ value: id, label: title || id }))}
-                            onChange={({ value }) => {
+                            options={availableStyles.map(({ id, name, title }) => ({ value: id, name, label: title || id }))}
+                            onChange={({ value, name }) => {
                                 const availableStyle = availableStyles.find(({ id }) => id === value) || {};
                                 onChange(selectedLayer.id, 'layers',
                                     {
-                                        style: value,
+                                        style: name,
+                                        styleId: value,
                                         vectorStyle: {
                                             url: availableStyle.styleSheetHref,
                                             format: availableStyle.format
@@ -280,7 +281,7 @@ const TOCButton = connect(createSelector([
 })), {
     onClick: setControlProperty.bind(null, 'toc', 'activePanel', PLUGIN_NAME)
 })(({ status, enabled, onClick, ...props }) => {
-    return !enabled && status === 'LAYER'
+    return !enabled && (status === 'LAYER' || status === 'LAYER_LOAD_ERROR')
         ? <Button
             {...props}
             tooltip="Layer settings"

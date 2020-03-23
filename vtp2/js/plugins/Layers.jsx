@@ -42,7 +42,9 @@ function TOCContainer({
             })
             .filter(val => val));
     }, []);
-    const renderedPanels = panels.map( (Panel, idx) => <Panel key={idx} layoutPanelProps={layoutPanelProps}/>);
+
+    const { containerWidth, onResize, ..._layoutPanelProps } = layoutPanelProps;
+    const renderedPanels = panels.map( (Panel, idx) => <Panel key={idx} layoutPanelProps={_layoutPanelProps}/>);
     return (
         <BorderLayout
             columns={renderedPanels}
