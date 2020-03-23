@@ -37,6 +37,8 @@ const TileSetMetadataPlugin = ({
     visibleLayers = [],
     cachedTiles = [],
     projection,
+    clientDownloadLabel = 'Download',
+    clientDownloadLink = '',
     projectionsLabels = {
         'EPSG:4326': 'WorldCRS84Quad',
         'EPSG:3857': 'WebMercatorQuad',
@@ -229,6 +231,7 @@ const TileSetMetadataPlugin = ({
                                     title: event.target.value
                                 })}/>
                         </FormGroup>
+                        {clientDownloadLink && <a style={{ fontSize: 11, textAlign: 'center', display: 'block' }} href={clientDownloadLink}>{clientDownloadLabel}</a>}
                     </Form>}
             </ResizableModal>
         </Portal>
