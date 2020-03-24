@@ -426,7 +426,7 @@ export const getTileSetMetadata = (collectionOptions, options) => {
             const isDescribedBy = find(coll.tilesLinks || [], (tilesLinks) =>
                 find(tilesLinks, (link) => (link.rel === 'describedBy' || link.rel === 'describedby') && (link.type === 'application/json' || link.type === undefined))
             );
-            const describedBy = (find(isDescribedBy, (link) => link.rel === 'describedby' && (link.type === 'application/json' || link.type === undefined)) || {}).href;
+            const describedBy = (find(isDescribedBy, (link) => (link.rel === 'describedBy' || link.rel === 'describedby') && (link.type === 'application/json' || link.type === undefined)) || {}).href;
             if (!describedBy) {
                 return collection;
             }
@@ -440,6 +440,8 @@ export const getTileSetMetadata = (collectionOptions, options) => {
                                 "title": layer.id,
                                 "description": layer.description,
                                 "geometryType": layer.geometry_type,
+                                "minZoom": layer.minzoom,
+                                "maxZoom": layer.maxzoom,
                                 "featureAttributes": Object.keys(layer.fields)
                                     .map((fieldKey) => ({
                                         id: fieldKey,
