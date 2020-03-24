@@ -51,7 +51,10 @@ const createLayer = (options) => {
         .replace(/\{tileMatrixSetId\}/g, tilingSchemeId);
 
     if (isVectorFormat(options.format)) {
-        return getStyleLayers(options.vectorStyle, options.id)
+        return getStyleLayers(options.vectorStyle, options.id, {
+            ...options,
+            tilingSchemeId
+        })
             .then(({ layers = [] }) => {
                 return {
                     id: options.id,

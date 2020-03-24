@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createPlugin } from '@mapstore/utils/PluginsUtils';
 import get from 'lodash/get';
 import omit from 'lodash/omit';
@@ -19,7 +19,9 @@ import { Button as ButtonRB, Glyphicon, Form, FormControl, FormGroup, ControlLab
 import withLayoutPanel from '@mapstore/plugins/layout/withLayoutPanel';
 import tooltip from '@mapstore/components/misc/enhancers/tooltip';
 import Select from 'react-select';
-
+import ResizableModal from '@mapstore/components/misc/ResizableModal';
+import Portal from '@mapstore/components/misc/Portal';
+import ReactJson from 'react-json-view';
 const Button = tooltip(ButtonRB);
 
 const formatLabels = {
@@ -46,6 +48,7 @@ const LayerSettingsPanel = withLayoutPanel(({
     availableTileMatrixSet,
     staticStyles
 }) => {
+    const [showModal, setShowModal] = useState();
     const searchUrls = selectedLayer && selectedLayer.search && selectedLayer.search.urls;
     const searchUrl = searchUrls && searchUrls.find((sUrl) => sUrl.format === selectedLayer.format) || {};
     return (
@@ -192,9 +195,28 @@ const LayerSettingsPanel = withLayoutPanel(({
                             return (
                                 <div key={tM}>
                                     <code>{tM}</code>
+                                    {selectedLayer && selectedLayer.metadata && selectedLayer.metadata[tM] && <Button
+                                        className="square-button-md no-border"
+                                        onClick={() => {
+                                            const { layers, ...metadata } = selectedLayer.metadata[tM];
+                                            setShowModal(metadata);
+                                        }}>
+                                        <Glyphicon glyph="info-sign"/>
+                                    </Button>}
                                 </div>
                             );
                         })}
+                        <Portal>
+                            <ResizableModal
+                                show={showModal}
+                                fitContent
+                                title="Metadata"
+                                clickOutEnabled={false}
+                                onClose={() => setShowModal(false)}>
+                                <ReactJson
+                                    src={showModal}/>
+                            </ResizableModal>
+                        </Portal>
                     </FormGroup>}
                     {<FormGroup
                         controlId="mvtBorderSize"

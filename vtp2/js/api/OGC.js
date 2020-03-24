@@ -239,10 +239,18 @@ export function collectionUrlToLayer(collectionUrl, serviceUrl, collection) {
                             const tile = links
                                 .filter(({ rel }) => rel === 'item')
                                 .map(({ href: url, type: format }) => ({ url: getFullHREF(serviceUrl, url), format }));
+                            const tilesDescribedBy = (links
+                                .find(({ rel, type }) =>
+                                    (
+                                        rel === 'describedBy' // gs
+                                        || rel === 'describedby' // ii
+                                    )
+                                    && type === 'application/json') || {}).href;
                             return {
                                 tileMatrixSetLinks,
                                 tile,
-                                tilesLinks: links
+                                tilesLinks: links,
+                                tilesDescribedBy
                             };
                         })
                         .catch(() => ({}))
@@ -253,17 +261,62 @@ export function collectionUrlToLayer(collectionUrl, serviceUrl, collection) {
                     const tileMatrixSetLinks = uniqBy(tilesResponses.reduce((acc, tilesResponse) => [...acc, ...(tilesResponse.tileMatrixSetLinks || [])], []), 'tileMatrixSet');
                     const { format } = (tileUrls.find((tileUrl) => tileUrl.format === 'application/vnd.mapbox-vector-tile' || tileUrl.format === 'image/png' || tileUrl.format === 'image/png' || tileUrl.format === 'image/png8') || tileUrls[0] || {});
                     const tilesLinks = tilesResponses.map(({ tilesLinks: links }) => links);
+                    const tilesDescribedByLinks = tilesResponses.map(({ tilesDescribedBy }) => tilesDescribedBy)
+                        .filter(val => val)
+                        .filter(val => !val.match(/{tileFormat}/));
                     return {
                         ...layer,
                         format,
                         tileUrls,
                         tileMatrixSetLinks,
+                        tilesDescribedByLinks,
                         collection: {
                             ...layer.collection,
                             tilesLinks
                         }
                     };
                 });
+        })
+        .then(({ tilesDescribedByLinks, ...layer }) => {
+            if (tilesDescribedByLinks.length > 0) {
+                const tileMatrixSetIds = layer && layer.tileMatrixSetLinks.map(({ tileMatrixSet }) => tileMatrixSet);
+                return axios.all(
+                    tileMatrixSetIds.map((tileMatrixSetId) =>
+                        axios.get(tilesDescribedByLinks[0].replace(/\{tileMatrixSetId\}/g, tileMatrixSetId))
+                            .then(({ data }) => ({
+                                data,
+                                tileMatrixSetId
+                            }))
+                            .catch(() => null)
+                    )
+                ).then((res) => {
+                    const metadata = res.reduce((acc, { tileMatrixSetId, data}) => {
+                        return {
+                            ...acc,
+                            [tileMatrixSetId]: {
+                                ...data,
+                                layers: data && data.vector_layers && data.vector_layers.map(
+                                    (vectorLayer) => ({
+                                        "id": vectorLayer.id,
+                                        "title": vectorLayer.id,
+                                        "description": vectorLayer.description,
+                                        "geometryType": vectorLayer.geometry_type,
+                                        "featureAttributes": Object.keys(vectorLayer.fields)
+                                            .map((fieldKey) => ({
+                                                id: fieldKey,
+                                                type: vectorLayer.fields[fieldKey]
+                                            }))
+                                    }))
+                            }
+                        };
+                    }, {});
+                    return {
+                        ...layer,
+                        metadata
+                    };
+                });
+            }
+            return layer;
         })
         .then(function({ tileMatrixSetLinks, ...layer }) {
             return axios.all(tileMatrixSetLinks
@@ -371,7 +424,7 @@ export const getTileSetMetadata = (collectionOptions, options) => {
             } = options || {};
             const coll = collection.collection || {};
             const isDescribedBy = find(coll.tilesLinks || [], (tilesLinks) =>
-                find(tilesLinks, (link) => link.rel === 'describedby' && (link.type === 'application/json' || link.type === undefined))
+                find(tilesLinks, (link) => (link.rel === 'describedBy' || link.rel === 'describedby') && (link.type === 'application/json' || link.type === undefined))
             );
             const describedBy = (find(isDescribedBy, (link) => link.rel === 'describedby' && (link.type === 'application/json' || link.type === undefined)) || {}).href;
             if (!describedBy) {
@@ -379,13 +432,14 @@ export const getTileSetMetadata = (collectionOptions, options) => {
             }
             return axios.get(describedBy.replace(/\{tileMatrixSetId\}/g, tileMatrixSetId))
                 .then(({ data }) => {
-                    if (data && data.tilejson) {
+                    if (data && data.vector_layers) {
                         return {
                             ...collection,
                             layers: data.vector_layers.map((layer) => ({
                                 "id": layer.id,
                                 "title": layer.id,
                                 "description": layer.description,
+                                "geometryType": layer.geometry_type,
                                 "featureAttributes": Object.keys(layer.fields)
                                     .map((fieldKey) => ({
                                         id: fieldKey,
