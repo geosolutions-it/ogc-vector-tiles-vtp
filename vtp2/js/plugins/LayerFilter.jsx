@@ -364,6 +364,8 @@ const mapQueryablesToTypes = ({ id, type }) => {
         number: 'number',
         string: 'string',
         dateTime: 'date-time',
+        date: 'date',
+        time: 'time',
         varchar: 'string',
         float4: 'number',
         int8: 'number'
