@@ -70,7 +70,7 @@ const getStyle = (options) => {
 };
 
 export const getStyleLayers = (vectorStyle, source, options) => {
-    return getStyle({ asPromise: true, style: vectorStyle, ...options })
+    return getStyle({ ...options, asPromise: true, style: vectorStyle })
         .then((style) => {
             if (style && style.layers) {
                 return {
