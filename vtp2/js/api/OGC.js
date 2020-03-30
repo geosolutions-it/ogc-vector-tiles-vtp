@@ -282,7 +282,7 @@ export function collectionUrlToLayer(collectionUrl, serviceUrl, collection) {
                 const tileMatrixSetIds = layer && layer.tileMatrixSetLinks.map(({ tileMatrixSet }) => tileMatrixSet);
                 return axios.all(
                     tileMatrixSetIds.map((tileMatrixSetId) =>
-                        axios.get(tilesDescribedByLinks[0].replace(/\{tileMatrixSetId\}/g, tileMatrixSetId))
+                        axios.get(getFullHREF(serviceUrl, tilesDescribedByLinks[0].replace(/\{tileMatrixSetId\}/g, tileMatrixSetId)))
                             .then(({ data }) => ({
                                 data,
                                 tileMatrixSetId
@@ -430,7 +430,7 @@ export const getTileSetMetadata = (collectionOptions, options) => {
             if (!describedBy) {
                 return collection;
             }
-            return axios.get(describedBy.replace(/\{tileMatrixSetId\}/g, tileMatrixSetId))
+            return axios.get(getFullHREF(url, describedBy.replace(/\{tileMatrixSetId\}/g, tileMatrixSetId)))
                 .then(({ data }) => {
                     if (data && data.vector_layers) {
                         return {
