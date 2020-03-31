@@ -746,7 +746,7 @@ const FilterUtils = {
     cqlDateField: function(attribute, operator, value) {
         let fieldFilter;
         if (operator === "><" || operator === 'DURING') {
-            if (value.startDate && value.endDate) {
+            if (value && value.startDate && value.endDate) {
                 const startIso = value.startDate.toISOString ? value.startDate.toISOString() : value.startDate; // for Compatibility reasons. We should use ISO string to store data.
                 const endIso = value.endDate.toISOString ? value.endDate.toISOString() : value.endDate; // for Compatibility reasons. We should use ISO string to store data.
                 /* fieldFilter = "(" + attribute + ">='" + startIso +
@@ -755,7 +755,7 @@ const FilterUtils = {
                 fieldFilter = attribute + ' DURING ' + startIso + '/' + endIso;
             }
         } else {
-            if (value.startDate) {
+            if (value && value.startDate) {
                 const startIso = value && value.startDate && value.startDate.toISOString ? value.startDate.toISOString() : value && value.startDate; // for Compatibility reasons. We should use ISO string to store data.
                 fieldFilter = attribute + ' ' + operator + ' ' + startIso;// attribute + operator + "'" + startIso + "'";
             }
