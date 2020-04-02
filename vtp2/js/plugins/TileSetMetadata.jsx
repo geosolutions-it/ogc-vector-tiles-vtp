@@ -29,6 +29,7 @@ import FileSaver from 'file-saver';
 import { selectOGCTileVisibleLayers } from '@js/selectors/layers';
 import { getTileSetMetadata } from '@js/api/OGC';
 import { projectionSelector } from '@mapstore/selectors/map';
+import { optionsToVendorParams } from '@mapstore/utils/VendorParamsUtils';
 
 const Button = tooltip(ButtonRB);
 const PLUGIN_NAME = 'TileSetMetadata';
@@ -81,6 +82,9 @@ const TileSetMetadataPlugin = ({
                                 const creationDate = Date.now();
                                 setLoading(true);
                                 if (selectedLayer && selectedLayer.layer) {
+                                    const { CQL_FILTER } = optionsToVendorParams(selectedLayer.layer) || {};
+                                    const cqlFilter = CQL_FILTER && `&filter=${CQL_FILTER}&filter-lang=cql-text` || '';
+
                                     getTileSetMetadata(selectedLayer.layer, {
                                         ...options,
                                         tileMatrixSetId: projectionsLabels[projection],
@@ -142,7 +146,8 @@ const TileSetMetadataPlugin = ({
                                                             .replace(/\{tileMatrix\}/g, z)
                                                             .replace(/\{tileCol\}/g, x)
                                                             .replace(/\{tileRow\}/g, y)
-                                                            .replace(/\{tileMatrixSetId\}/g, tileMatrixSetId),
+                                                            .replace(/\{tileMatrixSetId\}/g, tileMatrixSetId)
+                                                            + cqlFilter,
                                                         {  responseType: 'blob' })
                                                         .then(({ data }) => ({
                                                             z, y, x, data

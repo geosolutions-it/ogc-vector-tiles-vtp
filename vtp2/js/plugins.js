@@ -32,6 +32,7 @@ import MapTypePlugin from '@js/plugins/MapType';
 import TileSetMetadataPlugin from '@js/plugins/TileSetMetadata';
 import TileSetsCatalogPlugin from '@js/plugins/TileSetsCatalog';
 import ProjectionLabelPlugin from '@js/plugins/ProjectionLabel';
+import BackgroundColorPlugin from '@js/plugins/BackgroundColor';
 
 export const plugins = {
     LayoutPlugin,
@@ -58,7 +59,8 @@ export const plugins = {
     MapTypePlugin,
     TileSetMetadataPlugin,
     TileSetsCatalogPlugin,
-    ProjectionLabelPlugin
+    ProjectionLabelPlugin,
+    BackgroundColorPlugin
 };
 
 export const requires = {};

@@ -84,17 +84,25 @@ const tools = [
     }
 ];
 
-function MapPlugin(props) {
+function MapPlugin({ backgroundColor = '#ddd', ...props }) {
     return (
         <MSMapPlugin
             fonts={null}
             {...props}
-            tools={tools}/>
+            tools={tools}
+            options={{
+                style: {
+                    backgroundColor
+                }
+            }}
+        />
     );
 }
 
 export default createPlugin('Map', {
-    component: MapPlugin,
+    component: connect((state) => ({
+        backgroundColor: state && state.controls && state.controls.mapStyle && state.controls.mapStyle.backgroundColor
+    }))(MapPlugin),
     containers: {
         Layout: {
             priority: 1,

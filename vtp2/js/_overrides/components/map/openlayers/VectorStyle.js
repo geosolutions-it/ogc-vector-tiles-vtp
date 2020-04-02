@@ -501,22 +501,22 @@ export const getStyle = (options/* , isDrawing = false, textValues = [] */) => {
             return new Style({
                 image: new CircleStyle({
                     radius: 6,
-                    fill: new Fill({ color: 'rgba(50, 91, 239, 0.25)' }),
-                    stroke: new Stroke({ color: 'rgba(50, 91, 239, 1.0)', width: 1 })
+                    fill: new Fill({ color: 'rgba(170, 170, 170, 0.5)' }),
+                    stroke: new Stroke({ color: 'rgba(51, 51, 51, 0.5)', width: 1 })
                 })
             });
         }
         if (type.indexOf('Line') !== -1) {
             return new Style({
                 stroke: new Stroke({
-                    color: 'rgba(50, 91, 239, 1.0)',
+                    color: 'rgba(51, 51, 51, 0.5)',
                     width: 1
                 })
             });
         }
         return new Style({
             fill: new Fill({
-                color: 'rgba(50, 91, 239, 0.25)'
+                color: 'rgba(170, 170, 170, 0.5)'
             })
         });
     }; // getStyleLegacy(options, isDrawing, textValues);
