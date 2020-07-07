@@ -4,7 +4,7 @@
   "description": "",
   "main": "main.js",
   "devDependencies": {
-    "electron": "8.0.1",
+    "electron": "9.1.0",
     "electron-packager": "14.2.1",
     "fs-extra": "8.1.0",
     "unzipper": "0.10.9"
